@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "Irrigation_Controller")(type "KiCad")(uri "${KIPRJMOD}/irrigation-controller.pretty")(options "")(descr ""))
+)
