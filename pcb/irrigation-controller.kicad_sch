@@ -3584,7 +3584,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1.5K"
+		(property "Value" "1.1K"
 			(at 227.33 107.9499 0)
 			(effects
 				(font
@@ -3620,7 +3620,7 @@
 				(hide yes)
 			)
 		)
-		(property "CID" "100.327.80"
+		(property "CID" "100.011.53"
 			(at 224.79 106.68 0)
 			(effects
 				(font
@@ -4435,7 +4435,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4.3K"
+		(property "Value" "3.9K"
 			(at 227.33 97.7899 0)
 			(effects
 				(font
@@ -4471,7 +4471,7 @@
 				(hide yes)
 			)
 		)
-		(property "CID" "100.316.93"
+		(property "CID" "100.014.54"
 			(at 224.79 96.52 0)
 			(effects
 				(font
