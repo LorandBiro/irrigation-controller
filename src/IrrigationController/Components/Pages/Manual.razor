@@ -1,0 +1,39 @@
+﻿@page "/manual"
+@using IrrigationController.Core
+@inject GetValveStatusUseCase GetValveStatusUseCase
+@inject OpenValveUseCase OpenValveUseCase
+@inject CloseValveUseCase CloseValveUseCase
+
+<PageTitle>Manual</PageTitle>
+
+<h1>Manual</h1>
+@for (int i = 0; i < valveCount; i++)
+{
+    int valveId = i;
+    <button class="btn @(i == openValve ? "btn-primary" : "btn-secondary")" @onclick="() => OpenValve(valveId)" style="margin: 12px;">Open valve #@(i + 1)</button>
+}
+
+<br />
+<button class="btn btn-danger" @onclick="CloseValve" style="margin: 12px;">Close all</button>
+
+@code {
+    int valveCount;
+    int? openValve;
+
+    protected override void OnInitialized()
+    {
+        (valveCount, openValve) = GetValveStatusUseCase.Execute();
+    }
+
+    private void OpenValve(int valveId)
+    {
+        OpenValveUseCase.Execute(valveId);
+        openValve = valveId;
+    }
+
+    private void CloseValve()
+    {
+        CloseValveUseCase.Execute();
+        openValve = null;
+    }
+}
