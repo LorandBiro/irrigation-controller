@@ -29,8 +29,11 @@
 
     private void OnOpenValveIdChanged(object? sender, int? openValveId)
     {
-        openValve = openValveId;
-        InvokeAsync(() => StateHasChanged());
+        InvokeAsync(() =>
+        {
+            openValve = openValveId;
+            StateHasChanged();
+        });
     }
 
     private void OpenValve(int valveId)

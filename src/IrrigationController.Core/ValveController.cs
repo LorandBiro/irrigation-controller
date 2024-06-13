@@ -26,28 +26,34 @@
 
         public void Open(int valveId)
         {
-            foreach (Valve valve in this.valveConfig.Valves)
+            lock (this.timer)
             {
-                this.gpio.Write(valve.Pin, false);
+                foreach (Valve valve in this.valveConfig.Valves)
+                {
+                    this.gpio.Write(valve.Pin, false);
+                }
+
+                this.OpenValveId = valveId;
+                this.OpenValveIdChanged?.Invoke(this, valveId);
+
+                this.timer.Change(this.valveConfig.ValveDelay, Timeout.InfiniteTimeSpan);
             }
-
-            this.OpenValveId = valveId;
-            this.OpenValveIdChanged?.Invoke(this, valveId);
-
-            this.timer.Change(this.valveConfig.ValveDelay, Timeout.InfiniteTimeSpan);
         }
 
         public void Close()
         {
-            foreach (Valve valve in this.valveConfig.Valves)
+            lock (this.timer)
             {
-                this.gpio.Write(valve.Pin, false);
+                foreach (Valve valve in this.valveConfig.Valves)
+                {
+                    this.gpio.Write(valve.Pin, false);
+                }
+
+                this.OpenValveId = null;
+                this.OpenValveIdChanged?.Invoke(this, null);
+
+                this.timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
             }
-
-            this.OpenValveId = null;
-            this.OpenValveIdChanged?.Invoke(this, null);
-
-            this.timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
         }
 
         public void Dispose()
@@ -57,13 +63,16 @@
 
         private void TimerCallback(object? state)
         {
-            if (this.OpenValveId is null)
+            lock (this.timer)
             {
-                return;
-            }
+                if (this.OpenValveId is null)
+                {
+                    return;
+                }
 
-            Valve openValve = this.valveConfig.Valves[this.OpenValveId.Value];
-            this.gpio.Write(openValve.Pin, true);
+                Valve openValve = this.valveConfig.Valves[this.OpenValveId.Value];
+                this.gpio.Write(openValve.Pin, true);
+            }
         }
     }
 }
