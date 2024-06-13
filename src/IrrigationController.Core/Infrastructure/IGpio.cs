@@ -1,4 +1,4 @@
-﻿namespace IrrigationController.Core
+﻿namespace IrrigationController.Core.Infrastructure
 {
     public interface IGpio
     {

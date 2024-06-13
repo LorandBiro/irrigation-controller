@@ -1,4 +1,7 @@
-﻿namespace IrrigationController.Core
+﻿using IrrigationController.Core.Controllers;
+using IrrigationController.Core.Infrastructure;
+
+namespace IrrigationController.Core.UseCases
 {
     public class GetValveStatusUseCase(ValveController valveController, ValveConfig valveConfig)
     {

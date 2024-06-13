@@ -1,4 +1,6 @@
-﻿namespace IrrigationController.Core
+﻿using IrrigationController.Core.Infrastructure;
+
+namespace IrrigationController.Core.Controllers
 {
     public sealed class ValveController : IDisposable
     {

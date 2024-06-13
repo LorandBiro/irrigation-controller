@@ -1,4 +1,6 @@
-﻿namespace IrrigationController.Core
+﻿using IrrigationController.Core.Controllers;
+
+namespace IrrigationController.Core.UseCases
 {
     public class OpenValveUseCase(ValveController valveController)
     {
