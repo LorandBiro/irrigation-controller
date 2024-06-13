@@ -15,6 +15,14 @@ namespace IrrigationController
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
+            builder.Services.AddLogging(options =>
+            {
+                options.AddSimpleConsole(c =>
+                {
+                    c.SingleLine = true;
+                });
+            });
+
             ValveConfig valveConfig = builder.Configuration.GetSection("ValveConfig").Get<ValveConfig>() ?? throw new Exception("ValveConfig is missing");
             builder.Services.AddSingleton(valveConfig);
 
