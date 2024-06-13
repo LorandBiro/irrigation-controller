@@ -2,13 +2,13 @@
 
 namespace IrrigationController.Core.UseCases
 {
-    public class CloseValveUseCase(ValveController valveController)
+    public class CloseValveUseCase(ProgramController programController)
     {
-        private readonly ValveController valveController = valveController;
+        private readonly ProgramController programController = programController;
 
         public void Execute()
         {
-            this.valveController.Close();
+            this.programController.Stop();
         }
     }
 }

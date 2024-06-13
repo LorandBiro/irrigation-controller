@@ -3,6 +3,7 @@
     public class ValveConfig
     {
         public required TimeSpan ValveDelay { get; init; }
+        public required TimeSpan ManualLimit { get; init; }
         public required IReadOnlyList<Valve> Valves { get; init; }
     }
 

@@ -28,6 +28,7 @@ namespace IrrigationController
             }
 
             builder.Services.AddSingleton<ValveController>();
+            builder.Services.AddSingleton<ProgramController>();
             builder.Services.AddSingleton<OpenValveUseCase>();
             builder.Services.AddSingleton<CloseValveUseCase>();
             builder.Services.AddSingleton<GetValveStatusUseCase>();
