@@ -30,6 +30,11 @@ namespace IrrigationController.Core.Controllers
         {
             lock (this.timer)
             {
+                if (valveId == this.OpenValveId)
+                {
+                    return;
+                }
+
                 foreach (Valve valve in this.valveConfig.Valves)
                 {
                     this.gpio.Write(valve.Pin, false);
@@ -46,6 +51,11 @@ namespace IrrigationController.Core.Controllers
         {
             lock (this.timer)
             {
+                if (this.OpenValveId is null)
+                {
+                    return;
+                }
+
                 foreach (Valve valve in this.valveConfig.Valves)
                 {
                     this.gpio.Write(valve.Pin, false);
