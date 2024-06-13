@@ -1,4 +1,6 @@
-﻿namespace IrrigationController.Core.Controllers
+﻿using IrrigationController.Core.Domain;
+
+namespace IrrigationController.Core.Controllers
 {
     public class ProgramController
     {

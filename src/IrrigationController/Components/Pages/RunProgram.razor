@@ -1,0 +1,84 @@
+﻿@page "/run-program"
+@using IrrigationController.Core.Domain
+@using IrrigationController.Core.Infrastructure
+@using IrrigationController.Core.UseCases
+@inject ValveConfig ValveConfig
+@inject RunProgramUseCase RunProgramUseCase
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+<PageTitle>Run Program</PageTitle>
+
+<h1>Run Program</h1>
+
+<EditForm Model="this" OnSubmit="Submit">
+    @for (int i = 0; i < Steps.Count; i++)
+    {
+        int stepIndex = i;
+        <InputSelect Value="Steps[stepIndex].ValveId" ValueExpression="@(() => Steps[stepIndex].ValveId)" ValueChanged="(int? newValue) => SelectValueChanged(stepIndex, newValue)">
+            <option value=""></option>
+            @for (int j = 0; j < ValveConfig.Valves.Count; j++)
+            {
+                <option checked="@(Steps[stepIndex].ValveId == j)" value="@j">@ValveConfig.Valves[j].Name</option>
+            }
+        </InputSelect>
+        <InputNumber @bind-Value="Steps[stepIndex].Minutes" min="1" max="60" />
+        <br />
+    }
+
+    <button type="submit" class="btn btn-primary">Run</button>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm]
+    private List<Step> Steps { get; set; } = new List<Step>() { new Step() };
+
+    private async Task Submit()
+    {
+        List<ProgramStep> programSteps = new List<ProgramStep>();
+        foreach (Step step in Steps)
+        {
+            if (step.ValveId is null || step.Minutes is null)
+            {
+                continue;
+            }
+
+            programSteps.Add(new ProgramStep(step.ValveId.Value, TimeSpan.FromMinutes(step.Minutes.Value)));
+        }
+
+        if (programSteps.Count == 0)
+        {
+            return;
+        }
+
+        RunProgramUseCase.Execute(new Core.Domain.Program(programSteps));
+
+        await JsRuntime.InvokeVoidAsync("alert", "Program has been started");
+        NavigationManager.NavigateTo("/");
+    }
+
+    private void SelectValueChanged(int stepIndex, int? valveId)
+    {
+        this.Steps[stepIndex].ValveId = valveId;
+
+        for (int i = 0; i < Steps.Count; i++)
+        {
+            bool isLast = i == Steps.Count - 1;
+            if (Steps[i].ValveId == null && !isLast)
+            {
+                this.Steps.RemoveAt(i);
+            }
+
+            if (isLast && Steps[i].ValveId != null)
+            {
+                this.Steps.Add(new Step());
+            }
+        }
+    }
+
+    class Step
+    {
+        public int? ValveId { get; set; }
+        public int? Minutes { get; set; }
+    }
+}
