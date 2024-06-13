@@ -5,40 +5,45 @@ namespace IrrigationController.Adapters
 {
     public sealed class GpioValveController : IValveController, IDisposable
     {
-        private readonly GpioController controller = new();
-        private readonly IReadOnlyList<int> valvePins;
+        private readonly ILogger<GpioValveController> logger;
+        private readonly IReadOnlyList<ValveConfig> valveConfigs;
 
-        public GpioValveController(IReadOnlyList<int> valvePins)
+        private readonly GpioController controller = new();
+
+        public GpioValveController(ILogger<GpioValveController> logger, IReadOnlyList<ValveConfig> valveConfigs)
         {
-            this.valvePins = valvePins;
-            foreach (int pin in valvePins)
+            this.logger = logger;
+            this.valveConfigs = valveConfigs;
+            foreach (ValveConfig valveConfig in valveConfigs)
             {
-                this.controller.OpenPin(pin, PinMode.Output);
-                this.controller.Write(pin, PinValue.Low);
+                this.controller.OpenPin(valveConfig.Pin, PinMode.Output);
+                this.controller.Write(valveConfig.Pin, PinValue.Low);
             }
         }
 
-        public int ValveCount => this.valvePins.Count;
+        public int ValveCount => this.valveConfigs.Count;
 
         public int? OpenValve { get; private set; }
 
-        public void Open(int valveId)
+        public void Open(int valve)
         {
-            for (int i = 0; i < valvePins.Count; i++)
+            for (int i = 0; i < valveConfigs.Count; i++)
             {
-                this.controller.Write(this.valvePins[i], i == valveId ? PinValue.High : PinValue.Low);
+                this.controller.Write(this.valveConfigs[i].Pin, i == valve ? PinValue.High : PinValue.Low);
             }
 
-            this.OpenValve = valveId;
+            this.logger.LogInformation("Valve #{Valve} opened ({Name})", valve + 1, this.valveConfigs[valve].Name);
+            this.OpenValve = valve;
         }
 
         public void Close()
         {
-            foreach (int pin in this.valvePins)
+            foreach (ValveConfig valveConfig in this.valveConfigs)
             {
-                this.controller.Write(pin, PinValue.Low);
+                this.controller.Write(valveConfig.Pin, PinValue.Low);
             }
 
+            this.logger.LogInformation("All valves closed");
             this.OpenValve = null;
         }
 

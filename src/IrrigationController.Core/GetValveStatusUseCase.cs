@@ -1,12 +1,13 @@
 ﻿namespace IrrigationController.Core
 {
-    public class GetValveStatusUseCase(IValveController valveController)
+    public class GetValveStatusUseCase(IValveController valveController, IReadOnlyList<ValveConfig> valveConfigs)
     {
         private readonly IValveController valveController = valveController;
+        private readonly IReadOnlyList<string> valveNames = valveConfigs.Select(x => x.Name).ToList();
 
-        public (int ValveCount, int? OpenValve) Execute()
+        public (IReadOnlyList<string> ValveNames, int? OpenValve) Execute()
         {
-            return (this.valveController.ValveCount, this.valveController.OpenValve);
+            return (this.valveNames, this.valveController.OpenValve);
         }
     }
 }

@@ -6,7 +6,7 @@
 
         int? OpenValve { get; }
 
-        void Open(int valveId);
+        void Open(int valve);
 
         void Close();
     }
