@@ -10,11 +10,8 @@ namespace IrrigationController
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddRazorComponents()
-                .AddInteractiveServerComponents();
-
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddRazorComponents().AddInteractiveServerComponents();
             builder.Services.AddLogging(options =>
             {
                 options.AddSimpleConsole(c =>
@@ -23,9 +20,7 @@ namespace IrrigationController
                 });
             });
 
-            ValveConfig valveConfig = builder.Configuration.GetSection("ValveConfig").Get<ValveConfig>() ?? throw new Exception("ValveConfig is missing");
-            builder.Services.AddSingleton(valveConfig);
-
+            builder.Services.AddSingleton(builder.Configuration.GetSection("ValveConfig").Get<ValveConfig>() ?? throw new Exception("ValveConfig is missing"));
             if (builder.Configuration.GetValue<bool>("MockGpio"))
             {
                 builder.Services.AddSingleton<IGpio, FakeGpio>();
@@ -42,7 +37,8 @@ namespace IrrigationController
             builder.Services.AddSingleton<GetValveStatusUseCase>();
             builder.Services.AddSingleton<RunProgramUseCase>();
 
-            var app = builder.Build();
+            WebApplication app = builder.Build();
+            app.Services.GetRequiredService<ValveController>().Close();
 
             if (!app.Environment.IsDevelopment())
             {
