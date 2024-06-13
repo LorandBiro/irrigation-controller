@@ -1,4 +1,10 @@
 ﻿namespace IrrigationController.Core
 {
-    public record ValveConfig(string Name, int Pin);
+    public class ValveConfig
+    {
+        public required TimeSpan ValveDelay { get; init; }
+        public required IReadOnlyList<Valve> Valves { get; init; }
+    }
+
+    public record Valve(string Name, int Pin);
 }

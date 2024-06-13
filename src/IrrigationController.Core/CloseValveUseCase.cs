@@ -1,8 +1,8 @@
 ﻿namespace IrrigationController.Core
 {
-    public class CloseValveUseCase(IValveController valveController)
+    public class CloseValveUseCase(ValveController valveController)
     {
-        private readonly IValveController valveController = valveController;
+        private readonly ValveController valveController = valveController;
 
         public void Execute()
         {

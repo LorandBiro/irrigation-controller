@@ -13,19 +13,19 @@ namespace IrrigationController
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
-            List<ValveConfig> valves = builder.Configuration.GetSection("Valves").Get<List<ValveConfig>>() ?? throw new Exception("Valves configuration is missing");
-            builder.Services.AddSingleton<IReadOnlyList<ValveConfig>>(valves);
+            ValveConfig valveConfig = builder.Configuration.GetSection("ValveConfig").Get<ValveConfig>() ?? throw new Exception("ValveConfig is missing");
+            builder.Services.AddSingleton(valveConfig);
 
-            bool mockGpio = builder.Configuration.GetValue<bool>("MockGpio");
-            if (mockGpio)
+            if (builder.Configuration.GetValue<bool>("MockGpio"))
             {
-                builder.Services.AddSingleton<IValveController, FakeValveController>();
+                builder.Services.AddSingleton<IGpio, FakeGpio>();
             }
             else
             {
-                builder.Services.AddSingleton<IValveController, GpioValveController>();
+                builder.Services.AddSingleton<IGpio, Gpio>();
             }
 
+            builder.Services.AddSingleton<ValveController>();
             builder.Services.AddSingleton<OpenValveUseCase>();
             builder.Services.AddSingleton<CloseValveUseCase>();
             builder.Services.AddSingleton<GetValveStatusUseCase>();
