@@ -22,6 +22,8 @@
 
         public int? OpenValveId { get; private set; }
 
+        public event EventHandler<int?>? OpenValveIdChanged;
+
         public void Open(int valveId)
         {
             foreach (Valve valve in this.valveConfig.Valves)
@@ -30,6 +32,8 @@
             }
 
             this.OpenValveId = valveId;
+            this.OpenValveIdChanged?.Invoke(this, valveId);
+
             this.timer.Change(this.valveConfig.ValveDelay, Timeout.InfiniteTimeSpan);
         }
 
@@ -41,6 +45,8 @@
             }
 
             this.OpenValveId = null;
+            this.OpenValveIdChanged?.Invoke(this, null);
+
             this.timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
         }
 

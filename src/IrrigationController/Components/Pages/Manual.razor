@@ -3,6 +3,7 @@
 @inject GetValveStatusUseCase GetValveStatusUseCase
 @inject OpenValveUseCase OpenValveUseCase
 @inject CloseValveUseCase CloseValveUseCase
+@implements IDisposable
 
 <PageTitle>Manual</PageTitle>
 
@@ -23,6 +24,13 @@
     protected override void OnInitialized()
     {
         (valveNames, openValve) = GetValveStatusUseCase.Execute();
+        GetValveStatusUseCase.OpenValveIdChanged += OnOpenValveIdChanged;
+    }
+
+    private void OnOpenValveIdChanged(object? sender, int? openValveId)
+    {
+        openValve = openValveId;
+        InvokeAsync(() => StateHasChanged());
     }
 
     private void OpenValve(int valveId)
@@ -35,5 +43,10 @@
     {
         CloseValveUseCase.Execute();
         openValve = null;
+    }
+
+    public void Dispose()
+    {
+        GetValveStatusUseCase.OpenValveIdChanged -= OnOpenValveIdChanged;
     }
 }

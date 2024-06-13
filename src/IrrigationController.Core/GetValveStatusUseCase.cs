@@ -9,5 +9,11 @@
         {
             return (this.valveNames, this.valveController.OpenValveId);
         }
+
+        public event EventHandler<int?> OpenValveIdChanged
+        {
+            add => this.valveController.OpenValveIdChanged += value;
+            remove => this.valveController.OpenValveIdChanged -= value;
+        }
     }
 }
