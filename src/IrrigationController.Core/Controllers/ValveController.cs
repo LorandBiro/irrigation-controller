@@ -13,11 +13,6 @@ namespace IrrigationController.Core.Controllers
         {
             this.gpio = gpio;
             this.valveConfig = valveConfig;
-            foreach (Valve valve in valveConfig.Valves)
-            {
-                this.gpio.OpenOutput(valve.Pin);
-            }
-
             this.timer = new(this.TimerCallback);
         }
 
@@ -25,12 +20,27 @@ namespace IrrigationController.Core.Controllers
 
         public event EventHandler<int?>? OpenValveIdChanged;
 
+        public void Init()
+        {
+            foreach (Valve valve in valveConfig.Valves)
+            {
+                this.gpio.OpenOutput(valve.Pin);
+                this.gpio.Write(valve.Pin, false);
+            }
+        }
+
         public void Open(int valveId)
         {
             lock (this.timer)
             {
-                foreach (Valve valve in this.valveConfig.Valves)
+                if (this.OpenValveId is not null)
                 {
+                    if (this.OpenValveId == valveId)
+                    {
+                        return;
+                    }
+
+                    Valve valve = this.valveConfig.Valves[this.OpenValveId.Value];
                     this.gpio.Write(valve.Pin, false);
                 }
 
@@ -45,10 +55,13 @@ namespace IrrigationController.Core.Controllers
         {
             lock (this.timer)
             {
-                foreach (Valve valve in this.valveConfig.Valves)
+                if (this.OpenValveId is null)
                 {
-                    this.gpio.Write(valve.Pin, false);
+                    return;
                 }
+
+                Valve valve = this.valveConfig.Valves[this.OpenValveId.Value];
+                this.gpio.Write(valve.Pin, false);
 
                 this.OpenValveId = null;
                 this.OpenValveIdChanged?.Invoke(this, null);
@@ -71,8 +84,8 @@ namespace IrrigationController.Core.Controllers
                     return;
                 }
 
-                Valve openValve = this.valveConfig.Valves[this.OpenValveId.Value];
-                this.gpio.Write(openValve.Pin, true);
+                Valve valve = this.valveConfig.Valves[this.OpenValveId.Value];
+                this.gpio.Write(valve.Pin, true);
             }
         }
     }
