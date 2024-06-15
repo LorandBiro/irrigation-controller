@@ -1,7 +1,7 @@
 ﻿@using IrrigationController.Core.Domain
 @using IrrigationController.Core.UseCases
 @inject GetProgramStatusUseCase GetProgramStatusUseCase
-@inject StepUseCase StepUseCase
+@inject SkipUseCase SkipUseCase
 @inject StopUseCase StopUseCase
 @inject ValveConfig ValveConfig
 @implements IDisposable
@@ -20,7 +20,7 @@ else
     string name = this.ValveConfig.Valves[currentStep.ValveId].Name;
 
     <ul>
-        <li>@name - @FormatTime(timeLeft) / @FormatTime(currentStep.Duration)</li>
+        <li>@name - @FormatTime(timeLeft)</li>
         @foreach (ProgramStep step in this.GetProgramStatusUseCase.NextSteps)
         {
             <li>@this.ValveConfig.Valves[step.ValveId].Name - @FormatTime(step.Duration)</li>
@@ -28,7 +28,7 @@ else
     </ul>
 
     <p>
-        <button class="btn btn-primary" @onclick="() => this.StepUseCase.Execute()">Step</button>
+        <button class="btn btn-primary" @onclick="() => this.SkipUseCase.Execute()">Skip</button>
         <button class="btn btn-danger" @onclick="() => this.StopUseCase.Execute()">Stop</button>
     </p>
 }

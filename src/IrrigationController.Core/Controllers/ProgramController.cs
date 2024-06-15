@@ -12,7 +12,7 @@ namespace IrrigationController.Core.Controllers
         {
             this.valveController = valveController;
             this.timer = new(this.TimerCallback);
-            this.nextSteps = new List<ProgramStep>();
+            this.nextSteps = [];
         }
 
         public ProgramStep? CurrentStep { get; private set; }
@@ -38,11 +38,11 @@ namespace IrrigationController.Core.Controllers
                     this.nextSteps.Add(step);
                 }
 
-                this.StepInternal();
+                this.Step();
             }
         }
 
-        public void Step()
+        public void Skip()
         {
             lock (this.nextSteps)
             {
@@ -57,7 +57,7 @@ namespace IrrigationController.Core.Controllers
                     return;
                 }
 
-                this.StepInternal();
+                this.Step();
             }
         }
 
@@ -86,12 +86,12 @@ namespace IrrigationController.Core.Controllers
                 }
                 else
                 {
-                    this.StepInternal();
+                    this.Step();
                 }
             }
         }
 
-        private void StepInternal()
+        private void Step()
         {
             ProgramStep step = this.nextSteps[0];
             this.nextSteps.RemoveAt(0);
