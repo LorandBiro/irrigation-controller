@@ -13,7 +13,8 @@
 @for (int i = 0; i < ValveConfig.Valves.Count; i++)
 {
     int valveId = i;
-    <button class="btn @(i == GetValveStatusUseCase.OpenValveId ? "btn-primary" : "btn-secondary")" @onclick="() => OpenValve(valveId)" style="margin: 12px;">Open #@(i + 1) - @ValveConfig.Valves[i].Name</button>
+    bool open = GetValveStatusUseCase.OpenValveId == valveId;
+    <button class="btn @(open ? "btn-primary" : "btn-secondary")" @onclick="() => OnClick(valveId)" style="margin: 12px;">@(open ? "Close" : "Open") #@(i + 1) - @ValveConfig.Valves[i].Name</button>
 }
 
 <br />
@@ -30,9 +31,16 @@
         InvokeAsync(StateHasChanged);
     }
 
-    private void OpenValve(int valveId)
+    private void OnClick(int valveId)
     {
-        OpenValveUseCase.Execute(valveId);
+        if (GetValveStatusUseCase.OpenValveId == valveId)
+        {
+            CloseValveUseCase.Execute();
+        }
+        else
+        {
+            OpenValveUseCase.Execute(valveId);
+        }
     }
 
     private void CloseValve()
