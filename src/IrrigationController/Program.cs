@@ -21,14 +21,17 @@ namespace IrrigationController
                 });
             });
 
+            builder.Services.AddSingleton(builder.Configuration.GetSection("RainSensor").Get<RainSensorConfig>() ?? throw new Exception("RainSensor is missing"));
             builder.Services.AddSingleton(builder.Configuration.GetSection("ValveConfig").Get<ValveConfig>() ?? throw new Exception("ValveConfig is missing"));
             if (builder.Configuration.GetValue<bool>("MockGpio"))
             {
                 builder.Services.AddSingleton<IGpio, FakeGpio>();
+                builder.Services.AddSingleton<IRainSensor, FakeRainSensor>();
             }
             else
             {
                 builder.Services.AddSingleton<IGpio, Gpio>();
+                builder.Services.AddSingleton<IRainSensor, RainSensor>();
             }
 
             builder.Services.AddSingleton<ValveController>();
@@ -42,6 +45,7 @@ namespace IrrigationController
 
             WebApplication app = builder.Build();
             app.Services.GetRequiredService<ValveController>().Init();
+            (app.Services.GetRequiredService<IRainSensor>() as RainSensor)?.Init();
 
             if (!app.Environment.IsDevelopment())
             {

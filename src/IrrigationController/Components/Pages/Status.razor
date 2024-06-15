@@ -8,6 +8,8 @@
 
 <h1>Status</h1>
 
+<p>Rain sensor: @(GetProgramStatusUseCase.IsRaining ? "Raining" : "Clear")</p>
+
 @if (this.GetProgramStatusUseCase.CurrentStep == null || this.GetProgramStatusUseCase.CurrentStepEndsAt == null)
 {
     <p>No program is running</p>
@@ -39,12 +41,13 @@ else
 
     public Status()
     {
-        this.timer = new Timer(this.OnTimerCallback);
+        this.timer = new Timer(_ => this.InvokeAsync(this.StateHasChanged));
     }
 
     protected override void OnInitialized()
     {
         this.GetProgramStatusUseCase.CurrentStepChanged += OnCurrentStepChanged;
+        this.GetProgramStatusUseCase.IsRainingChanged += OnIsRainingChanged;
         this.StartTimer();
     }
 
@@ -54,7 +57,7 @@ else
         this.InvokeAsync(this.StateHasChanged);
     }
 
-    private void OnTimerCallback(object? state)
+    private void OnIsRainingChanged(object? sender, EventArgs e)
     {
         this.InvokeAsync(this.StateHasChanged);
     }
@@ -78,6 +81,7 @@ else
     public void Dispose()
     {
         this.GetProgramStatusUseCase.CurrentStepChanged -= OnCurrentStepChanged;
+        this.GetProgramStatusUseCase.IsRainingChanged -= OnIsRainingChanged;
         this.timer.Dispose();
     }
 }
