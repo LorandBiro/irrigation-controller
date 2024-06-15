@@ -1,7 +1,6 @@
 using IrrigationController.Adapters;
 using IrrigationController.Components;
 using IrrigationController.Core.Controllers;
-using IrrigationController.Core.Domain;
 using IrrigationController.Core.Infrastructure;
 using IrrigationController.Core.UseCases;
 
@@ -21,23 +20,27 @@ namespace IrrigationController
                 });
             });
 
-            builder.Services.AddSingleton(builder.Configuration.GetSection("RainSensor").Get<RainSensorConfig>() ?? throw new Exception("RainSensor config is missing"));
-            builder.Services.AddSingleton(builder.Configuration.GetSection("ShortCircuitSensor").Get<ShortCircuitSensorConfig>() ?? throw new Exception("ShortCircuitSensor config is missing"));
-            builder.Services.AddSingleton(builder.Configuration.GetSection("ValveConfig").Get<ValveConfig>() ?? throw new Exception("ValveConfig is missing"));
+            Config config = builder.Configuration.GetSection("IrrigationController").Get<Config>() ?? throw new Exception("IrrigationController config is missing");
+            builder.Services.AddSingleton(config);
             if (builder.Configuration.GetValue<bool>("MockGpio"))
             {
-                builder.Services.AddSingleton<IGpio, FakeGpio>();
+                builder.Services.AddSingleton<IValves, FakeValves>();
                 builder.Services.AddSingleton<IRainSensor, FakeRainSensor>();
             }
             else
             {
-                builder.Services.AddSingleton<IGpio, Gpio>();
+                builder.Services.AddSingleton(new ValvesConfig(config.Valves.Select(x => x.Pin).ToList()));
+                builder.Services.AddSingleton<IValves, Valves>();
+                builder.Services.AddSingleton(new RainSensorConfig(config.RainSensorPin, config.RainSensorSamplingInterval));
                 builder.Services.AddSingleton<IRainSensor, RainSensor>();
+                builder.Services.AddSingleton(new ShortCircuitSensorConfig(config.ShortCircuitSensorPin));
                 builder.Services.AddSingleton<ShortCircuitSensor>();
             }
 
+            builder.Services.AddSingleton(new ValveControllerConfig(config.ValveDelay));
             builder.Services.AddSingleton<ValveController>();
             builder.Services.AddSingleton<ProgramController>();
+            builder.Services.AddSingleton(new OpenValveUseCaseConfig(config.ManualLimit));
             builder.Services.AddSingleton<OpenValveUseCase>();
             builder.Services.AddSingleton<StopUseCase>();
             builder.Services.AddSingleton<SkipUseCase>();
@@ -47,7 +50,7 @@ namespace IrrigationController
             builder.Services.AddSingleton<ShortCircuitDetectedEventHandler>();
 
             WebApplication app = builder.Build();
-            app.Services.GetRequiredService<ValveController>().Init();
+            (app.Services.GetRequiredService<IValves>() as Valves)?.Init();
             (app.Services.GetRequiredService<IRainSensor>() as RainSensor)?.Init();
             app.Services.GetService<ShortCircuitSensor>()?.Init();
 

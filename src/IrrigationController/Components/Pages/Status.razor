@@ -3,7 +3,7 @@
 @inject GetProgramStatusUseCase GetProgramStatusUseCase
 @inject SkipUseCase SkipUseCase
 @inject StopUseCase StopUseCase
-@inject ValveConfig ValveConfig
+@inject Config Config
 @implements IDisposable
 
 <h1>Status</h1>
@@ -19,13 +19,13 @@ else
     TimeSpan timeLeft = this.GetProgramStatusUseCase.CurrentStepEndsAt.Value - DateTime.UtcNow;
     timeLeft = TimeSpan.FromSeconds(Math.Round(timeLeft.TotalSeconds));
     ProgramStep currentStep = this.GetProgramStatusUseCase.CurrentStep;
-    string name = this.ValveConfig.Valves[currentStep.ValveId].Name;
+    string name = this.Config.Valves[currentStep.ValveId].Name;
 
     <ul>
         <li>@name - @FormatTime(timeLeft)</li>
         @foreach (ProgramStep step in this.GetProgramStatusUseCase.NextSteps)
         {
-            <li>@this.ValveConfig.Valves[step.ValveId].Name - @FormatTime(step.Duration)</li>
+            <li>@this.Config.Valves[step.ValveId].Name - @FormatTime(step.Duration)</li>
         }
     </ul>
 

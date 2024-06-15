@@ -15,7 +15,7 @@ namespace IrrigationController.Adapters
         {
             this.gpio.OpenPin(this.config.Pin, PinMode.Input);
             this.gpio.RegisterCallbackForPinValueChangedEvent(this.config.Pin, PinEventTypes.Rising, this.OnShortCircuitDetectedCallback);
-            this.logger.LogDebug("Short circuit sensor pin {Pin} opened for input. Current state: {State}", this.config.Pin, this.gpio.Read(this.config.Pin));
+            this.logger.LogDebug("Short circuit sensor pin #{Pin} opened for input. Current state: {State}", this.config.Pin, this.gpio.Read(this.config.Pin));
         }
 
         public void Dispose()

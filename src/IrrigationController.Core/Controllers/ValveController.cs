@@ -1,34 +1,24 @@
-﻿using IrrigationController.Core.Domain;
-using IrrigationController.Core.Infrastructure;
+﻿using IrrigationController.Core.Infrastructure;
 
 namespace IrrigationController.Core.Controllers
 {
     public sealed class ValveController : IDisposable
     {
-        private readonly IGpio gpio;
-        private readonly ValveConfig valveConfig;
+        private readonly IValves valves;
+        private readonly ValveControllerConfig config;
 
         private readonly Timer timer;
 
-        public ValveController(IGpio gpio, ValveConfig valveConfig)
+        public ValveController(IValves valvaes, ValveControllerConfig config)
         {
-            this.gpio = gpio;
-            this.valveConfig = valveConfig;
+            this.valves = valvaes;
+            this.config = config;
             this.timer = new(this.TimerCallback);
         }
 
         public int? OpenValveId { get; private set; }
 
         public event EventHandler<int?>? OpenValveIdChanged;
-
-        public void Init()
-        {
-            foreach (Valve valve in valveConfig.Valves)
-            {
-                this.gpio.OpenOutput(valve.Pin);
-                this.gpio.Write(valve.Pin, false);
-            }
-        }
 
         public void Open(int valveId)
         {
@@ -41,14 +31,13 @@ namespace IrrigationController.Core.Controllers
                         return;
                     }
 
-                    Valve valve = this.valveConfig.Valves[this.OpenValveId.Value];
-                    this.gpio.Write(valve.Pin, false);
+                    this.valves.Close(this.OpenValveId.Value);
                 }
 
                 this.OpenValveId = valveId;
                 this.OpenValveIdChanged?.Invoke(this, valveId);
 
-                this.timer.Change(this.valveConfig.ValveDelay, Timeout.InfiniteTimeSpan);
+                this.timer.Change(this.config.Delay, Timeout.InfiniteTimeSpan);
             }
         }
 
@@ -61,8 +50,7 @@ namespace IrrigationController.Core.Controllers
                     return;
                 }
 
-                Valve valve = this.valveConfig.Valves[this.OpenValveId.Value];
-                this.gpio.Write(valve.Pin, false);
+                this.valves.Close(this.OpenValveId.Value);
 
                 this.OpenValveId = null;
                 this.OpenValveIdChanged?.Invoke(this, null);
@@ -85,8 +73,7 @@ namespace IrrigationController.Core.Controllers
                     return;
                 }
 
-                Valve valve = this.valveConfig.Valves[this.OpenValveId.Value];
-                this.gpio.Write(valve.Pin, true);
+                this.valves.Open(this.OpenValveId.Value);
             }
         }
     }

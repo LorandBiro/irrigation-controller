@@ -27,8 +27,9 @@ namespace IrrigationController.Adapters
         public void Init()
         {
             this.gpio.OpenPin(this.config.Pin, PinMode.InputPullUp);
-            this.IsRaining = this.gpio.Read(this.config.Pin) == PinValue.High;
-            this.logger.LogDebug("Rain sensor pin {Pin} opened for input. Value: {Value}", this.config.Pin, this.IsRaining);
+            PinValue state = this.gpio.Read(this.config.Pin);
+            this.IsRaining = state == PinValue.High;
+            this.logger.LogDebug("Rain sensor pin #{Pin} opened for input. Current state: {State}", this.config.Pin, state);
 
             this.rainSensorSamplerTimer.Change(TimeSpan.Zero, config.SamplingInterval);
         }

@@ -1,7 +1,7 @@
 ﻿@using IrrigationController.Core.Domain
 @using IrrigationController.Core.Infrastructure
 @using IrrigationController.Core.UseCases
-@inject ValveConfig ValveConfig
+@inject Config Config
 @inject GetValveStatusUseCase GetValveStatusUseCase
 @inject OpenValveUseCase OpenValveUseCase
 @inject StopUseCase StopUseCase
@@ -9,11 +9,11 @@
 
 <h1>Valve Control</h1>
 <p>
-    @for (int i = 0; i < ValveConfig.Valves.Count; i++)
+    @for (int i = 0; i < Config.Valves.Count; i++)
     {
         int valveId = i;
         bool open = GetValveStatusUseCase.OpenValveId == valveId;
-        <button class="btn @(open ? "btn-primary" : "btn-secondary")" @onclick="() => OnClick(valveId)">@(open ? "Close" : "Open") #@(i + 1) - @ValveConfig.Valves[i].Name</button>
+        <button class="btn @(open ? "btn-primary" : "btn-secondary")" @onclick="() => OnClick(valveId)">@(open ? "Close" : "Open") #@(i + 1) - @Config.Valves[i].Name</button>
         <text>&nbsp;</text>
     }
 </p>

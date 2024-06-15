@@ -1,7 +1,7 @@
 ﻿@using IrrigationController.Core.Domain
 @using IrrigationController.Core.Infrastructure
 @using IrrigationController.Core.UseCases
-@inject ValveConfig ValveConfig
+@inject Config Config
 @inject RunProgramUseCase RunProgramUseCase
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
@@ -14,9 +14,9 @@
         int stepIndex = i;
         <InputSelect Value="Steps[stepIndex].ValveId" ValueExpression="@(() => Steps[stepIndex].ValveId)" ValueChanged="(int? newValue) => SelectValueChanged(stepIndex, newValue)">
             <option value=""></option>
-            @for (int j = 0; j < ValveConfig.Valves.Count; j++)
+            @for (int j = 0; j < Config.Valves.Count; j++)
             {
-                <option checked="@(Steps[stepIndex].ValveId == j)" value="@j">@ValveConfig.Valves[j].Name</option>
+                <option checked="@(Steps[stepIndex].ValveId == j)" value="@j">@Config.Valves[j].Name</option>
             }
         </InputSelect>
         <InputNumber @bind-Value="Steps[stepIndex].Minutes" min="1" max="60" />
@@ -34,7 +34,7 @@
 
     protected override void OnInitialized()
     {
-        for (int i = 0; i < this.ValveConfig.Valves.Count; i++)
+        for (int i = 0; i < this.Config.Valves.Count; i++)
         {
             this.Steps.Add(new Step { ValveId = i });
         }
