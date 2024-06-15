@@ -8,12 +8,15 @@
 @implements IDisposable
 
 <h1>Valve Control</h1>
-@for (int i = 0; i < ValveConfig.Valves.Count; i++)
-{
-    int valveId = i;
-    bool open = GetValveStatusUseCase.OpenValveId == valveId;
-    <button class="btn @(open ? "btn-primary" : "btn-secondary")" @onclick="() => OnClick(valveId)">@(open ? "Close" : "Open") #@(i + 1) - @ValveConfig.Valves[i].Name</button><text>&nbsp;</text>
-}
+<p>
+    @for (int i = 0; i < ValveConfig.Valves.Count; i++)
+    {
+        int valveId = i;
+        bool open = GetValveStatusUseCase.OpenValveId == valveId;
+        <button class="btn @(open ? "btn-primary" : "btn-secondary")" @onclick="() => OnClick(valveId)">@(open ? "Close" : "Open") #@(i + 1) - @ValveConfig.Valves[i].Name</button>
+        <text>&nbsp;</text>
+    }
+</p>
 
 @code {
     protected override void OnInitialized()
