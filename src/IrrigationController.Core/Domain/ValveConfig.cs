@@ -1,4 +1,4 @@
-﻿namespace IrrigationController.Core.Infrastructure
+﻿namespace IrrigationController.Core.Domain
 {
     public class ValveConfig
     {

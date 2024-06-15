@@ -1,4 +1,5 @@
-﻿using IrrigationController.Core.Infrastructure;
+﻿using IrrigationController.Core.Domain;
+using IrrigationController.Core.Infrastructure;
 
 namespace IrrigationController.Core.Controllers
 {

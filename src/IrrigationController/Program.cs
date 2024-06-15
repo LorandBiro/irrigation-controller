@@ -1,6 +1,7 @@
 using IrrigationController.Adapters;
 using IrrigationController.Components;
 using IrrigationController.Core.Controllers;
+using IrrigationController.Core.Domain;
 using IrrigationController.Core.Infrastructure;
 using IrrigationController.Core.UseCases;
 
