@@ -2,6 +2,8 @@
 @using IrrigationController.Core.Domain
 @using IrrigationController.Core.UseCases
 @inject GetProgramStatusUseCase GetProgramStatusUseCase
+@inject StepUseCase StepUseCase
+@inject StopUseCase StopUseCase
 @inject ValveConfig ValveConfig
 
 <PageTitle>Home</PageTitle>
@@ -30,6 +32,9 @@ else
             }
         </ul>
     }
+
+    <button class="btn btn-primary" @onclick="() => this.StepUseCase.Execute()">Step</button>
+    <button class="btn btn-danger" @onclick="() => this.StopUseCase.Execute()">Stop</button>
 }
 
 @code

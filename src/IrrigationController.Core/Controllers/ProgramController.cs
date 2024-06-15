@@ -6,20 +6,20 @@ namespace IrrigationController.Core.Controllers
     {
         private readonly ValveController valveController;
         private readonly Timer timer;
-        private readonly List<ProgramStep> steps;
+        private readonly List<ProgramStep> nextSteps;
 
         public ProgramController(ValveController valveController)
         {
             this.valveController = valveController;
             this.timer = new(this.TimerCallback);
-            this.steps = new List<ProgramStep>();
+            this.nextSteps = new List<ProgramStep>();
         }
 
         public ProgramStep? CurrentStep { get; private set; }
 
         public DateTime? CurrentStepEndsAt { get; private set; }
 
-        public IReadOnlyList<ProgramStep> NextSteps => this.steps;
+        public IReadOnlyList<ProgramStep> NextSteps => this.nextSteps;
 
         public event EventHandler? CurrentStepChanged;
 
@@ -30,47 +30,71 @@ namespace IrrigationController.Core.Controllers
                 throw new ArgumentException("Program must have at least one step");
             }
 
-            lock (this.steps)
+            lock (this.nextSteps)
             {
-                this.steps.Clear();
+                this.nextSteps.Clear();
                 foreach (ProgramStep step in program.Steps)
                 {
-                    this.steps.Add(step);
+                    this.nextSteps.Add(step);
                 }
 
-                this.Step();
+                this.StepInternal();
+            }
+        }
+
+        public void Step()
+        {
+            lock (this.nextSteps)
+            {
+                if (this.CurrentStep == null)
+                {
+                    return;
+                }
+
+                if (this.nextSteps.Count == 0)
+                {
+                    this.StopInternal();
+                    return;
+                }
+
+                this.StepInternal();
             }
         }
 
         public void Stop()
         {
-            lock (this.steps)
+            lock (this.nextSteps)
             {
-                this.steps.Clear();
+                if (this.CurrentStep == null)
+                {
+                    return;
+                }
+
+                this.nextSteps.Clear();
                 this.timer.Change(Timeout.Infinite, Timeout.Infinite);
-                this.End();
+                this.StopInternal();
             }
         }
 
         private void TimerCallback(object? state)
         {
-            lock (this.steps)
+            lock (this.nextSteps)
             {
-                if (this.steps.Count == 0)
+                if (this.nextSteps.Count == 0)
                 {
-                    this.End();
+                    this.StopInternal();
                 }
                 else
                 {
-                    this.Step();
+                    this.StepInternal();
                 }
             }
         }
 
-        private void Step()
+        private void StepInternal()
         {
-            ProgramStep step = this.steps[0];
-            this.steps.RemoveAt(0);
+            ProgramStep step = this.nextSteps[0];
+            this.nextSteps.RemoveAt(0);
 
             this.valveController.Open(step.ValveId);
             this.timer.Change(step.Duration, TimeSpan.Zero);
@@ -80,7 +104,7 @@ namespace IrrigationController.Core.Controllers
             this.CurrentStepChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private void End()
+        private void StopInternal()
         {
             this.valveController.Close();
 
