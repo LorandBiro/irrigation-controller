@@ -21,7 +21,8 @@ namespace IrrigationController
                 });
             });
 
-            builder.Services.AddSingleton(builder.Configuration.GetSection("RainSensor").Get<RainSensorConfig>() ?? throw new Exception("RainSensor is missing"));
+            builder.Services.AddSingleton(builder.Configuration.GetSection("RainSensor").Get<RainSensorConfig>() ?? throw new Exception("RainSensor config is missing"));
+            builder.Services.AddSingleton(builder.Configuration.GetSection("ShortCircuitSensor").Get<ShortCircuitSensorConfig>() ?? throw new Exception("ShortCircuitSensor config is missing"));
             builder.Services.AddSingleton(builder.Configuration.GetSection("ValveConfig").Get<ValveConfig>() ?? throw new Exception("ValveConfig is missing"));
             if (builder.Configuration.GetValue<bool>("MockGpio"))
             {
@@ -32,6 +33,7 @@ namespace IrrigationController
             {
                 builder.Services.AddSingleton<IGpio, Gpio>();
                 builder.Services.AddSingleton<IRainSensor, RainSensor>();
+                builder.Services.AddSingleton<ShortCircuitSensor>();
             }
 
             builder.Services.AddSingleton<ValveController>();
@@ -42,10 +44,12 @@ namespace IrrigationController
             builder.Services.AddSingleton<GetValveStatusUseCase>();
             builder.Services.AddSingleton<RunProgramUseCase>();
             builder.Services.AddSingleton<GetProgramStatusUseCase>();
+            builder.Services.AddSingleton<ShortCircuitDetectedEventHandler>();
 
             WebApplication app = builder.Build();
             app.Services.GetRequiredService<ValveController>().Init();
             (app.Services.GetRequiredService<IRainSensor>() as RainSensor)?.Init();
+            app.Services.GetService<ShortCircuitSensor>()?.Init();
 
             if (!app.Environment.IsDevelopment())
             {
