@@ -6,14 +6,22 @@ namespace IrrigationController.Core.Controllers
     {
         private readonly ValveController valveController;
         private readonly Timer timer;
-        private readonly Queue<ProgramStep> steps;
+        private readonly List<ProgramStep> steps;
 
         public ProgramController(ValveController valveController)
         {
             this.valveController = valveController;
             this.timer = new(this.TimerCallback);
-            this.steps = new Queue<ProgramStep>();
+            this.steps = new List<ProgramStep>();
         }
+
+        public ProgramStep? CurrentStep { get; private set; }
+
+        public DateTime? CurrentStepEndsAt { get; private set; }
+
+        public IReadOnlyList<ProgramStep> NextSteps => this.steps;
+
+        public event EventHandler? CurrentStepChanged;
 
         public void Run(Program program)
         {
@@ -27,7 +35,7 @@ namespace IrrigationController.Core.Controllers
                 this.steps.Clear();
                 foreach (ProgramStep step in program.Steps)
                 {
-                    this.steps.Enqueue(step);
+                    this.steps.Add(step);
                 }
 
                 this.Step();
@@ -40,7 +48,7 @@ namespace IrrigationController.Core.Controllers
             {
                 this.steps.Clear();
                 this.timer.Change(Timeout.Infinite, Timeout.Infinite);
-                this.valveController.Close();
+                this.End();
             }
         }
 
@@ -50,7 +58,7 @@ namespace IrrigationController.Core.Controllers
             {
                 if (this.steps.Count == 0)
                 {
-                    this.valveController.Close();
+                    this.End();
                 }
                 else
                 {
@@ -61,9 +69,24 @@ namespace IrrigationController.Core.Controllers
 
         private void Step()
         {
-            ProgramStep step = this.steps.Dequeue();
+            ProgramStep step = this.steps[0];
+            this.steps.RemoveAt(0);
+
             this.valveController.Open(step.ValveId);
             this.timer.Change(step.Duration, TimeSpan.Zero);
+
+            this.CurrentStep = step;
+            this.CurrentStepEndsAt = DateTime.UtcNow + step.Duration;
+            this.CurrentStepChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void End()
+        {
+            this.valveController.Close();
+
+            this.CurrentStep = null;
+            this.CurrentStepEndsAt = null;
+            this.CurrentStepChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

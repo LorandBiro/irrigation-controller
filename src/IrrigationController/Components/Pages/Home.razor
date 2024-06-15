@@ -1,7 +1,76 @@
 ﻿@page "/"
+@using IrrigationController.Core.Domain
+@using IrrigationController.Core.UseCases
+@inject GetProgramStatusUseCase GetProgramStatusUseCase
+@inject ValveConfig ValveConfig
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Status</h1>
 
-Welcome to your new app.
+@if (this.GetProgramStatusUseCase.CurrentStep == null || this.GetProgramStatusUseCase.CurrentStepEndsAt == null)
+{
+    <p>No program is running</p>
+}
+else
+{
+    TimeSpan timeLeft = this.GetProgramStatusUseCase.CurrentStepEndsAt.Value - DateTime.UtcNow;
+    timeLeft = TimeSpan.FromSeconds(Math.Round(timeLeft.TotalSeconds));
+    ProgramStep currentStep = this.GetProgramStatusUseCase.CurrentStep;
+    string name = this.ValveConfig.Valves[currentStep.ValveId].Name;
+    <p>Current step: @name - @FormatTime(timeLeft) / @FormatTime(currentStep.Duration)</p>
+    if (this.GetProgramStatusUseCase.NextSteps.Count > 0)
+    {
+        <p>Next steps:</p>
+        <ul>
+            @foreach (ProgramStep step in this.GetProgramStatusUseCase.NextSteps)
+            {
+                string stepName = this.ValveConfig.Valves[step.ValveId].Name;
+                <li>@stepName - @FormatTime(step.Duration)</li>
+            }
+        </ul>
+    }
+}
+
+@code
+{
+    private readonly Timer timer;
+
+    public Home()
+    {
+        this.timer = new Timer(this.OnTimerCallback);
+    }
+
+    protected override void OnInitialized()
+    {
+        this.GetProgramStatusUseCase.CurrentStepChanged += OnCurrentStepChanged;
+        this.StartTimer();
+    }
+
+    private void OnCurrentStepChanged(object? sender, EventArgs e)
+    {
+        this.StartTimer();
+        this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private void OnTimerCallback(object? state)
+    {
+        this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private void StartTimer()
+    {
+        if (this.GetProgramStatusUseCase.CurrentStepEndsAt == null)
+        {
+            return;
+        }
+
+        TimeSpan timeLeft = this.GetProgramStatusUseCase.CurrentStepEndsAt.Value - DateTime.UtcNow;
+        this.timer.Change(timeLeft.Milliseconds, 1000);
+    }
+
+    private string FormatTime(TimeSpan time)
+    {
+        return time.ToString(time.TotalHours >= 1 ? @"h\:mm\:ss" : @"mm\:ss");
+    }
+}

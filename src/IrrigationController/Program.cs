@@ -37,6 +37,7 @@ namespace IrrigationController
             builder.Services.AddSingleton<CloseValveUseCase>();
             builder.Services.AddSingleton<GetValveStatusUseCase>();
             builder.Services.AddSingleton<RunProgramUseCase>();
+            builder.Services.AddSingleton<GetProgramStatusUseCase>();
 
             WebApplication app = builder.Build();
             app.Services.GetRequiredService<ValveController>().Init();
