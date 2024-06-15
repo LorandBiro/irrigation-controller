@@ -1,5 +1,4 @@
-﻿@page "/run-program"
-@using IrrigationController.Core.Domain
+﻿@using IrrigationController.Core.Domain
 @using IrrigationController.Core.Infrastructure
 @using IrrigationController.Core.UseCases
 @inject ValveConfig ValveConfig
@@ -7,9 +6,7 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
 
-<PageTitle>Run Program</PageTitle>
-
-<h1>Run Program</h1>
+<h1>Manual Program</h1>
 
 <EditForm Model="this" OnSubmit="Submit">
     @for (int i = 0; i < Steps.Count; i++)
@@ -31,9 +28,19 @@
 
 @code {
     [SupplyParameterFromForm]
-    private List<Step> Steps { get; set; } = new List<Step>() { new Step() };
+    private List<Step> Steps { get; set; } = new List<Step>();
 
-    private async Task Submit()
+    protected override void OnInitialized()
+    {
+        for (int i = 0; i < this.ValveConfig.Valves.Count; i++)
+        {
+            this.Steps.Add(new Step { ValveId = i });
+        }
+
+        this.Steps.Add(new Step());
+    }
+
+    private void Submit()
     {
         List<ProgramStep> programSteps = new List<ProgramStep>();
         foreach (Step step in Steps)
@@ -52,9 +59,6 @@
         }
 
         RunProgramUseCase.Execute(new Core.Domain.Program(programSteps));
-
-        await JsRuntime.InvokeVoidAsync("alert", "Program has been started");
-        NavigationManager.NavigateTo("/");
     }
 
     private void SelectValueChanged(int stepIndex, int? valveId)
