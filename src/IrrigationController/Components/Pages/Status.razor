@@ -1,0 +1,83 @@
+﻿@using IrrigationController.Core.Domain
+@using IrrigationController.Core.UseCases
+@inject GetProgramStatusUseCase GetProgramStatusUseCase
+@inject StepUseCase StepUseCase
+@inject StopUseCase StopUseCase
+@inject ValveConfig ValveConfig
+@implements IDisposable
+
+<h1>Status</h1>
+
+@if (this.GetProgramStatusUseCase.CurrentStep == null || this.GetProgramStatusUseCase.CurrentStepEndsAt == null)
+{
+    <p>No program is running</p>
+}
+else
+{
+    TimeSpan timeLeft = this.GetProgramStatusUseCase.CurrentStepEndsAt.Value - DateTime.UtcNow;
+    timeLeft = TimeSpan.FromSeconds(Math.Round(timeLeft.TotalSeconds));
+    ProgramStep currentStep = this.GetProgramStatusUseCase.CurrentStep;
+    string name = this.ValveConfig.Valves[currentStep.ValveId].Name;
+
+    <ul>
+        <li>@name - @FormatTime(timeLeft) / @FormatTime(currentStep.Duration)</li>
+        @foreach (ProgramStep step in this.GetProgramStatusUseCase.NextSteps)
+        {
+            <li>@this.ValveConfig.Valves[step.ValveId].Name - @FormatTime(step.Duration)</li>
+        }
+    </ul>
+
+    <p>
+        <button class="btn btn-primary" @onclick="() => this.StepUseCase.Execute()">Step</button>
+        <button class="btn btn-danger" @onclick="() => this.StopUseCase.Execute()">Stop</button>
+    </p>
+}
+
+@code
+{
+    private readonly Timer timer;
+
+    public Status()
+    {
+        this.timer = new Timer(this.OnTimerCallback);
+    }
+
+    protected override void OnInitialized()
+    {
+        this.GetProgramStatusUseCase.CurrentStepChanged += OnCurrentStepChanged;
+        this.StartTimer();
+    }
+
+    private void OnCurrentStepChanged(object? sender, EventArgs e)
+    {
+        this.StartTimer();
+        this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private void OnTimerCallback(object? state)
+    {
+        this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private void StartTimer()
+    {
+        if (this.GetProgramStatusUseCase.CurrentStepEndsAt == null)
+        {
+            return;
+        }
+
+        TimeSpan timeLeft = this.GetProgramStatusUseCase.CurrentStepEndsAt.Value - DateTime.UtcNow;
+        this.timer.Change(timeLeft.Milliseconds, 1000);
+    }
+
+    private string FormatTime(TimeSpan time)
+    {
+        return time.ToString(time.TotalHours >= 1 ? @"h\:mm\:ss" : @"mm\:ss");
+    }
+
+    public void Dispose()
+    {
+        this.GetProgramStatusUseCase.CurrentStepChanged -= OnCurrentStepChanged;
+        this.timer.Dispose();
+    }
+}
