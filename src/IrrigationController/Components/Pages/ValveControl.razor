@@ -1,25 +1,19 @@
-﻿@page "/manual-control"
-@using IrrigationController.Core.Domain
+﻿@using IrrigationController.Core.Domain
 @using IrrigationController.Core.Infrastructure
 @using IrrigationController.Core.UseCases
 @inject ValveConfig ValveConfig
 @inject GetValveStatusUseCase GetValveStatusUseCase
 @inject OpenValveUseCase OpenValveUseCase
-@inject StopUseCase CloseValveUseCase
+@inject StopUseCase StopUseCase
 @implements IDisposable
 
-<PageTitle>Manual Control</PageTitle>
-
-<h1>Manual Control</h1>
+<h1>Valve Control</h1>
 @for (int i = 0; i < ValveConfig.Valves.Count; i++)
 {
     int valveId = i;
     bool open = GetValveStatusUseCase.OpenValveId == valveId;
-    <button class="btn @(open ? "btn-primary" : "btn-secondary")" @onclick="() => OnClick(valveId)" style="margin: 12px;">@(open ? "Close" : "Open") #@(i + 1) - @ValveConfig.Valves[i].Name</button>
+    <button class="btn @(open ? "btn-primary" : "btn-secondary")" @onclick="() => OnClick(valveId)">@(open ? "Close" : "Open") #@(i + 1) - @ValveConfig.Valves[i].Name</button><text>&nbsp;</text>
 }
-
-<br />
-<button class="btn btn-danger" @onclick="CloseValve" style="margin: 12px;">Close all</button>
 
 @code {
     protected override void OnInitialized()
@@ -36,17 +30,12 @@
     {
         if (GetValveStatusUseCase.OpenValveId == valveId)
         {
-            CloseValveUseCase.Execute();
+            StopUseCase.Execute();
         }
         else
         {
             OpenValveUseCase.Execute(valveId);
         }
-    }
-
-    private void CloseValve()
-    {
-        CloseValveUseCase.Execute();
     }
 
     public void Dispose()

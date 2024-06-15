@@ -38,6 +38,8 @@ else
     <button class="btn btn-danger" @onclick="() => this.StopUseCase.Execute()">Stop</button>
 }
 
+<ValveControl />
+
 @code
 {
     private readonly Timer timer;
