@@ -5,6 +5,7 @@
 @inject StepUseCase StepUseCase
 @inject StopUseCase StopUseCase
 @inject ValveConfig ValveConfig
+@implements IDisposable
 
 <PageTitle>Home</PageTitle>
 
@@ -77,5 +78,11 @@ else
     private string FormatTime(TimeSpan time)
     {
         return time.ToString(time.TotalHours >= 1 ? @"h\:mm\:ss" : @"mm\:ss");
+    }
+
+    public void Dispose()
+    {
+        this.GetProgramStatusUseCase.CurrentStepChanged -= OnCurrentStepChanged;
+        this.timer.Dispose();
     }
 }
