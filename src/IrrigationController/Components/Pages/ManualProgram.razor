@@ -2,24 +2,20 @@
 @using IrrigationController.Core.Infrastructure
 @using IrrigationController.Core.UseCases
 @inject Config Config
+@inject GetValveStatusUseCase GetValveStatusUseCase
 @inject RunProgramUseCase RunProgramUseCase
-@inject NavigationManager NavigationManager
-@inject IJSRuntime JsRuntime
+@implements IDisposable
 
 <h1>Manual Program</h1>
 
 <EditForm Model="this" OnSubmit="Submit">
-    @for (int i = 0; i < Steps.Count; i++)
+    @for (int i = 0; i < this.Config.Valves.Count; i++)
     {
         int stepIndex = i;
-        <InputSelect Value="Steps[stepIndex].ValveId" ValueExpression="@(() => Steps[stepIndex].ValveId)" ValueChanged="(int? newValue) => SelectValueChanged(stepIndex, newValue)">
-            <option value=""></option>
-            @for (int j = 0; j < Config.Valves.Count; j++)
-            {
-                <option checked="@(Steps[stepIndex].ValveId == j)" value="@j">@Config.Valves[j].Name</option>
-            }
-        </InputSelect>
-        <InputNumber @bind-Value="Steps[stepIndex].Minutes" min="1" max="60" />
+        bool defective = this.defectiveValves.Contains(i);
+
+        <label style="width: 100px;">@this.Config.Valves[i].Name</label>
+        <InputNumber @bind-Value="Durations[stepIndex]" min="1" max="60" disabled="@defective" />
         <br />
     }
 
@@ -29,30 +25,45 @@
 </EditForm>
 
 @code {
+    private List<int> defectiveValves = [];
+
     [SupplyParameterFromForm]
-    private List<Step> Steps { get; set; } = new List<Step>();
+    private List<int?> Durations { get; set; } = [];
 
     protected override void OnInitialized()
     {
-        for (int i = 0; i < this.Config.Valves.Count; i++)
-        {
-            this.Steps.Add(new Step { ValveId = i });
-        }
+        this.Durations = this.Config.Valves.Select(_ => (int?)null).ToList();
+        this.GetValveStatusUseCase.StatusChanged += this.OnStatusChanged;
+        (_, this.defectiveValves) = this.GetValveStatusUseCase.Execute();
+    }
 
-        this.Steps.Add(new Step());
+    private void OnStatusChanged(object? sender, EventArgs e)
+    {
+        InvokeAsync(() =>
+        {
+            (_, this.defectiveValves) = this.GetValveStatusUseCase.Execute();
+            foreach (int i in this.defectiveValves)
+            {
+                this.Durations[i] = null;
+            }
+
+            StateHasChanged();
+        });
     }
 
     private void Submit()
     {
         List<ProgramStep> programSteps = new List<ProgramStep>();
-        foreach (Step step in Steps)
+        for (int i = 0; i < this.Config.Valves.Count; i++)
         {
-            if (step.ValveId is null || step.Minutes is null)
+            int? duration = this.Durations[i];
+            if (duration is null || duration == 0)
             {
                 continue;
             }
 
-            programSteps.Add(new ProgramStep(step.ValveId.Value, TimeSpan.FromMinutes(step.Minutes.Value)));
+            programSteps.Add(new ProgramStep(i, TimeSpan.FromMinutes(duration.Value)));
+            this.Durations[i] = null;
         }
 
         if (programSteps.Count == 0)
@@ -60,31 +71,11 @@
             return;
         }
 
-        RunProgramUseCase.Execute(new Core.Domain.Program(programSteps));
+        this.RunProgramUseCase.Execute(new Core.Domain.Program(programSteps));
     }
 
-    private void SelectValueChanged(int stepIndex, int? valveId)
+    public void Dispose()
     {
-        this.Steps[stepIndex].ValveId = valveId;
-
-        for (int i = 0; i < Steps.Count; i++)
-        {
-            bool isLast = i == Steps.Count - 1;
-            if (Steps[i].ValveId == null && !isLast)
-            {
-                this.Steps.RemoveAt(i);
-            }
-
-            if (isLast && Steps[i].ValveId != null)
-            {
-                this.Steps.Add(new Step());
-            }
-        }
-    }
-
-    class Step
-    {
-        public int? ValveId { get; set; }
-        public int? Minutes { get; set; }
+        this.GetValveStatusUseCase.StatusChanged -= this.OnStatusChanged;
     }
 }
