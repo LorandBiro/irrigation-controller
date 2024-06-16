@@ -74,6 +74,9 @@ sudo ln -s /usr/local/dotnet/dotnet /usr/local/bin
 sudo useradd -r irrigation-controller
 sudo adduser irrigation-controller gpio
 
+sudo mkdir /var/lib/irrigation-controller
+sudo chown irrigation-controller:irrigation-controller /var/lib/irrigation-controller
+
 sudo systemctl enable irrigation-controller
 ```
 
