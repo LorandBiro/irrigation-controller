@@ -44,6 +44,7 @@ namespace IrrigationController
         {
             services.AddSingleton(config);
 
+            services.AddSingleton<IIrrigationLog, IrrigationLog>();
             services.AddSingleton<IValveRepository>(new ValveRepository(config.AppDataPath));
             if (config.MockGpio)
             {
@@ -70,6 +71,7 @@ namespace IrrigationController
             services.AddSingleton<GetValveStatusUseCase>();
             services.AddSingleton<OpenValveUseCase>();
             services.AddSingleton(new OpenValveUseCaseConfig(config.ManualLimit));
+            services.AddSingleton<ProgramStepCompletedEventHandler>();
             services.AddSingleton<RunProgramUseCase>();
             services.AddSingleton<ShortCircuitDetectedEventHandler>();
             services.AddSingleton<SkipUseCase>();

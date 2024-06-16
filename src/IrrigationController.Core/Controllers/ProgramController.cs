@@ -5,12 +5,14 @@ namespace IrrigationController.Core.Controllers
     public class ProgramController
     {
         private readonly ValveController valveController;
+        private readonly ProgramStepCompletedEventHandler programStepCompletedEventHandler;
         private readonly Timer timer;
         private readonly List<ProgramStep> nextSteps;
 
-        public ProgramController(ValveController valveController)
+        public ProgramController(ValveController valveController, ProgramStepCompletedEventHandler programStepCompletedEventHandler)
         {
             this.valveController = valveController;
+            this.programStepCompletedEventHandler = programStepCompletedEventHandler;
             this.timer = new(this.TimerCallback);
             this.nextSteps = [];
         }
@@ -80,6 +82,11 @@ namespace IrrigationController.Core.Controllers
         {
             lock (this.nextSteps)
             {
+                if (this.CurrentStep is not null)
+                {
+                    this.programStepCompletedEventHandler.Handle(this.CurrentStep);
+                }
+
                 if (this.nextSteps.Count == 0)
                 {
                     this.StopInternal();
