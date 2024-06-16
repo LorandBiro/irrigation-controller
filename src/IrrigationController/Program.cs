@@ -82,6 +82,7 @@ namespace IrrigationController
 
         private static void InitializeServices(IServiceProvider services, Config config)
         {
+            Directory.CreateDirectory(config.AppDataPath);
             if (!config.MockGpio)
             {
                 ((Valves)services.GetRequiredService<IValves>()).Init();
