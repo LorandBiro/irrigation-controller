@@ -14,7 +14,7 @@ namespace IrrigationController.Adapters
         public void Init()
         {
             this.gpio.OpenPin(this.config.Pin, PinMode.Input);
-            this.gpio.RegisterCallbackForPinValueChangedEvent(this.config.Pin, PinEventTypes.Rising, this.OnShortCircuitDetectedCallback);
+            this.gpio.RegisterCallbackForPinValueChangedEvent(this.config.Pin, PinEventTypes.Rising | PinEventTypes.Falling, this.OnShortCircuitDetectedCallback);
             this.logger.LogDebug("Short circuit sensor pin #{Pin} opened for input. Current state: {State}", this.config.Pin, this.gpio.Read(this.config.Pin));
         }
 
@@ -25,11 +25,14 @@ namespace IrrigationController.Adapters
 
         private void OnShortCircuitDetectedCallback(object? sender, PinValueChangedEventArgs e)
         {
-            this.logger.LogDebug("Short circuit pin was {Value}", e.ChangeType);
             if (e.ChangeType == PinEventTypes.Rising)
             {
-                this.logger.LogCritical("Short circuit detected");
+                this.logger.LogDebug("Short circuit detected");
                 this.shortCircuitDetectedEventHandler.Handle();
+            }
+            else
+            {
+                this.logger.LogDebug("Short circuit cleared");
             }
         }
     }
