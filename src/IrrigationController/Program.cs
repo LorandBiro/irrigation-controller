@@ -21,11 +21,17 @@ namespace IrrigationController
             });
 
             Config config = builder.Configuration.GetSection("IrrigationController").Get<Config>() ?? throw new Exception("IrrigationController config is missing");
+            if (!Directory.Exists(config.AppDataPath))
+            {
+                Directory.CreateDirectory(config.AppDataPath);
+            }
+
             builder.Services.AddSingleton(config);
             if (builder.Configuration.GetValue<bool>("MockGpio"))
             {
                 builder.Services.AddSingleton<IValves, FakeValves>();
                 builder.Services.AddSingleton<IRainSensor, FakeRainSensor>();
+                builder.Services.AddHostedService<GpioSimulatorBackgroundService>();
             }
             else
             {
@@ -48,6 +54,7 @@ namespace IrrigationController
             builder.Services.AddSingleton<RunProgramUseCase>();
             builder.Services.AddSingleton<GetProgramStatusUseCase>();
             builder.Services.AddSingleton<ShortCircuitDetectedEventHandler>();
+            builder.Services.AddSingleton<IValveRepository>(new ValveRepository(config.AppDataPath));
 
             WebApplication app = builder.Build();
             (app.Services.GetRequiredService<IValves>() as Valves)?.Init();

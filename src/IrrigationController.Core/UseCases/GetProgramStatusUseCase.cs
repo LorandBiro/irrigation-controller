@@ -15,7 +15,6 @@ namespace IrrigationController.Core.UseCases
 
         public IReadOnlyList<ProgramStep> NextSteps => this.programController.NextSteps;
 
-
         public event EventHandler CurrentStepChanged
         {
             add => this.programController.CurrentStepChanged += value;
