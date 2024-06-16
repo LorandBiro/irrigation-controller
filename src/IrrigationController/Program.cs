@@ -21,45 +21,10 @@ namespace IrrigationController
             });
 
             Config config = builder.Configuration.GetSection("IrrigationController").Get<Config>() ?? throw new Exception("IrrigationController config is missing");
-            if (!Directory.Exists(config.AppDataPath))
-            {
-                Directory.CreateDirectory(config.AppDataPath);
-            }
-
-            builder.Services.AddSingleton(config);
-            if (builder.Configuration.GetValue<bool>("MockGpio"))
-            {
-                builder.Services.AddSingleton<IValves, FakeValves>();
-                builder.Services.AddSingleton<IRainSensor, FakeRainSensor>();
-                builder.Services.AddHostedService<GpioSimulatorBackgroundService>();
-            }
-            else
-            {
-                builder.Services.AddSingleton(new ValvesConfig(config.Valves.Select(x => x.Pin).ToList()));
-                builder.Services.AddSingleton<IValves, Valves>();
-                builder.Services.AddSingleton(new RainSensorConfig(config.RainSensorPin, config.RainSensorSamplingInterval));
-                builder.Services.AddSingleton<IRainSensor, RainSensor>();
-                builder.Services.AddSingleton(new ShortCircuitSensorConfig(config.ShortCircuitSensorPin));
-                builder.Services.AddSingleton<ShortCircuitSensor>();
-            }
-
-            builder.Services.AddSingleton(new ValveControllerConfig(config.ValveDelay));
-            builder.Services.AddSingleton<ValveController>();
-            builder.Services.AddSingleton<ProgramController>();
-            builder.Services.AddSingleton(new OpenValveUseCaseConfig(config.ManualLimit));
-            builder.Services.AddSingleton<OpenValveUseCase>();
-            builder.Services.AddSingleton<StopUseCase>();
-            builder.Services.AddSingleton<SkipUseCase>();
-            builder.Services.AddSingleton<GetValveStatusUseCase>();
-            builder.Services.AddSingleton<RunProgramUseCase>();
-            builder.Services.AddSingleton<GetProgramStatusUseCase>();
-            builder.Services.AddSingleton<ShortCircuitDetectedEventHandler>();
-            builder.Services.AddSingleton<IValveRepository>(new ValveRepository(config.AppDataPath));
+            RegisterServices(builder.Services, config);
 
             WebApplication app = builder.Build();
-            (app.Services.GetRequiredService<IValves>() as Valves)?.Init();
-            (app.Services.GetRequiredService<IRainSensor>() as RainSensor)?.Init();
-            app.Services.GetService<ShortCircuitSensor>()?.Init();
+            InitializeServices(app.Services, config);
 
             if (!app.Environment.IsDevelopment())
             {
@@ -73,6 +38,49 @@ namespace IrrigationController
                 .AddInteractiveServerRenderMode();
 
             app.Run();
+        }
+
+        private static void RegisterServices(IServiceCollection services, Config config)
+        {
+            services.AddSingleton(config);
+            if (config.MockGpio)
+            {
+                services.AddSingleton<IValves, FakeValves>();
+                services.AddSingleton<IRainSensor, FakeRainSensor>();
+                services.AddHostedService<GpioSimulatorBackgroundService>();
+            }
+            else
+            {
+                services.AddSingleton(new ValvesConfig(config.Valves.Select(x => x.Pin).ToList()));
+                services.AddSingleton<IValves, Valves>();
+                services.AddSingleton(new RainSensorConfig(config.RainSensorPin, config.RainSensorSamplingInterval));
+                services.AddSingleton<IRainSensor, RainSensor>();
+                services.AddSingleton(new ShortCircuitSensorConfig(config.ShortCircuitSensorPin));
+                services.AddSingleton<ShortCircuitSensor>();
+            }
+
+            services.AddSingleton(new ValveControllerConfig(config.ValveDelay));
+            services.AddSingleton<ValveController>();
+            services.AddSingleton<ProgramController>();
+            services.AddSingleton(new OpenValveUseCaseConfig(config.ManualLimit));
+            services.AddSingleton<OpenValveUseCase>();
+            services.AddSingleton<StopUseCase>();
+            services.AddSingleton<SkipUseCase>();
+            services.AddSingleton<GetValveStatusUseCase>();
+            services.AddSingleton<RunProgramUseCase>();
+            services.AddSingleton<GetProgramStatusUseCase>();
+            services.AddSingleton<ShortCircuitDetectedEventHandler>();
+            services.AddSingleton<IValveRepository>(new ValveRepository(config.AppDataPath));
+        }
+
+        private static void InitializeServices(IServiceProvider services, Config config)
+        {
+            if (!config.MockGpio)
+            {
+                ((Valves)services.GetRequiredService<IValves>()).Init();
+                ((RainSensor)services.GetRequiredService<IRainSensor>()).Init();
+                services.GetRequiredService<ShortCircuitSensor>()?.Init();
+            }
         }
     }
 }

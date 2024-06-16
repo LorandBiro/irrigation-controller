@@ -2,6 +2,7 @@
 {
     public class Config
     {
+        public required bool MockGpio { get; init; }
         public required string AppDataPath { get; init; }
         public required int RainSensorPin { get; init; }
         public required TimeSpan RainSensorSamplingInterval { get; init; }

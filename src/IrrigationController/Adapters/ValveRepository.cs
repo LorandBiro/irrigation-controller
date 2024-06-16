@@ -11,6 +11,7 @@ namespace IrrigationController.Adapters
 
         public ValveRepository(string appDataPath)
         {
+            Directory.CreateDirectory(appDataPath);
             this.path = Path.Join(appDataPath, "valves.json");
             if (!File.Exists(this.path))
             {
