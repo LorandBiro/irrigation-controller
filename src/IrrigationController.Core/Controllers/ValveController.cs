@@ -18,7 +18,7 @@ namespace IrrigationController.Core.Controllers
 
         public int? OpenValveId { get; private set; }
 
-        public event EventHandler<int?>? OpenValveIdChanged;
+        public event EventHandler? OpenValveIdChanged;
 
         public void Open(int valveId)
         {
@@ -35,7 +35,7 @@ namespace IrrigationController.Core.Controllers
                 }
 
                 this.OpenValveId = valveId;
-                this.OpenValveIdChanged?.Invoke(this, valveId);
+                this.OpenValveIdChanged?.Invoke(this, EventArgs.Empty);
 
                 this.timer.Change(this.config.Delay, Timeout.InfiniteTimeSpan);
             }
@@ -53,7 +53,7 @@ namespace IrrigationController.Core.Controllers
                 this.valves.Close(this.OpenValveId.Value);
 
                 this.OpenValveId = null;
-                this.OpenValveIdChanged?.Invoke(this, null);
+                this.OpenValveIdChanged?.Invoke(this, EventArgs.Empty);
 
                 this.timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
             }

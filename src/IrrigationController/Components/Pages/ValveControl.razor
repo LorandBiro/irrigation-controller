@@ -12,26 +12,35 @@
     @for (int i = 0; i < Config.Valves.Count; i++)
     {
         int valveId = i;
-        bool open = GetValveStatusUseCase.OpenValveId == valveId;
-        <button class="btn @(open ? "btn-primary" : "btn-secondary")" @onclick="() => OnClick(valveId)">@(open ? "Close" : "Open") #@(i + 1) - @Config.Valves[i].Name</button>
+        bool open = this.openValveId == valveId;
+        bool defective = this.defectiveValves.Contains(valveId);
+        <button class="btn @(open ? "btn-primary" : "btn-secondary")" @onclick="() => OnClick(valveId)" disabled="@defective">@(open ? "Close" : "Open") #@(i + 1) - @Config.Valves[i].Name</button>
         <text>&nbsp;</text>
     }
 </p>
 
 @code {
+    private int? openValveId;
+    private List<int> defectiveValves = [];
+
     protected override void OnInitialized()
     {
-        GetValveStatusUseCase.OpenValveIdChanged += OnOpenValveIdChanged;
+        this.GetValveStatusUseCase.StatusChanged += OnStatusChanged;
+        (this.openValveId, this.defectiveValves) = this.GetValveStatusUseCase.Execute();
     }
 
-    private void OnOpenValveIdChanged(object? sender, int? openValveId)
+    private void OnStatusChanged(object? sender, EventArgs e)
     {
-        InvokeAsync(StateHasChanged);
+        InvokeAsync(() =>
+        {
+            (this.openValveId, this.defectiveValves) = this.GetValveStatusUseCase.Execute();
+            StateHasChanged();
+        });
     }
 
     private void OnClick(int valveId)
     {
-        if (GetValveStatusUseCase.OpenValveId == valveId)
+        if (this.openValveId == valveId)
         {
             StopUseCase.Execute();
         }
@@ -43,6 +52,6 @@
 
     public void Dispose()
     {
-        GetValveStatusUseCase.OpenValveIdChanged -= OnOpenValveIdChanged;
+        GetValveStatusUseCase.StatusChanged -= OnStatusChanged;
     }
 }
