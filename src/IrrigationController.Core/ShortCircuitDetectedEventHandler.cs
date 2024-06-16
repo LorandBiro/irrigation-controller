@@ -2,7 +2,7 @@
 using IrrigationController.Core.Domain;
 using IrrigationController.Core.Infrastructure;
 
-namespace IrrigationController.Core.UseCases
+namespace IrrigationController.Core
 {
     public class ShortCircuitDetectedEventHandler(ProgramController programController, IValveRepository valveRepository)
     {
@@ -11,15 +11,15 @@ namespace IrrigationController.Core.UseCases
 
         public void Handle()
         {
-            if (this.programController.CurrentStep is null)
+            if (programController.CurrentStep is null)
             {
                 return;
             }
 
-            int valveId = this.programController.CurrentStep.ValveId;
-            this.programController.Skip();
+            int valveId = programController.CurrentStep.ValveId;
+            programController.Skip();
 
-            Valve? valve = this.valveRepository.Get(valveId);
+            Valve? valve = valveRepository.Get(valveId);
             if (valve is null)
             {
                 valve = new Valve(valveId, true);
@@ -29,7 +29,7 @@ namespace IrrigationController.Core.UseCases
                 valve = valve with { IsDefective = true };
             }
 
-            this.valveRepository.Save(valve);
+            valveRepository.Save(valve);
         }
     }
 }

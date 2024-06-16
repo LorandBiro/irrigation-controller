@@ -2,7 +2,7 @@
 using IrrigationController.Core.Domain;
 using IrrigationController.Core.Infrastructure;
 
-namespace IrrigationController.Core.UseCases
+namespace IrrigationController.Core
 {
     public class RunProgramUseCase(ProgramController programController, IValveRepository valveRepository)
     {
@@ -13,14 +13,14 @@ namespace IrrigationController.Core.UseCases
         {
             foreach (ProgramStep step in program.Steps)
             {
-                Valve? valve = this.valveRepository.Get(step.ValveId);
+                Valve? valve = valveRepository.Get(step.ValveId);
                 if (valve?.IsDefective == true)
                 {
                     throw new InvalidOperationException($"Can't run program with defective valve #{step.ValveId}");
                 }
             }
 
-            this.programController.Run(program);
+            programController.Run(program);
         }
     }
 }

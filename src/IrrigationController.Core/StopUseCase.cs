@@ -1,14 +1,14 @@
 ﻿using IrrigationController.Core.Controllers;
 
-namespace IrrigationController.Core.UseCases
+namespace IrrigationController.Core
 {
-    public class SkipUseCase(ProgramController programController)
+    public class StopUseCase(ProgramController programController)
     {
         private readonly ProgramController programController = programController;
 
         public void Execute()
         {
-            this.programController.Skip();
+            programController.Stop();
         }
     }
 }

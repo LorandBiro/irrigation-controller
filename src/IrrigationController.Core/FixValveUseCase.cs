@@ -1,7 +1,7 @@
 ﻿using IrrigationController.Core.Domain;
 using IrrigationController.Core.Infrastructure;
 
-namespace IrrigationController.Core.UseCases
+namespace IrrigationController.Core
 {
     public class FixValveUseCase(IValveRepository valveRepository)
     {
@@ -9,14 +9,14 @@ namespace IrrigationController.Core.UseCases
 
         public void Execute(int valveId)
         {
-            Valve? valve = this.valveRepository.Get(valveId);
+            Valve? valve = valveRepository.Get(valveId);
             if (valve is null)
             {
                 return;
             }
 
             valve = valve with { IsDefective = false };
-            this.valveRepository.Save(valve);
+            valveRepository.Save(valve);
         }
     }
 }

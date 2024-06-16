@@ -1,4 +1,4 @@
-﻿using IrrigationController.Core.UseCases;
+﻿using IrrigationController.Core;
 
 namespace IrrigationController
 {

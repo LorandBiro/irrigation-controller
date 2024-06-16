@@ -1,8 +1,8 @@
 using IrrigationController.Adapters;
 using IrrigationController.Components;
+using IrrigationController.Core;
 using IrrigationController.Core.Controllers;
 using IrrigationController.Core.Infrastructure;
-using IrrigationController.Core.UseCases;
 
 namespace IrrigationController
 {
@@ -43,6 +43,8 @@ namespace IrrigationController
         private static void RegisterServices(IServiceCollection services, Config config)
         {
             services.AddSingleton(config);
+
+            services.AddSingleton<IValveRepository>(new ValveRepository(config.AppDataPath));
             if (config.MockGpio)
             {
                 services.AddSingleton<IValves, FakeValves>();
@@ -59,20 +61,19 @@ namespace IrrigationController
                 services.AddSingleton<ShortCircuitSensor>();
             }
 
-            services.AddSingleton(new ValveControllerConfig(config.ValveDelay));
-            services.AddSingleton<ValveController>();
             services.AddSingleton<ProgramController>();
+            services.AddSingleton<ValveController>();
+            services.AddSingleton(new ValveControllerConfig(config.ValveDelay));
+
             services.AddSingleton<FixValveUseCase>();
-            services.AddSingleton(new OpenValveUseCaseConfig(config.ManualLimit));
-            services.AddSingleton<OpenValveUseCase>();
-            services.AddSingleton<StopUseCase>();
-            services.AddSingleton<SkipUseCase>();
-            services.AddSingleton<SkipUseCase>();
-            services.AddSingleton<GetValveStatusUseCase>();
-            services.AddSingleton<RunProgramUseCase>();
             services.AddSingleton<GetProgramStatusUseCase>();
+            services.AddSingleton<GetValveStatusUseCase>();
+            services.AddSingleton<OpenValveUseCase>();
+            services.AddSingleton(new OpenValveUseCaseConfig(config.ManualLimit));
+            services.AddSingleton<RunProgramUseCase>();
             services.AddSingleton<ShortCircuitDetectedEventHandler>();
-            services.AddSingleton<IValveRepository>(new ValveRepository(config.AppDataPath));
+            services.AddSingleton<SkipUseCase>();
+            services.AddSingleton<StopUseCase>();
         }
 
         private static void InitializeServices(IServiceProvider services, Config config)

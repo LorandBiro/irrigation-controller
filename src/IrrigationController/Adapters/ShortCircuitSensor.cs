@@ -1,4 +1,4 @@
-﻿using IrrigationController.Core.UseCases;
+﻿using IrrigationController.Core;
 using System.Device.Gpio;
 
 namespace IrrigationController.Adapters
