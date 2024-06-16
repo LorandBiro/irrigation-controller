@@ -49,8 +49,9 @@ namespace IrrigationController
             if (config.MockGpio)
             {
                 services.AddSingleton<IValves, FakeValves>();
-                services.AddSingleton<IRainSensor, FakeRainSensor>();
-                services.AddHostedService<GpioSimulatorBackgroundService>();
+                services.AddSingleton<FakeRainSensor>();
+                services.AddSingleton<IRainSensor>(sp => sp.GetRequiredService<FakeRainSensor>());
+                services.AddHostedService<DevToolsBackgroundService>();
             }
             else
             {
