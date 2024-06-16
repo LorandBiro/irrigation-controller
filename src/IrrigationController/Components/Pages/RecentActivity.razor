@@ -1,0 +1,38 @@
+﻿@using IrrigationController.Core
+@inject GetRecentActivityUseCase GetRecentActivityUseCase
+@implements IDisposable
+
+<h1>Recent Activity</h1>
+<p>
+    <a href="/full-log">View Full Log</a><br />
+    @foreach (string line in this.log)
+    {
+        @line
+        <br />
+    }
+</p>
+
+@code
+{
+    private IReadOnlyList<string> log = [];
+
+    protected override void OnInitialized()
+    {
+        this.GetRecentActivityUseCase.LogUpdated += this.OnLogUpdated;
+        this.log = this.GetRecentActivityUseCase.Execute();
+    }
+
+    private void OnLogUpdated(object? sender, EventArgs e)
+    {
+        this.InvokeAsync(() =>
+        {
+            this.log = this.GetRecentActivityUseCase.Execute();
+            this.StateHasChanged();
+        });
+    }
+
+    public void Dispose()
+    {
+        this.GetRecentActivityUseCase.LogUpdated -= this.OnLogUpdated;
+    }
+}

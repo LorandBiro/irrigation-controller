@@ -9,10 +9,9 @@ namespace IrrigationController.Adapters
         private readonly Dictionary<int, Valve> valves = [];
         private readonly string path;
 
-        public ValveRepository(string appDataPath)
+        public ValveRepository(Config config)
         {
-            Directory.CreateDirectory(appDataPath);
-            this.path = Path.Join(appDataPath, "valves.json");
+            this.path = Path.Join(config.AppDataPath, "valves.json");
             if (!File.Exists(this.path))
             {
                 return;

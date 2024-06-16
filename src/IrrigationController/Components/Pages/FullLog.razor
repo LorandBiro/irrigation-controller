@@ -1,0 +1,24 @@
+﻿@page "/full-log"
+@using IrrigationController.Core
+@inject GetFullLogUseCase GetFullLogUseCase
+
+<PageTitle>Full Log</PageTitle>
+
+<h1>Full Log</h1>
+<p>
+    @foreach (string line in this.log)
+    {
+        @line
+        <br />
+    }
+</p>
+
+@code
+{
+    private IReadOnlyList<string> log = [];
+
+    protected override void OnInitialized()
+    {
+        this.log = this.GetFullLogUseCase.Execute();
+    }
+}

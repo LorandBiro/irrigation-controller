@@ -45,7 +45,7 @@ namespace IrrigationController
             services.AddSingleton(config);
 
             services.AddSingleton<IIrrigationLog, IrrigationLog>();
-            services.AddSingleton<IValveRepository>(new ValveRepository(config.AppDataPath));
+            services.AddSingleton<IValveRepository, ValveRepository>();
             if (config.MockGpio)
             {
                 services.AddSingleton<IValves, FakeValves>();
@@ -67,7 +67,9 @@ namespace IrrigationController
             services.AddSingleton(new ValveControllerConfig(config.ValveDelay));
 
             services.AddSingleton<FixValveUseCase>();
+            services.AddSingleton<GetFullLogUseCase>();
             services.AddSingleton<GetProgramStatusUseCase>();
+            services.AddSingleton<GetRecentActivityUseCase>();
             services.AddSingleton<GetValveStatusUseCase>();
             services.AddSingleton<OpenValveUseCase>();
             services.AddSingleton(new OpenValveUseCaseConfig(config.ManualLimit));
