@@ -5,6 +5,8 @@
 @inject GetValveStatusUseCase GetValveStatusUseCase
 @inject OpenValveUseCase OpenValveUseCase
 @inject StopUseCase StopUseCase
+@inject FixValveUseCase FixValveUseCase
+@inject IJSRuntime JsRuntime
 @implements IDisposable
 
 <h1>Valve Control</h1>
@@ -14,7 +16,10 @@
         int valveId = i;
         bool open = this.openValveId == valveId;
         bool defective = this.defectiveValves.Contains(valveId);
-        <button class="btn @(open ? "btn-primary" : "btn-secondary")" @onclick="() => OnClick(valveId)" disabled="@defective">@(open ? "Close" : "Open") #@(i + 1) - @Config.Valves[i].Name</button>
+        string style = defective ? "btn-danger" : (open ? "btn-primary" : "btn-secondary");
+        string label = defective ? "Fix" : (open ? "Close" : "Open");
+
+        <button class="btn @style" @onclick="() => OnClick(valveId)">@label #@(i + 1) - @Config.Valves[i].Name</button>
         <text>&nbsp;</text>
     }
 </p>
@@ -25,7 +30,7 @@
 
     protected override void OnInitialized()
     {
-        this.GetValveStatusUseCase.StatusChanged += OnStatusChanged;
+        this.GetValveStatusUseCase.StatusChanged += this.OnStatusChanged;
         (this.openValveId, this.defectiveValves) = this.GetValveStatusUseCase.Execute();
     }
 
@@ -38,20 +43,31 @@
         });
     }
 
-    private void OnClick(int valveId)
+    private async Task OnClick(int valveId)
     {
+        if (this.defectiveValves.Contains(valveId))
+        {
+            bool confirmed = await this.JsRuntime.InvokeAsync<bool>("confirm", "A short circuit was detected and the valve has been marked defective. Are you sure you want to re-enable it?");
+            if (confirmed)
+            {
+                this.FixValveUseCase.Execute(valveId);
+            }
+
+            return;
+        }
+
         if (this.openValveId == valveId)
         {
-            StopUseCase.Execute();
+            this.StopUseCase.Execute();
         }
         else
         {
-            OpenValveUseCase.Execute(valveId);
+            this.OpenValveUseCase.Execute(valveId);
         }
     }
 
     public void Dispose()
     {
-        GetValveStatusUseCase.StatusChanged -= OnStatusChanged;
+        this.GetValveStatusUseCase.StatusChanged -= this.OnStatusChanged;
     }
 }

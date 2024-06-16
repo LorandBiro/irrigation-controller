@@ -62,9 +62,11 @@ namespace IrrigationController
             services.AddSingleton(new ValveControllerConfig(config.ValveDelay));
             services.AddSingleton<ValveController>();
             services.AddSingleton<ProgramController>();
+            services.AddSingleton<FixValveUseCase>();
             services.AddSingleton(new OpenValveUseCaseConfig(config.ManualLimit));
             services.AddSingleton<OpenValveUseCase>();
             services.AddSingleton<StopUseCase>();
+            services.AddSingleton<SkipUseCase>();
             services.AddSingleton<SkipUseCase>();
             services.AddSingleton<GetValveStatusUseCase>();
             services.AddSingleton<RunProgramUseCase>();
