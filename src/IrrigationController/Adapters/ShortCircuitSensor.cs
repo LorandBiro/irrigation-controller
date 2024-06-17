@@ -11,7 +11,7 @@ namespace IrrigationController.Adapters
 
         private readonly GpioController gpio = new();
 
-        public void Init()
+        public void Initialize()
         {
             this.gpio.OpenPin(this.config.Pin, PinMode.Input);
             this.gpio.RegisterCallbackForPinValueChangedEvent(this.config.Pin, PinEventTypes.Rising | PinEventTypes.Falling, this.OnShortCircuitDetectedCallback);

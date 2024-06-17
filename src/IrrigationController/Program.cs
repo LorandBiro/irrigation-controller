@@ -64,6 +64,9 @@ namespace IrrigationController
             }
 
             services.AddSingleton<ProgramController>();
+            services.AddSingleton<SunriseCalculator>();
+            services.AddSingleton(new SunriseCalculatorConfig(config.Latitude, config.Longitude));
+            services.AddSingleton<SunriseScheduler>();
             services.AddSingleton<ValveController>();
             services.AddSingleton(new ValveControllerConfig(config.ValveDelay));
 
@@ -79,6 +82,7 @@ namespace IrrigationController
             services.AddSingleton<ShortCircuitDetectedEventHandler>();
             services.AddSingleton<SkipUseCase>();
             services.AddSingleton<StopUseCase>();
+            services.AddSingleton<SunriseEventHandler>();
         }
 
         private static void InitializeServices(IServiceProvider services, Config config)
@@ -86,10 +90,12 @@ namespace IrrigationController
             Directory.CreateDirectory(config.AppDataPath);
             if (!config.MockGpio)
             {
-                ((Valves)services.GetRequiredService<IValves>()).Init();
-                ((RainSensor)services.GetRequiredService<IRainSensor>()).Init();
-                services.GetRequiredService<ShortCircuitSensor>()?.Init();
+                ((Valves)services.GetRequiredService<IValves>()).Initialize();
+                ((RainSensor)services.GetRequiredService<IRainSensor>()).Initialize();
+                services.GetRequiredService<ShortCircuitSensor>().Initialize();
             }
+
+            services.GetRequiredService<SunriseScheduler>().Initialize();
         }
     }
 }

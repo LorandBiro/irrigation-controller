@@ -9,7 +9,7 @@ namespace IrrigationController.Adapters
         private readonly ValvesConfig config = config;
         private readonly GpioController controller = new();
 
-        public void Init()
+        public void Initialize()
         {
             foreach (int pin in this.config.Pins)
             {

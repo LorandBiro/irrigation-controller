@@ -24,7 +24,7 @@ namespace IrrigationController.Adapters
 
         public bool IsRaining { get; private set; }
 
-        public void Init()
+        public void Initialize()
         {
             this.gpio.OpenPin(this.config.Pin, PinMode.InputPullUp);
             PinValue state = this.gpio.Read(this.config.Pin);
