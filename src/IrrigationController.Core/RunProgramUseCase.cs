@@ -4,15 +4,15 @@ using IrrigationController.Core.Infrastructure;
 
 namespace IrrigationController.Core
 {
-    public class RunProgramUseCase(ProgramController programController, IValveRepository valveRepository)
+    public class RunProgramUseCase(ProgramController programController, IZoneRepository zoneRepository)
     {
         public void Execute(IReadOnlyList<ProgramStep> steps)
         {
             foreach (ProgramStep step in steps)
             {
-                if (valveRepository.Get(step.ValveId)?.IsDefective == true)
+                if (zoneRepository.Get(step.ZoneId)?.IsDefective == true)
                 {
-                    throw new InvalidOperationException($"Can't run program with defective valve #{step.ValveId}");
+                    throw new InvalidOperationException($"Can't run program with defective zone #{step.ZoneId}");
                 }
             }
 

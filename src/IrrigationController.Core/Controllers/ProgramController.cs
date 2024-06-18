@@ -5,16 +5,16 @@ namespace IrrigationController.Core.Controllers
 {
     public class ProgramController
     {
-        private readonly ValveController valveController;
+        private readonly ZoneController zoneController;
         private readonly IIrrigationLog log;
 
         private readonly Timer timer;
         private readonly List<ProgramStep> previousSteps;
         private readonly List<ProgramStep> nextSteps;
 
-        public ProgramController(ValveController valveController, IIrrigationLog log)
+        public ProgramController(ZoneController zoneController, IIrrigationLog log)
         {
-            this.valveController = valveController;
+            this.zoneController = zoneController;
             this.log = log;
 
             this.timer = new(this.TimerCallback);
@@ -54,7 +54,7 @@ namespace IrrigationController.Core.Controllers
                 this.CurrentStepEndsAt = DateTime.UtcNow + steps[0].Duration;
                 this.CurrentStepChanged?.Invoke(this, EventArgs.Empty);
 
-                this.valveController.Open(steps[0].ValveId);
+                this.zoneController.Open(steps[0].ZoneId);
                 this.timer.Change(steps[0].Duration, TimeSpan.Zero);
             }
         }
@@ -84,7 +84,7 @@ namespace IrrigationController.Core.Controllers
                 this.CurrentStepEndsAt = DateTime.UtcNow + nextStep.Duration;
                 this.CurrentStepChanged?.Invoke(this, EventArgs.Empty);
 
-                this.valveController.Open(nextStep.ValveId);
+                this.zoneController.Open(nextStep.ZoneId);
                 this.timer.Change(nextStep.Duration, TimeSpan.Zero);
 
             }
@@ -107,7 +107,7 @@ namespace IrrigationController.Core.Controllers
                 this.CurrentStepEndsAt = null;
                 this.CurrentStepChanged?.Invoke(this, EventArgs.Empty);
 
-                this.valveController.Close();
+                this.zoneController.Close();
                 this.timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
             }
         }
@@ -126,7 +126,7 @@ namespace IrrigationController.Core.Controllers
                     this.CurrentStep = null;
                     this.CurrentStepEndsAt = null;
 
-                    this.valveController.Close();
+                    this.zoneController.Close();
                     this.timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
                 }
                 else
@@ -137,7 +137,7 @@ namespace IrrigationController.Core.Controllers
                     this.CurrentStep = nextStep;
                     this.CurrentStepEndsAt = DateTime.UtcNow + nextStep.Duration;
 
-                    this.valveController.Open(nextStep.ValveId);
+                    this.zoneController.Open(nextStep.ZoneId);
                     this.timer.Change(nextStep.Duration, Timeout.InfiniteTimeSpan);
                 }
 
@@ -147,7 +147,7 @@ namespace IrrigationController.Core.Controllers
 
         private ProgramStep GetAbortedStep()
         {
-            return new ProgramStep(this.CurrentStep!.ValveId, this.CurrentStep.Duration - (this.CurrentStepEndsAt!.Value - DateTime.UtcNow));
+            return new ProgramStep(this.CurrentStep!.ZoneId, this.CurrentStep.Duration - (this.CurrentStepEndsAt!.Value - DateTime.UtcNow));
         }
 
         private static IrrigationStopReason ToStopReason(IrrigationSkipReason reason) => reason switch

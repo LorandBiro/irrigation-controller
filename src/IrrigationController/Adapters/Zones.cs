@@ -3,10 +3,10 @@ using System.Device.Gpio;
 
 namespace IrrigationController.Adapters
 {
-    public sealed class Valves(ILogger<Valves> logger, ValvesConfig config) : IValves, IDisposable
+    public sealed class Zones(ILogger<Zones> logger, ZonesConfig config) : IZones, IDisposable
     {
-        private readonly ILogger<Valves> logger = logger;
-        private readonly ValvesConfig config = config;
+        private readonly ILogger<Zones> logger = logger;
+        private readonly ZonesConfig config = config;
         private readonly GpioController controller = new();
 
         public void Initialize()
@@ -19,16 +19,16 @@ namespace IrrigationController.Adapters
             }
         }
 
-        public void Open(int valveId)
+        public void Open(int zoneId)
         {
-            Write(valveId, true);
-            this.logger.LogDebug("Valve #{Valve} opened", valveId);
+            Write(zoneId, true);
+            this.logger.LogDebug("Zone #{Zone} opened", zoneId + 1);
         }
 
-        public void Close(int valveId)
+        public void Close(int zoneId)
         {
-            Write(valveId, false);
-            this.logger.LogDebug("Valve #{Valve} closed", valveId);
+            Write(zoneId, false);
+            this.logger.LogDebug("Zone #{Zone} closed", zoneId + 1);
         }
 
         public void Dispose()
@@ -36,9 +36,9 @@ namespace IrrigationController.Adapters
             this.controller.Dispose();
         }
 
-        private void Write(int valveId, bool value)
+        private void Write(int zoneId, bool value)
         {
-            int pin = this.config.Pins[valveId];
+            int pin = this.config.Pins[zoneId];
             PinValue pinValue = value ? PinValue.High : PinValue.Low;
             this.controller.Write(pin, pinValue);
         }

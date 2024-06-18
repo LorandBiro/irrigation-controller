@@ -4,7 +4,7 @@ using IrrigationController.Core.Infrastructure;
 
 namespace IrrigationController.Core
 {
-    public class ShortCircuitDetectedEventHandler(ProgramController programController, IValveRepository valveRepository, IIrrigationLog log)
+    public class ShortCircuitDetectedEventHandler(ProgramController programController, IZoneRepository zoneRepository, IIrrigationLog log)
     {
         public void Handle()
         {
@@ -14,20 +14,20 @@ namespace IrrigationController.Core
                 return;
             }
 
-            log.Write(new ShortCircuitDetected(DateTime.UtcNow, currentStep.ValveId));
+            log.Write(new ShortCircuitDetected(DateTime.UtcNow, currentStep.ZoneId));
             programController.Skip(IrrigationSkipReason.ShortCircuit);
 
-            Valve? valve = valveRepository.Get(currentStep.ValveId);
-            if (valve is null)
+            Zone? zone = zoneRepository.Get(currentStep.ZoneId);
+            if (zone is null)
             {
-                valve = new Valve(currentStep.ValveId, true);
+                zone = new Zone(currentStep.ZoneId, true);
             }
             else
             {
-                valve = valve with { IsDefective = true };
+                zone = zone with { IsDefective = true };
             }
 
-            valveRepository.Save(valve);
+            zoneRepository.Save(zone);
         }
     }
 }

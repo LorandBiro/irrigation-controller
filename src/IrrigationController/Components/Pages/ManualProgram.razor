@@ -2,19 +2,19 @@
 @using IrrigationController.Core.Domain
 @using IrrigationController.Core.Infrastructure
 @inject Config Config
-@inject GetValveStatusUseCase GetValveStatusUseCase
+@inject GetZoneStatusUseCase GetZoneStatusUseCase
 @inject RunProgramUseCase RunProgramUseCase
 @implements IDisposable
 
 <h1>Manual Program</h1>
 
 <EditForm Model="this" OnSubmit="Submit">
-    @for (int i = 0; i < this.Config.Valves.Count; i++)
+    @for (int i = 0; i < this.Config.Zones.Count; i++)
     {
         int stepIndex = i;
-        bool defective = this.defectiveValves.Contains(i);
+        bool defective = this.defectiveZoneIds.Contains(i);
 
-        <label style="width: 100px;">@this.Config.Valves[i].Name</label>
+        <label style="width: 100px;">@this.Config.Zones[i].Name</label>
         <InputNumber @bind-Value="Durations[stepIndex]" min="1" max="60" disabled="@defective" />
         <br />
     }
@@ -25,24 +25,24 @@
 </EditForm>
 
 @code {
-    private List<int> defectiveValves = [];
+    private List<int> defectiveZoneIds = [];
 
     [SupplyParameterFromForm]
     private List<int?> Durations { get; set; } = [];
 
     protected override void OnInitialized()
     {
-        this.Durations = this.Config.Valves.Select(_ => (int?)null).ToList();
-        this.GetValveStatusUseCase.StatusChanged += this.OnStatusChanged;
-        (_, this.defectiveValves) = this.GetValveStatusUseCase.Execute();
+        this.Durations = this.Config.Zones.Select(_ => (int?)null).ToList();
+        this.GetZoneStatusUseCase.StatusChanged += this.OnStatusChanged;
+        (_, this.defectiveZoneIds) = this.GetZoneStatusUseCase.Execute();
     }
 
     private void OnStatusChanged(object? sender, EventArgs e)
     {
         InvokeAsync(() =>
         {
-            (_, this.defectiveValves) = this.GetValveStatusUseCase.Execute();
-            foreach (int i in this.defectiveValves)
+            (_, this.defectiveZoneIds) = this.GetZoneStatusUseCase.Execute();
+            foreach (int i in this.defectiveZoneIds)
             {
                 this.Durations[i] = null;
             }
@@ -54,7 +54,7 @@
     private void Submit()
     {
         List<ProgramStep> programSteps = new List<ProgramStep>();
-        for (int i = 0; i < this.Config.Valves.Count; i++)
+        for (int i = 0; i < this.Config.Zones.Count; i++)
         {
             int? duration = this.Durations[i];
             if (duration is null || duration == 0)
@@ -76,6 +76,6 @@
 
     public void Dispose()
     {
-        this.GetValveStatusUseCase.StatusChanged -= this.OnStatusChanged;
+        this.GetZoneStatusUseCase.StatusChanged -= this.OnStatusChanged;
     }
 }

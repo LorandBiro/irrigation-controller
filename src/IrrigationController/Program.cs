@@ -46,18 +46,18 @@ namespace IrrigationController
             services.AddSingleton(config);
 
             services.AddSingleton<IIrrigationLog, IrrigationLog>();
-            services.AddSingleton<IValveRepository, ValveRepository>();
+            services.AddSingleton<IZoneRepository, ZoneRepository>();
             if (config.MockGpio)
             {
-                services.AddSingleton<IValves, FakeValves>();
+                services.AddSingleton<IZones, FakeZones>();
                 services.AddSingleton<FakeRainSensor>();
                 services.AddSingleton<IRainSensor>(sp => sp.GetRequiredService<FakeRainSensor>());
                 services.AddHostedService<DevToolsBackgroundService>();
             }
             else
             {
-                services.AddSingleton(new ValvesConfig(config.Valves.Select(x => x.Pin).ToList()));
-                services.AddSingleton<IValves, Valves>();
+                services.AddSingleton(new ZonesConfig(config.Zones.Select(x => x.Pin).ToList()));
+                services.AddSingleton<IZones, Zones>();
                 services.AddSingleton(new RainSensorConfig(config.RainSensorPin, config.RainSensorSamplingInterval));
                 services.AddSingleton<IRainSensor, RainSensor>();
                 services.AddSingleton(new ShortCircuitSensorConfig(config.ShortCircuitSensorPin));
@@ -68,16 +68,16 @@ namespace IrrigationController
             services.AddSingleton<SunriseCalculator>();
             services.AddSingleton(new SunriseCalculatorConfig(config.Latitude, config.Longitude));
             services.AddSingleton<SunriseScheduler>();
-            services.AddSingleton<ValveController>();
-            services.AddSingleton(new ValveControllerConfig(config.ValveDelay));
+            services.AddSingleton<ZoneController>();
+            services.AddSingleton(new ZoneControllerConfig(config.ZoneDelay));
 
-            services.AddSingleton<FixValveUseCase>();
+            services.AddSingleton<ResolveShortCircuitUseCase>();
             services.AddSingleton<GetFullLogUseCase>();
             services.AddSingleton<GetProgramStatusUseCase>();
             services.AddSingleton<GetRecentActivityUseCase>();
-            services.AddSingleton<GetValveStatusUseCase>();
-            services.AddSingleton<OpenValveUseCase>();
-            services.AddSingleton(new OpenValveUseCaseConfig(config.ManualLimit));
+            services.AddSingleton<GetZoneStatusUseCase>();
+            services.AddSingleton<OpenZoneUseCase>();
+            services.AddSingleton(new OpenZoneUseCaseConfig(config.ManualLimit));
             services.AddSingleton<RainDetectedEventHandler>();
             services.AddSingleton<RainClearedEventHandler>();
             services.AddSingleton<RunProgramUseCase>();
@@ -92,7 +92,7 @@ namespace IrrigationController
             Directory.CreateDirectory(config.AppDataPath);
             if (!config.MockGpio)
             {
-                ((Valves)services.GetRequiredService<IValves>()).Initialize();
+                ((Zones)services.GetRequiredService<IZones>()).Initialize();
                 ((RainSensor)services.GetRequiredService<IRainSensor>()).Initialize();
                 services.GetRequiredService<ShortCircuitSensor>().Initialize();
             }

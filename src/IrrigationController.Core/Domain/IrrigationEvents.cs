@@ -37,7 +37,7 @@
 
     public record RainCleared(DateTime Timestamp) : IIrrigationEvent;
 
-    public record ShortCircuitDetected(DateTime Timestamp, int ValveId) : IIrrigationEvent;
+    public record ShortCircuitDetected(DateTime Timestamp, int ZoneId) : IIrrigationEvent;
 
-    public record ShortCircuitResolved(DateTime Timestamp, int ValveId) : IIrrigationEvent;
+    public record ShortCircuitResolved(DateTime Timestamp, int ZoneId) : IIrrigationEvent;
 }

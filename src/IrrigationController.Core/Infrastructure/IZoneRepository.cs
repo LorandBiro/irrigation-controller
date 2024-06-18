@@ -2,14 +2,14 @@
 
 namespace IrrigationController.Core.Infrastructure
 {
-    public interface IValveRepository
+    public interface IZoneRepository
     {
         event EventHandler Changed;
 
-        Valve? Get(int id);
+        Zone? Get(int id);
 
-        IReadOnlyList<Valve> GetAll();
+        IReadOnlyList<Zone> GetAll();
 
-        void Save(Valve valve);
+        void Save(Zone zone);
     }
 }

@@ -12,7 +12,7 @@ namespace IrrigationController
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            this.logger.LogDebug("Press 'D' to simulate a defective valve");
+            this.logger.LogDebug("Press 'C' to simulate a short-circuit");
             this.logger.LogDebug("Press 'R' to toggle rain");
             this.logger.LogDebug("Press 'S' to simulate sunrise");
             while (!stoppingToken.IsCancellationRequested)
@@ -21,9 +21,9 @@ namespace IrrigationController
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo key = Console.ReadKey(intercept: true);
-                    if (key.Key == ConsoleKey.D)
+                    if (key.Key == ConsoleKey.C)
                     {
-                        this.logger.LogDebug("Simulating a defective valve...");
+                        this.logger.LogDebug("Simulating a short-circuit...");
                         this.shortCircuitDetectedEventHandler.Handle();
                     }
                     else if (key.Key == ConsoleKey.R)

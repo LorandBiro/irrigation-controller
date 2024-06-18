@@ -1,0 +1,73 @@
+﻿@using IrrigationController.Core
+@using IrrigationController.Core.Domain
+@using IrrigationController.Core.Infrastructure
+@inject Config Config
+@inject GetZoneStatusUseCase GetZoneStatusUseCase
+@inject OpenZoneUseCase OpenZoneUseCase
+@inject StopUseCase StopUseCase
+@inject ResolveShortCircuitUseCase ResolveShortCircuitUseCase
+@inject IJSRuntime JsRuntime
+@implements IDisposable
+
+<h1>Zone Control</h1>
+<p>
+    @for (int i = 0; i < Config.Zones.Count; i++)
+    {
+        int zoneId = i;
+        bool open = this.openZoneId == zoneId;
+        bool defective = this.defectiveZoneIds.Contains(zoneId);
+        string style = defective ? "btn-danger" : (open ? "btn-primary" : "btn-secondary");
+        string label = defective ? "Resolve" : (open ? "Close" : "Open");
+
+        <button class="btn @style" @onclick="() => OnClick(zoneId)">@label #@(i + 1) - @Config.Zones[i].Name</button>
+        <text>&nbsp;</text>
+    }
+</p>
+
+@code {
+    private int? openZoneId;
+    private List<int> defectiveZoneIds = [];
+
+    protected override void OnInitialized()
+    {
+        this.GetZoneStatusUseCase.StatusChanged += this.OnStatusChanged;
+        (this.openZoneId, this.defectiveZoneIds) = this.GetZoneStatusUseCase.Execute();
+    }
+
+    private void OnStatusChanged(object? sender, EventArgs e)
+    {
+        InvokeAsync(() =>
+        {
+            (this.openZoneId, this.defectiveZoneIds) = this.GetZoneStatusUseCase.Execute();
+            StateHasChanged();
+        });
+    }
+
+    private async Task OnClick(int zoneId)
+    {
+        if (this.defectiveZoneIds.Contains(zoneId))
+        {
+            bool confirmed = await this.JsRuntime.InvokeAsync<bool>("confirm", "A short circuit was detected and the zone has been marked defective. Are you sure you want to re-enable it?");
+            if (confirmed)
+            {
+                this.ResolveShortCircuitUseCase.Execute(zoneId);
+            }
+
+            return;
+        }
+
+        if (this.openZoneId == zoneId)
+        {
+            this.StopUseCase.Execute();
+        }
+        else
+        {
+            this.OpenZoneUseCase.Execute(zoneId);
+        }
+    }
+
+    public void Dispose()
+    {
+        this.GetZoneStatusUseCase.StatusChanged -= this.OnStatusChanged;
+    }
+}

@@ -2,40 +2,40 @@
 
 namespace IrrigationController.Core.Controllers
 {
-    public sealed class ValveController : IDisposable
+    public sealed class ZoneController : IDisposable
     {
-        private readonly IValves valves;
-        private readonly ValveControllerConfig config;
+        private readonly IZones zones;
+        private readonly ZoneControllerConfig config;
 
         private readonly Timer timer;
 
-        public ValveController(IValves valvaes, ValveControllerConfig config)
+        public ZoneController(IZones zones, ZoneControllerConfig config)
         {
-            this.valves = valvaes;
+            this.zones = zones;
             this.config = config;
             this.timer = new(this.TimerCallback);
         }
 
-        public int? OpenValveId { get; private set; }
+        public int? OpenZoneId { get; private set; }
 
-        public event EventHandler? OpenValveIdChanged;
+        public event EventHandler? OpenZoneIdChanged;
 
-        public void Open(int valveId)
+        public void Open(int zoneId)
         {
             lock (this.timer)
             {
-                if (this.OpenValveId is not null)
+                if (this.OpenZoneId is not null)
                 {
-                    if (this.OpenValveId == valveId)
+                    if (this.OpenZoneId == zoneId)
                     {
                         return;
                     }
 
-                    this.valves.Close(this.OpenValveId.Value);
+                    this.zones.Close(this.OpenZoneId.Value);
                 }
 
-                this.OpenValveId = valveId;
-                this.OpenValveIdChanged?.Invoke(this, EventArgs.Empty);
+                this.OpenZoneId = zoneId;
+                this.OpenZoneIdChanged?.Invoke(this, EventArgs.Empty);
 
                 this.timer.Change(this.config.Delay, Timeout.InfiniteTimeSpan);
             }
@@ -45,15 +45,15 @@ namespace IrrigationController.Core.Controllers
         {
             lock (this.timer)
             {
-                if (this.OpenValveId is null)
+                if (this.OpenZoneId is null)
                 {
                     return;
                 }
 
-                this.valves.Close(this.OpenValveId.Value);
+                this.zones.Close(this.OpenZoneId.Value);
 
-                this.OpenValveId = null;
-                this.OpenValveIdChanged?.Invoke(this, EventArgs.Empty);
+                this.OpenZoneId = null;
+                this.OpenZoneIdChanged?.Invoke(this, EventArgs.Empty);
 
                 this.timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
             }
@@ -68,12 +68,12 @@ namespace IrrigationController.Core.Controllers
         {
             lock (this.timer)
             {
-                if (this.OpenValveId is null)
+                if (this.OpenZoneId is null)
                 {
                     return;
                 }
 
-                this.valves.Open(this.OpenValveId.Value);
+                this.zones.Open(this.OpenZoneId.Value);
             }
         }
     }

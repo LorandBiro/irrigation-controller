@@ -1,4 +1,4 @@
 ﻿namespace IrrigationController.Core.Domain
 {
-    public record ProgramStep(int ValveId, TimeSpan Duration);
+    public record ProgramStep(int ZoneId, TimeSpan Duration);
 }

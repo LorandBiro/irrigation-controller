@@ -19,13 +19,13 @@ else
     TimeSpan timeLeft = this.GetProgramStatusUseCase.CurrentStepEndsAt.Value - DateTime.UtcNow;
     timeLeft = TimeSpan.FromSeconds(Math.Round(timeLeft.TotalSeconds));
     ProgramStep currentStep = this.GetProgramStatusUseCase.CurrentStep;
-    string name = this.Config.Valves[currentStep.ValveId].Name;
+    string name = this.Config.Zones[currentStep.ZoneId].Name;
 
     <ul>
         <li>@name - @FormatTime(timeLeft)</li>
         @foreach (ProgramStep step in this.GetProgramStatusUseCase.NextSteps)
         {
-            <li>@this.Config.Valves[step.ValveId].Name - @FormatTime(step.Duration)</li>
+            <li>@this.Config.Zones[step.ZoneId].Name - @FormatTime(step.Duration)</li>
         }
     </ul>
 
