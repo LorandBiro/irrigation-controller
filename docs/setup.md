@@ -60,6 +60,7 @@ ExecStart=dotnet /usr/local/irrigation-controller/IrrigationController.dll
 WorkingDirectory=/usr/local/irrigation-controller
 CapabilityBoundingSet=CAP_NET_BIND_SERVICE
 AmbientCapabilities=CAP_NET_BIND_SERVICE
+KillSignal=SIGINT
 
 [Install]
 WantedBy=multi-user.target
