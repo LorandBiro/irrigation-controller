@@ -1,30 +1,29 @@
 ﻿using IrrigationController.Core.Controllers;
 using IrrigationController.Core.Domain;
 
-namespace IrrigationController.Core
+namespace IrrigationController.Core;
+
+public class GetZoneStatusUseCase(ZoneController zoneController, IZoneRepository zoneRepository)
 {
-    public class GetZoneStatusUseCase(ZoneController zoneController, IZoneRepository zoneRepository)
+    public event EventHandler StatusChanged
     {
-        public event EventHandler StatusChanged
+        add
         {
-            add
-            {
-                zoneController.OpenZoneIdChanged += value;
-                zoneRepository.Changed += value;
-            }
-
-            remove
-            {
-                zoneController.OpenZoneIdChanged -= value;
-                zoneRepository.Changed -= value;
-            }
+            zoneController.OpenZoneIdChanged += value;
+            zoneRepository.Changed += value;
         }
 
-        public (int? OpenZoneId, List<int> DefectiveZones) Execute()
+        remove
         {
-            int? openZoneId = zoneController.OpenZoneId;
-            List<int> defectiveZoneIds = zoneRepository.GetAll().Where(v => v.IsDefective).Select(v => v.Id).ToList();
-            return (openZoneId, defectiveZoneIds);
+            zoneController.OpenZoneIdChanged -= value;
+            zoneRepository.Changed -= value;
         }
+    }
+
+    public (int? OpenZoneId, List<int> DefectiveZones) Execute()
+    {
+        int? openZoneId = zoneController.OpenZoneId;
+        List<int> defectiveZoneIds = zoneRepository.GetAll().Where(v => v.IsDefective).Select(v => v.Id).ToList();
+        return (openZoneId, defectiveZoneIds);
     }
 }

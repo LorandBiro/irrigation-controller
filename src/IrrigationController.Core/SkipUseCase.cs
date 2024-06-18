@@ -1,13 +1,12 @@
 ﻿using IrrigationController.Core.Controllers;
 using IrrigationController.Core.Domain;
 
-namespace IrrigationController.Core
+namespace IrrigationController.Core;
+
+public class SkipUseCase(ProgramController programController)
 {
-    public class SkipUseCase(ProgramController programController)
+    public void Execute()
     {
-        public void Execute()
-        {
-            programController.Skip(IrrigationSkipReason.Manual);
-        }
+        programController.Skip(IrrigationSkipReason.Manual);
     }
 }

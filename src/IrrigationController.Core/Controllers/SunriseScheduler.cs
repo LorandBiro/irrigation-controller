@@ -1,55 +1,54 @@
-﻿namespace IrrigationController.Core.Controllers
+﻿namespace IrrigationController.Core.Controllers;
+
+public sealed class SunriseScheduler : IDisposable
 {
-    public sealed class SunriseScheduler : IDisposable
+    private readonly SunriseCalculator sunriseCalculator;
+    private readonly SunriseEventHandler sunriseEventHandler;
+
+    private readonly Timer timer;
+
+    public SunriseScheduler(SunriseCalculator sunriseCalculator, SunriseEventHandler sunriseEventHandler)
     {
-        private readonly SunriseCalculator sunriseCalculator;
-        private readonly SunriseEventHandler sunriseEventHandler;
+        this.sunriseCalculator = sunriseCalculator;
+        this.sunriseEventHandler = sunriseEventHandler;
 
-        private readonly Timer timer;
+        this.timer = new Timer(this.TimerCallback);
+    }
 
-        public SunriseScheduler(SunriseCalculator sunriseCalculator, SunriseEventHandler sunriseEventHandler)
+    public event EventHandler? NextSunriseChanged;
+
+    public DateTime NextSunrise { get; private set; }
+
+    public void Initialize()
+    {
+        this.ScheduleNextSunrise();
+    }
+
+    public void Dispose()
+    {
+        this.timer.Dispose();
+    }
+
+    private void ScheduleNextSunrise()
+    {
+        DateTime now = DateTime.UtcNow;
+        DateOnly date = DateOnly.FromDateTime(now);
+        DateTime sunrise = this.sunriseCalculator.GetStartTime(date);
+        if (sunrise < now)
         {
-            this.sunriseCalculator = sunriseCalculator;
-            this.sunriseEventHandler = sunriseEventHandler;
-
-            this.timer = new Timer(this.TimerCallback);
+            sunrise = this.sunriseCalculator.GetStartTime(date.AddDays(1));
         }
 
-        public event EventHandler? NextSunriseChanged;
+        TimeSpan delay = sunrise - now;
+        this.timer.Change(delay, TimeSpan.Zero);
 
-        public DateTime NextSunrise { get; private set; }
+        this.NextSunrise = sunrise.ToLocalTime();
+        this.NextSunriseChanged?.Invoke(this, EventArgs.Empty);
+    }
 
-        public void Initialize()
-        {
-            this.ScheduleNextSunrise();
-        }
-
-        public void Dispose()
-        {
-            this.timer.Dispose();
-        }
-
-        private void ScheduleNextSunrise()
-        {
-            DateTime now = DateTime.UtcNow;
-            DateOnly date = DateOnly.FromDateTime(now);
-            DateTime sunrise = this.sunriseCalculator.GetStartTime(date);
-            if (sunrise < now)
-            {
-                sunrise = this.sunriseCalculator.GetStartTime(date.AddDays(1));
-            }
-
-            TimeSpan delay = sunrise - now;
-            this.timer.Change(delay, TimeSpan.Zero);
-
-            this.NextSunrise = sunrise.ToLocalTime();
-            this.NextSunriseChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void TimerCallback(object? state)
-        {
-            this.sunriseEventHandler.Handle();
-            this.ScheduleNextSunrise();
-        }
+    private void TimerCallback(object? state)
+    {
+        this.sunriseEventHandler.Handle();
+        this.ScheduleNextSunrise();
     }
 }

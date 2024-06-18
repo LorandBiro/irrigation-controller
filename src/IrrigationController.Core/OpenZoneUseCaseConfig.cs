@@ -1,4 +1,3 @@
-﻿namespace IrrigationController.Core
-{
-    public record OpenZoneUseCaseConfig(TimeSpan Duration);
-}
+﻿namespace IrrigationController.Core;
+
+public record OpenZoneUseCaseConfig(TimeSpan Duration);

@@ -1,13 +1,12 @@
-﻿namespace IrrigationController.Core.Domain
+﻿namespace IrrigationController.Core.Domain;
+
+public interface IIrrigationLog
 {
-    public interface IIrrigationLog
-    {
-        event EventHandler LogUpdated;
+    event EventHandler LogUpdated;
 
-        IReadOnlyList<IIrrigationEvent> Get(int limit);
+    IReadOnlyList<IIrrigationEvent> Get(int limit);
 
-        IReadOnlyList<IIrrigationEvent> GetAll();
+    IReadOnlyList<IIrrigationEvent> GetAll();
 
-        void Write(IIrrigationEvent e);
-    }
+    void Write(IIrrigationEvent e);
 }

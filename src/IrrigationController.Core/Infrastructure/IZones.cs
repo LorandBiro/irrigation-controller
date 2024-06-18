@@ -1,9 +1,8 @@
-﻿namespace IrrigationController.Core.Infrastructure
-{
-    public interface IZones
-    {
-        void Open(int zoneId);
+﻿namespace IrrigationController.Core.Infrastructure;
 
-        void Close(int zoneId);
-    }
+public interface IZones
+{
+    void Open(int zoneId);
+
+    void Close(int zoneId);
 }

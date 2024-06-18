@@ -1,39 +1,38 @@
 ﻿using IrrigationController.Core;
 using System.Device.Gpio;
 
-namespace IrrigationController.Adapters
+namespace IrrigationController.Adapters;
+
+public class ShortCircuitSensor(ILogger<ShortCircuitSensor> logger, ShortCircuitSensorConfig config, ShortCircuitDetectedEventHandler shortCircuitDetectedEventHandler) : IDisposable
 {
-    public class ShortCircuitSensor(ILogger<ShortCircuitSensor> logger, ShortCircuitSensorConfig config, ShortCircuitDetectedEventHandler shortCircuitDetectedEventHandler) : IDisposable
+    private readonly ILogger<ShortCircuitSensor> logger = logger;
+    private readonly ShortCircuitSensorConfig config = config;
+    private readonly ShortCircuitDetectedEventHandler shortCircuitDetectedEventHandler = shortCircuitDetectedEventHandler;
+
+    private readonly GpioController gpio = new();
+
+    public void Initialize()
     {
-        private readonly ILogger<ShortCircuitSensor> logger = logger;
-        private readonly ShortCircuitSensorConfig config = config;
-        private readonly ShortCircuitDetectedEventHandler shortCircuitDetectedEventHandler = shortCircuitDetectedEventHandler;
+        this.gpio.OpenPin(this.config.Pin, PinMode.Input);
+        this.gpio.RegisterCallbackForPinValueChangedEvent(this.config.Pin, PinEventTypes.Rising | PinEventTypes.Falling, this.OnShortCircuitDetectedCallback);
+        this.logger.LogDebug("Short circuit sensor pin #{Pin} opened for input. Current state: {State}", this.config.Pin, this.gpio.Read(this.config.Pin));
+    }
 
-        private readonly GpioController gpio = new();
+    public void Dispose()
+    {
+        this.gpio.Dispose();
+    }
 
-        public void Initialize()
+    private void OnShortCircuitDetectedCallback(object? sender, PinValueChangedEventArgs e)
+    {
+        if (e.ChangeType == PinEventTypes.Rising)
         {
-            this.gpio.OpenPin(this.config.Pin, PinMode.Input);
-            this.gpio.RegisterCallbackForPinValueChangedEvent(this.config.Pin, PinEventTypes.Rising | PinEventTypes.Falling, this.OnShortCircuitDetectedCallback);
-            this.logger.LogDebug("Short circuit sensor pin #{Pin} opened for input. Current state: {State}", this.config.Pin, this.gpio.Read(this.config.Pin));
+            this.logger.LogDebug("Short circuit detected");
+            this.shortCircuitDetectedEventHandler.Handle();
         }
-
-        public void Dispose()
+        else
         {
-            this.gpio.Dispose();
-        }
-
-        private void OnShortCircuitDetectedCallback(object? sender, PinValueChangedEventArgs e)
-        {
-            if (e.ChangeType == PinEventTypes.Rising)
-            {
-                this.logger.LogDebug("Short circuit detected");
-                this.shortCircuitDetectedEventHandler.Handle();
-            }
-            else
-            {
-                this.logger.LogDebug("Short circuit cleared");
-            }
+            this.logger.LogDebug("Short circuit cleared");
         }
     }
 }

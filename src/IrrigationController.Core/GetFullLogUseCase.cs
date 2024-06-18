@@ -1,12 +1,11 @@
 ﻿using IrrigationController.Core.Domain;
 
-namespace IrrigationController.Core
+namespace IrrigationController.Core;
+
+public class GetFullLogUseCase(IIrrigationLog log)
 {
-    public class GetFullLogUseCase(IIrrigationLog log)
+    public IReadOnlyList<IIrrigationEvent> Execute()
     {
-        public IReadOnlyList<IIrrigationEvent> Execute()
-        {
-            return log.GetAll();
-        }
+        return log.GetAll();
     }
 }

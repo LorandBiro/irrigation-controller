@@ -1,46 +1,45 @@
 ﻿using IrrigationController.Core.Infrastructure;
 using System.Device.Gpio;
 
-namespace IrrigationController.Adapters
+namespace IrrigationController.Adapters;
+
+public sealed class Zones(ILogger<Zones> logger, ZonesConfig config) : IZones, IDisposable
 {
-    public sealed class Zones(ILogger<Zones> logger, ZonesConfig config) : IZones, IDisposable
+    private readonly ILogger<Zones> logger = logger;
+    private readonly ZonesConfig config = config;
+    private readonly GpioController controller = new();
+
+    public void Initialize()
     {
-        private readonly ILogger<Zones> logger = logger;
-        private readonly ZonesConfig config = config;
-        private readonly GpioController controller = new();
-
-        public void Initialize()
+        foreach (int pin in this.config.Pins)
         {
-            foreach (int pin in this.config.Pins)
-            {
-                this.controller.OpenPin(pin, PinMode.Output);
-                this.controller.Write(pin, PinValue.Low);
-                this.logger.LogDebug("Pin #{Pin} opened for output", pin);
-            }
+            this.controller.OpenPin(pin, PinMode.Output);
+            this.controller.Write(pin, PinValue.Low);
+            this.logger.LogDebug("Pin #{Pin} opened for output", pin);
         }
+    }
 
-        public void Open(int zoneId)
-        {
-            Write(zoneId, true);
-            this.logger.LogDebug("Zone #{Zone} opened", zoneId + 1);
-        }
+    public void Open(int zoneId)
+    {
+        this.Write(zoneId, true);
+        this.logger.LogDebug("Zone #{Zone} opened", zoneId + 1);
+    }
 
-        public void Close(int zoneId)
-        {
-            Write(zoneId, false);
-            this.logger.LogDebug("Zone #{Zone} closed", zoneId + 1);
-        }
+    public void Close(int zoneId)
+    {
+        this.Write(zoneId, false);
+        this.logger.LogDebug("Zone #{Zone} closed", zoneId + 1);
+    }
 
-        public void Dispose()
-        {
-            this.controller.Dispose();
-        }
+    public void Dispose()
+    {
+        this.controller.Dispose();
+    }
 
-        private void Write(int zoneId, bool value)
-        {
-            int pin = this.config.Pins[zoneId];
-            PinValue pinValue = value ? PinValue.High : PinValue.Low;
-            this.controller.Write(pin, pinValue);
-        }
+    private void Write(int zoneId, bool value)
+    {
+        int pin = this.config.Pins[zoneId];
+        PinValue pinValue = value ? PinValue.High : PinValue.Low;
+        this.controller.Write(pin, pinValue);
     }
 }

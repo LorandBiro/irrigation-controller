@@ -1,4 +1,3 @@
-﻿namespace IrrigationController.Adapters
-{
-    public record ShortCircuitSensorConfig(int Pin);
-}
+﻿namespace IrrigationController.Adapters;
+
+public record ShortCircuitSensorConfig(int Pin);

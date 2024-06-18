@@ -1,12 +1,11 @@
 ﻿using IrrigationController.Core.Domain;
 
-namespace IrrigationController
+namespace IrrigationController;
+
+public class RainClearedEventHandler(IIrrigationLog log)
 {
-    public class RainClearedEventHandler(IIrrigationLog log)
+    public void Handle()
     {
-        public void Handle()
-        {
-            log.Write(new RainCleared(DateTime.UtcNow));
-        }
+        log.Write(new RainCleared(DateTime.UtcNow));
     }
 }

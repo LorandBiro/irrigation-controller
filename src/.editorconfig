@@ -1,0 +1,8 @@
+root = true
+
+[*.cs]
+csharp_style_namespace_declarations = file_scoped:warning
+dotnet_style_qualification_for_field = true:warning
+dotnet_style_qualification_for_property = true:warning
+dotnet_style_qualification_for_method = true:warning
+dotnet_style_qualification_for_event = true:warning

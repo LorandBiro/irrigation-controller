@@ -1,13 +1,12 @@
 ﻿using IrrigationController.Core.Controllers;
 using IrrigationController.Core.Domain;
 
-namespace IrrigationController.Core
+namespace IrrigationController.Core;
+
+public class StopUseCase(ProgramController programController)
 {
-    public class StopUseCase(ProgramController programController)
+    public void Execute()
     {
-        public void Execute()
-        {
-            programController.Stop(IrrigationStopReason.Manual);
-        }
+        programController.Stop(IrrigationStopReason.Manual);
     }
 }

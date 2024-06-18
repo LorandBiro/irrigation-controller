@@ -1,13 +1,12 @@
-﻿namespace IrrigationController.Core.Domain
+﻿namespace IrrigationController.Core.Domain;
+
+public interface IZoneRepository
 {
-    public interface IZoneRepository
-    {
-        event EventHandler Changed;
+    event EventHandler Changed;
 
-        Zone? Get(int id);
+    Zone? Get(int id);
 
-        IReadOnlyList<Zone> GetAll();
+    IReadOnlyList<Zone> GetAll();
 
-        void Save(Zone zone);
-    }
+    void Save(Zone zone);
 }

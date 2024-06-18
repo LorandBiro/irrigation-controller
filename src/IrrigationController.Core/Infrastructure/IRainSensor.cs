@@ -1,9 +1,8 @@
-﻿namespace IrrigationController.Core.Infrastructure
-{
-    public interface IRainSensor
-    {
-        bool IsRaining { get; }
+﻿namespace IrrigationController.Core.Infrastructure;
 
-        event EventHandler IsRainingChanged;
-    }
+public interface IRainSensor
+{
+    bool IsRaining { get; }
+
+    event EventHandler IsRainingChanged;
 }

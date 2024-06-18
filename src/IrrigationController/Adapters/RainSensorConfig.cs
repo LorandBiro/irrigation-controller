@@ -1,4 +1,3 @@
-﻿namespace IrrigationController.Adapters
-{
-    public record RainSensorConfig(int Pin, TimeSpan SamplingInterval);
-}
+﻿namespace IrrigationController.Adapters;
+
+public record RainSensorConfig(int Pin, TimeSpan SamplingInterval);

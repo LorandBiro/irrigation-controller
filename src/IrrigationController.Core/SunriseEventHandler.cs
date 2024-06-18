@@ -1,11 +1,10 @@
 ﻿using System.Diagnostics;
 
-namespace IrrigationController.Core
+namespace IrrigationController.Core;
+
+public class SunriseEventHandler
 {
-    public class SunriseEventHandler
+    public void Handle()
     {
-        public void Handle()
-        {
-        }
     }
 }
