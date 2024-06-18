@@ -14,5 +14,5 @@
         public required IReadOnlyList<ZoneInfo> Zones { get; init; }
     }
 
-    public record ZoneInfo(string Name, int Pin);
+    public record ZoneInfo(string Name, int Pin, bool Enabled);
 }

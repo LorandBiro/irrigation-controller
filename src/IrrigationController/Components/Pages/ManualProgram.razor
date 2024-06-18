@@ -11,6 +11,11 @@
 <EditForm Model="this" OnSubmit="Submit">
     @for (int i = 0; i < this.Config.Zones.Count; i++)
     {
+        if (!Config.Zones[i].Enabled)
+        {
+            continue;
+        }
+
         int stepIndex = i;
         bool defective = this.defectiveZoneIds.Contains(i);
 

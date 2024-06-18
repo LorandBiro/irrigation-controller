@@ -13,6 +13,11 @@
 <p>
     @for (int i = 0; i < Config.Zones.Count; i++)
     {
+        if (!Config.Zones[i].Enabled)
+        {
+            continue;
+        }
+
         int zoneId = i;
         bool open = this.openZoneId == zoneId;
         bool defective = this.defectiveZoneIds.Contains(zoneId);
