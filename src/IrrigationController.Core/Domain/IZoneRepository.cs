@@ -1,6 +1,4 @@
-﻿using IrrigationController.Core.Domain;
-
-namespace IrrigationController.Core.Infrastructure
+﻿namespace IrrigationController.Core.Domain
 {
     public interface IZoneRepository
     {
