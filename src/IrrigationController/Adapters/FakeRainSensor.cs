@@ -2,7 +2,7 @@
 
 namespace IrrigationController.Adapters
 {
-    public class FakeRainSensor : IRainSensor
+    public class FakeRainSensor(RainDetectedEventHandler rainDetectedEventHandler, RainClearedEventHandler rainClearedEventHandler) : IRainSensor
     {
         public bool IsRaining { get; private set; }
 
@@ -11,6 +11,15 @@ namespace IrrigationController.Adapters
         public void Toggle()
         {
             this.IsRaining = !this.IsRaining;
+            if (this.IsRaining)
+            {
+                rainDetectedEventHandler.Handle();
+            }
+            else
+            {
+                rainClearedEventHandler.Handle();
+            }
+
             this.IsRainingChanged?.Invoke(this, EventArgs.Empty);
         }
     }

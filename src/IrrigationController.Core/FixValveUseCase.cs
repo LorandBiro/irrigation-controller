@@ -5,13 +5,10 @@ namespace IrrigationController.Core
 {
     public class FixValveUseCase(IValveRepository valveRepository, IIrrigationLog log)
     {
-        private readonly IValveRepository valveRepository = valveRepository;
-        private readonly IIrrigationLog log = log;
-
         public void Execute(int valveId)
         {
             Valve? valve = valveRepository.Get(valveId);
-            if (valve is null)
+            if (valve is null || !valve.IsDefective)
             {
                 return;
             }
@@ -19,7 +16,7 @@ namespace IrrigationController.Core
             valve = valve with { IsDefective = false };
             valveRepository.Save(valve);
 
-            this.log.Write($"Valve #{valveId} maked as fixed.");
+            log.Write(new ShortCircuitResolved(DateTime.UtcNow, valveId));
         }
     }
 }

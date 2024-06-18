@@ -16,5 +16,8 @@
 	
 	<ItemGroup>
 		<Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
+		<Content Update="Components\Pages\Log.razor">
+		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		</Content>
 	</ItemGroup>
 </Project>

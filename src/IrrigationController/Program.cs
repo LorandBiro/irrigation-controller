@@ -2,6 +2,7 @@ using IrrigationController.Adapters;
 using IrrigationController.Components;
 using IrrigationController.Core;
 using IrrigationController.Core.Controllers;
+using IrrigationController.Core.Domain;
 using IrrigationController.Core.Infrastructure;
 
 namespace IrrigationController
@@ -77,7 +78,8 @@ namespace IrrigationController
             services.AddSingleton<GetValveStatusUseCase>();
             services.AddSingleton<OpenValveUseCase>();
             services.AddSingleton(new OpenValveUseCaseConfig(config.ManualLimit));
-            services.AddSingleton<ProgramStepCompletedEventHandler>();
+            services.AddSingleton<RainDetectedEventHandler>();
+            services.AddSingleton<RainClearedEventHandler>();
             services.AddSingleton<RunProgramUseCase>();
             services.AddSingleton<ShortCircuitDetectedEventHandler>();
             services.AddSingleton<SkipUseCase>();
@@ -96,6 +98,10 @@ namespace IrrigationController
             }
 
             services.GetRequiredService<SunriseScheduler>().Initialize();
+            services.GetRequiredService<IHostApplicationLifetime>().ApplicationStopping.Register(() =>
+            {
+                services.GetRequiredService<ProgramController>().Stop(IrrigationStopReason.Manual);
+            });
         }
     }
 }

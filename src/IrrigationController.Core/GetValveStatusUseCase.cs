@@ -5,9 +5,6 @@ namespace IrrigationController.Core
 {
     public class GetValveStatusUseCase(ValveController valveController, IValveRepository valveRepository)
     {
-        private readonly ValveController valveController = valveController;
-        private readonly IValveRepository valveRepository = valveRepository;
-
         public event EventHandler StatusChanged
         {
             add

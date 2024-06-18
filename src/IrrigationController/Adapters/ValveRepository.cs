@@ -36,7 +36,7 @@ namespace IrrigationController.Adapters
 
         public IReadOnlyList<Valve> GetAll()
         {
-            return this.valves.Values.ToList();
+            return [.. this.valves.Values];
         }
 
         public void Save(Valve valve)

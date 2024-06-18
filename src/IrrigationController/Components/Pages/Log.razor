@@ -1,0 +1,58 @@
+﻿@using IrrigationController.Core.Domain
+@inject Config Config
+
+@foreach (string line in this.log)
+{
+    @((MarkupString)line)
+    <br />
+}
+
+@code
+{
+    private List<string> log = [];
+
+    [Parameter]
+    public IReadOnlyList<IIrrigationEvent> Events { get; set; } = [];
+
+    protected override void OnParametersSet()
+    {
+        this.log = this.Events.Select(x => $"<b>{x.Timestamp.ToLocalTime():yyyy-MM-dd HH:mm:ss}</b> {this.ToString(x)}").ToList();
+    }
+
+    private string ToString(IIrrigationEvent e) => e switch
+    {
+        IrrigationStarted x => $"Irrigation started {ToString(x.Reason)}: {ToString(x.Steps)}",
+        IrrigationSkipped x => $"Irrigation of <i>{this.Config.Valves[x.Step.ValveId].Name}</i> {ToString(x.Reason)} after {x.Step.Duration:mm\\:ss}",
+        IrrigationStopped x => $"Irrigation {ToString(x.Reason)}: {ToString(x.Steps)}",
+        RainDetected => $"Rain detected",
+        RainCleared => $"Rain cleared",
+        ShortCircuitDetected x => $"Short circuit detected: <i>{this.Config.Valves[x.ValveId].Name}</i>",
+        ShortCircuitResolved x => $"Short circuit resolved: <i>{this.Config.Valves[x.ValveId].Name}</i>",
+        _ => e.ToString()!
+    };
+    
+    private string ToString(IrrigationStartReason reason) => reason switch
+    {
+        IrrigationStartReason.Manual => "manually",
+        IrrigationStartReason.Scheduled => "by schedule",
+        IrrigationStartReason.LowSoilMoisture => "due to low soil moisture",
+        _ => reason.ToString()
+    };
+    private string ToString(IrrigationStopReason reason) => reason switch
+    {
+        IrrigationStopReason.Manual => "stopped manually",
+        IrrigationStopReason.Rain => "stopped due to rain",
+        IrrigationStopReason.Completed => "completed",
+        IrrigationStopReason.Override => "stopped by another program",
+        IrrigationStopReason.ShortCircuit => "stopped by short circuit",
+        _ => reason.ToString()
+    };
+    private string ToString(IrrigationSkipReason reason) => reason switch
+    {
+        IrrigationSkipReason.Manual => "skipped manually",
+        IrrigationSkipReason.ShortCircuit => "skipped by short circuit",
+        _ => reason.ToString()
+    };
+    private string ToString(IEnumerable<ProgramStep> steps) => string.Join(", ", steps.Select(this.ToString));
+    private string ToString(ProgramStep step) => $"<i>{this.Config.Valves[step.ValveId].Name}</i> for {step.Duration:mm\\:ss}";
+}

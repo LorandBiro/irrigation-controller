@@ -1,24 +1,21 @@
 ﻿@page "/full-log"
 @using IrrigationController.Core
+@using IrrigationController.Core.Domain
 @inject GetFullLogUseCase GetFullLogUseCase
 
 <PageTitle>Full Log</PageTitle>
 
 <h1>Full Log</h1>
 <p>
-    @foreach (string line in this.log)
-    {
-        @line
-        <br />
-    }
+    <Log Events="events" />
 </p>
 
 @code
 {
-    private IReadOnlyList<string> log = [];
+    private IReadOnlyList<IIrrigationEvent> events = [];
 
     protected override void OnInitialized()
     {
-        this.log = this.GetFullLogUseCase.Execute();
+        this.events = this.GetFullLogUseCase.Execute();
     }
 }

@@ -1,42 +1,22 @@
 ﻿using IrrigationController.Core.Controllers;
 using IrrigationController.Core.Domain;
 using IrrigationController.Core.Infrastructure;
-using System.Text;
 
 namespace IrrigationController.Core
 {
-    public class RunProgramUseCase(ProgramController programController, IValveRepository valveRepository, IIrrigationLog log)
+    public class RunProgramUseCase(ProgramController programController, IValveRepository valveRepository)
     {
-        private readonly ProgramController programController = programController;
-        private readonly IValveRepository valveRepository = valveRepository;
-        private readonly IIrrigationLog log = log;
-
-        public void Execute(Program program)
+        public void Execute(IReadOnlyList<ProgramStep> steps)
         {
-            foreach (ProgramStep step in program.Steps)
+            foreach (ProgramStep step in steps)
             {
-                Valve? valve = valveRepository.Get(step.ValveId);
-                if (valve?.IsDefective == true)
+                if (valveRepository.Get(step.ValveId)?.IsDefective == true)
                 {
                     throw new InvalidOperationException($"Can't run program with defective valve #{step.ValveId}");
                 }
             }
 
-            this.programController.Run(program);
-
-            StringBuilder sb = new();
-            sb.Append("Program started manually: ");
-            for (int i = 0; i < program.Steps.Count; i++)
-            {
-                ProgramStep step = program.Steps[i];
-                sb.Append($"#{step.ValveId} for {step.Duration:mm\\:ss}");
-                if (i < program.Steps.Count - 1)
-                {
-                    sb.Append(", ");
-                }
-            }
-
-            this.log.Write(sb.ToString());
+            programController.Run(steps, IrrigationStartReason.Manual);
         }
     }
 }

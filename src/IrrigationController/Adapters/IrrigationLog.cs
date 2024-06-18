@@ -1,46 +1,81 @@
 ﻿using IrrigationController.Core.Infrastructure;
+using System.Text.Json.Serialization.Metadata;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using IrrigationController.Core.Domain;
 
 namespace IrrigationController.Adapters
 {
     public class IrrigationLog : IIrrigationLog
     {
+        private static readonly JsonSerializerOptions Options = new() { TypeInfoResolver = new PolymorphicTypeResolver(), PropertyNamingPolicy = JsonNamingPolicy.CamelCase, Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }};
+
         private readonly ILogger<IrrigationLog> logger;
         private readonly string path;
 
-        private readonly List<string> lines = [];
+        private readonly List<IIrrigationEvent> events = [];
 
         public IrrigationLog(ILogger<IrrigationLog> logger, Config config)
         {
             this.logger = logger;
-            this.path = Path.Combine(config.AppDataPath, "irrigation-log.txt");
+            this.path = Path.Combine(config.AppDataPath, "irrigation-events.json");
             if (!File.Exists(this.path))
             {
                 return;
             }
 
-            this.lines = [.. File.ReadAllLines(this.path)];
+            this.events = File.ReadAllLines(this.path).Select(x => JsonSerializer.Deserialize<IIrrigationEvent>(x, Options)!).ToList();
         }
 
         public event EventHandler? LogUpdated;
 
-        public IReadOnlyList<string> Get(int limit)
+        public IReadOnlyList<IIrrigationEvent> Get(int limit)
         {
-            limit = Math.Min(limit, this.lines.Count);
-            return this.lines[^limit..];
+            limit = Math.Min(limit, this.events.Count);
+            return this.events[^limit..];
         }
 
-        public IReadOnlyList<string> GetAll()
+        public IReadOnlyList<IIrrigationEvent> GetAll()
         {
-            return this.lines;
+            return this.events;
         }
 
-        public void Write(string message)
+        public void Write(IIrrigationEvent e)
         {
-            this.logger.LogInformation("{Message}", message);
-            string line = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}";
+            string line = JsonSerializer.Serialize(e, Options);
+            this.logger.LogInformation("{Event}", line);
             File.AppendAllLines(this.path, [line]);
-            this.lines.Add(line);
+            this.events.Add(e);
             this.LogUpdated?.Invoke(this, EventArgs.Empty);
+        }
+
+        public class PolymorphicTypeResolver : DefaultJsonTypeInfoResolver
+        {
+            public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
+            {
+                JsonTypeInfo jsonTypeInfo = base.GetTypeInfo(type, options);
+                if (jsonTypeInfo.Type == typeof(IIrrigationEvent))
+                {
+                    jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
+                    {
+                        TypeDiscriminatorPropertyName = "type",
+                        IgnoreUnrecognizedTypeDiscriminators = true,
+                        UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
+                        DerivedTypes =
+                        {
+                            new JsonDerivedType(typeof(IrrigationStarted), "started"),
+                            new JsonDerivedType(typeof(IrrigationStopped), "stopped"),
+                            new JsonDerivedType(typeof(IrrigationSkipped), "skipped"),
+                            new JsonDerivedType(typeof(RainDetected), "rainDetected"),
+                            new JsonDerivedType(typeof(RainCleared), "rainCleared"),
+                            new JsonDerivedType(typeof(ShortCircuitDetected), "shortCircuitDetected"),
+                            new JsonDerivedType(typeof(ShortCircuitResolved), "shortCircuitResolved"),
+                        }
+                    };
+                }
+
+                return jsonTypeInfo;
+            }
         }
     }
 }

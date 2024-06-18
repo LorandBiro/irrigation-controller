@@ -7,15 +7,18 @@ namespace IrrigationController.Adapters
     {
         private readonly ILogger<RainSensor> logger;
         private readonly RainSensorConfig config;
+        private readonly RainDetectedEventHandler rainDetectedEventHandler;
+        private readonly RainClearedEventHandler rainClearedEventHandler;
 
         private readonly GpioController gpio;
         private readonly Timer rainSensorSamplerTimer;
 
-        public RainSensor(ILogger<RainSensor> logger, RainSensorConfig config)
+        public RainSensor(ILogger<RainSensor> logger, RainSensorConfig config, RainDetectedEventHandler rainDetectedEventHandler, RainClearedEventHandler rainClearedEventHandler)
         {
             this.logger = logger;
             this.config = config;
-
+            this.rainDetectedEventHandler = rainDetectedEventHandler;
+            this.rainClearedEventHandler = rainClearedEventHandler;
             this.gpio = new();
             this.rainSensorSamplerTimer = new(this.OnRainSensorSamplerCallback);
         }
@@ -51,10 +54,12 @@ namespace IrrigationController.Adapters
             if (this.IsRaining)
             {
                 this.logger.LogDebug("Rain detected");
+                rainDetectedEventHandler.Handle();
             }
             else
             {
                 this.logger.LogDebug("Rain cleared");
+                rainClearedEventHandler.Handle();
             }
 
             this.IsRainingChanged?.Invoke(this, EventArgs.Empty);

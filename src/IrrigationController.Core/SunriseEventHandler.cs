@@ -1,14 +1,11 @@
-﻿using IrrigationController.Core.Infrastructure;
+﻿using System.Diagnostics;
 
 namespace IrrigationController.Core
 {
-    public class SunriseEventHandler(IIrrigationLog log)
+    public class SunriseEventHandler
     {
-        private readonly IIrrigationLog log = log;
-
         public void Handle()
         {
-            this.log.Write("Sunrise");
         }
     }
 }
