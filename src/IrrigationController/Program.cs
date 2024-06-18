@@ -100,7 +100,7 @@ namespace IrrigationController
             services.GetRequiredService<SunriseScheduler>().Initialize();
             services.GetRequiredService<IHostApplicationLifetime>().ApplicationStopping.Register(() =>
             {
-                services.GetRequiredService<ProgramController>().Stop(IrrigationStopReason.Manual);
+                services.GetRequiredService<ProgramController>().Stop(IrrigationStopReason.Shutdown);
             });
         }
     }

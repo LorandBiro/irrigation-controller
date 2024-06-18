@@ -3,7 +3,7 @@ using System.Device.Gpio;
 
 namespace IrrigationController.Adapters
 {
-    public class RainSensor : IRainSensor, IDisposable
+    public sealed class RainSensor : IRainSensor, IDisposable
     {
         private readonly ILogger<RainSensor> logger;
         private readonly RainSensorConfig config;

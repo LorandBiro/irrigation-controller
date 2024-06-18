@@ -43,8 +43,9 @@
         IrrigationStopReason.Manual => "stopped manually",
         IrrigationStopReason.Rain => "stopped due to rain",
         IrrigationStopReason.Completed => "completed",
-        IrrigationStopReason.Override => "stopped by another program",
+        IrrigationStopReason.Schedule => "stopped by a scheduled program",
         IrrigationStopReason.ShortCircuit => "stopped by short circuit",
+        IrrigationStopReason.Shutdown => "stopped by application shutdown",
         _ => reason.ToString()
     };
     private string ToString(IrrigationSkipReason reason) => reason switch

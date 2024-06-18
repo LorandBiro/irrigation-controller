@@ -41,7 +41,7 @@ namespace IrrigationController.Core.Controllers
             {
                 if (this.CurrentStep is not null && this.CurrentStepEndsAt is not null)
                 {
-                    this.log.Write(new IrrigationStopped(DateTime.UtcNow, [.. this.previousSteps, GetAbortedStep()], IrrigationStopReason.Override));
+                    this.log.Write(new IrrigationStopped(DateTime.UtcNow, [.. this.previousSteps, GetAbortedStep()], ToStopReason(reason)));
 
                     this.previousSteps.Clear();
                     this.nextSteps.Clear();
@@ -149,6 +149,13 @@ namespace IrrigationController.Core.Controllers
         {
             return new ProgramStep(this.CurrentStep!.ZoneId, this.CurrentStep.Duration - (this.CurrentStepEndsAt!.Value - DateTime.UtcNow));
         }
+
+        private static IrrigationStopReason ToStopReason(IrrigationStartReason reason) => reason switch
+        {
+            IrrigationStartReason.Manual => IrrigationStopReason.Manual,
+            IrrigationStartReason.Scheduled or IrrigationStartReason.LowSoilMoisture => IrrigationStopReason.Schedule,
+            _ => throw new ArgumentException("Invalid start reason")
+        };
 
         private static IrrigationStopReason ToStopReason(IrrigationSkipReason reason) => reason switch
         {

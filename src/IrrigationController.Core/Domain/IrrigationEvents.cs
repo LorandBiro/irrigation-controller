@@ -19,8 +19,9 @@
         Manual,
         Rain,
         Completed,
-        Override,
+        Schedule,
         ShortCircuit,
+        Shutdown,
     }
 
     public record IrrigationStopped(DateTime Timestamp, IReadOnlyList<ProgramStep> Steps, IrrigationStopReason Reason) : IIrrigationEvent;
