@@ -21,9 +21,9 @@
 
     private string ToString(IIrrigationEvent e) => e switch
     {
-        IrrigationStarted x => $"Irrigation started {ToString(x.Reason)}: {ToString(x.Steps, "for")}",
-        IrrigationSkipped x => $"Irrigation of <i>{this.Config.Zones[x.Step.ZoneId].Name}</i> {ToString(x.Reason)} after {x.Step.Duration:mm\\:ss}",
-        IrrigationStopped x => $"Irrigation {ToString(x.Reason)}: {ToString(x.Steps, "after")}",
+        IrrigationStarted x => $"Irrigation started {ToString(x.Reason)}: {ToString(x.Zones, "for")}",
+        IrrigationSkipped x => $"Irrigation of <i>{this.Config.Zones[x.ZoneId].Name}</i> {ToString(x.Reason)} after {x.After:mm\\:ss}",
+        IrrigationStopped x => $"Irrigation {ToString(x.Reason)}: {ToString(x.Zones, "after")}",
         RainDetected => $"Rain detected",
         RainCleared => $"Rain cleared",
         ShortCircuitDetected x => $"Short circuit detected: <i>{this.Config.Zones[x.ZoneId].Name}</i>",
@@ -54,5 +54,5 @@
         IrrigationSkipReason.ShortCircuit => "skipped by short circuit",
         _ => reason.ToString()
     };
-    private string ToString(IEnumerable<ProgramStep> steps, string glue) => string.Join(", ", steps.Select(x => $"<i>{this.Config.Zones[x.ZoneId].Name}</i> {glue} {x.Duration:mm\\:ss}"));
+    private string ToString(IEnumerable<ZoneDuration> zones, string glue) => string.Join(", ", zones.Select(x => $"<i>{this.Config.Zones[x.ZoneId].Name}</i> {glue} {x.Duration:mm\\:ss}"));
 }

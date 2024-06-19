@@ -6,11 +6,11 @@ namespace IrrigationController.Core;
 
 public class GetProgramStatusUseCase(ProgramController programController, IRainSensor rainSensor, SunriseScheduler sunriseScheduler)
 {
-    public ProgramStep? CurrentStep => programController.CurrentStep;
+    public ZoneDuration? CurrentZone => programController.CurrentZone;
 
-    public DateTime? CurrentStepEndsAt => programController.CurrentStepEndsAt;
+    public DateTime? CurrentZoneEndsAt => programController.CurrentZoneEndsAt;
 
-    public IReadOnlyList<ProgramStep> NextSteps => programController.NextSteps;
+    public IReadOnlyList<ZoneDuration> NextZones => programController.NextZones;
 
     public bool IsRaining => rainSensor.IsRaining;
 
@@ -21,14 +21,14 @@ public class GetProgramStatusUseCase(ProgramController programController, IRainS
         add
         {
             rainSensor.IsRainingChanged += value;
-            programController.CurrentStepChanged += value;
+            programController.CurrentZoneChanged += value;
             sunriseScheduler.NextSunriseChanged += value;
         }
 
         remove
         {
             rainSensor.IsRainingChanged -= value;
-            programController.CurrentStepChanged -= value;
+            programController.CurrentZoneChanged -= value;
             sunriseScheduler.NextSunriseChanged -= value;
         }
     }

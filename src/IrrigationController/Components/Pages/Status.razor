@@ -10,22 +10,22 @@
 
 <p>Rain sensor: @(GetProgramStatusUseCase.IsRaining ? "Raining" : "Clear")</p>
 <p>Next sunrise: @GetProgramStatusUseCase.NextSunrise.ToString("yyyy-MM-dd HH:mm")</p>
-@if (this.GetProgramStatusUseCase.CurrentStep == null || this.GetProgramStatusUseCase.CurrentStepEndsAt == null)
+@if (this.GetProgramStatusUseCase.CurrentZone == null || this.GetProgramStatusUseCase.CurrentZoneEndsAt == null)
 {
     <p>No program is running</p>
 }
 else
 {
-    TimeSpan timeLeft = this.GetProgramStatusUseCase.CurrentStepEndsAt.Value - DateTime.UtcNow;
+    TimeSpan timeLeft = this.GetProgramStatusUseCase.CurrentZoneEndsAt.Value - DateTime.UtcNow;
     timeLeft = TimeSpan.FromSeconds(Math.Round(timeLeft.TotalSeconds));
-    ProgramStep currentStep = this.GetProgramStatusUseCase.CurrentStep;
-    string name = this.Config.Zones[currentStep.ZoneId].Name;
+    ZoneDuration currentZone = this.GetProgramStatusUseCase.CurrentZone;
+    string name = this.Config.Zones[currentZone.ZoneId].Name;
 
     <ul>
         <li>@name - @FormatTime(timeLeft)</li>
-        @foreach (ProgramStep step in this.GetProgramStatusUseCase.NextSteps)
+        @foreach (ZoneDuration zone in this.GetProgramStatusUseCase.NextZones)
         {
-            <li>@this.Config.Zones[step.ZoneId].Name - @FormatTime(step.Duration)</li>
+            <li>@this.Config.Zones[zone.ZoneId].Name - @FormatTime(zone.Duration)</li>
         }
     </ul>
 
@@ -58,12 +58,12 @@ else
 
     private void StartTimer()
     {
-        if (this.GetProgramStatusUseCase.CurrentStepEndsAt == null)
+        if (this.GetProgramStatusUseCase.CurrentZoneEndsAt == null)
         {
             return;
         }
 
-        TimeSpan timeLeft = this.GetProgramStatusUseCase.CurrentStepEndsAt.Value - DateTime.UtcNow;
+        TimeSpan timeLeft = this.GetProgramStatusUseCase.CurrentZoneEndsAt.Value - DateTime.UtcNow;
         this.timer.Change(timeLeft.Milliseconds, 1000);
     }
 

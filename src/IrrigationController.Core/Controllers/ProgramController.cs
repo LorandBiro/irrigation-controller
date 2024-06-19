@@ -8,8 +8,8 @@ public class ProgramController
     private readonly IIrrigationLog log;
 
     private readonly Timer timer;
-    private readonly List<ProgramStep> previousSteps;
-    private readonly List<ProgramStep> nextSteps;
+    private readonly List<ZoneDuration> previousZones;
+    private readonly List<ZoneDuration> nextZones;
 
     public ProgramController(ZoneController zoneController, IIrrigationLog log)
     {
@@ -17,94 +17,94 @@ public class ProgramController
         this.log = log;
 
         this.timer = new(this.TimerCallback);
-        this.previousSteps = [];
-        this.nextSteps = [];
+        this.previousZones = [];
+        this.nextZones = [];
     }
 
-    public ProgramStep? CurrentStep { get; private set; }
+    public ZoneDuration? CurrentZone { get; private set; }
 
-    public DateTime? CurrentStepEndsAt { get; private set; }
+    public DateTime? CurrentZoneEndsAt { get; private set; }
 
-    public IReadOnlyList<ProgramStep> NextSteps => this.nextSteps;
+    public IReadOnlyList<ZoneDuration> NextZones => this.nextZones;
 
-    public event EventHandler? CurrentStepChanged;
+    public event EventHandler? CurrentZoneChanged;
 
-    public void Run(IReadOnlyList<ProgramStep> steps, IrrigationStartReason reason)
+    public void Run(IReadOnlyList<ZoneDuration> zones, IrrigationStartReason reason)
     {
-        if (steps.Count == 0)
+        if (zones.Count == 0)
         {
-            throw new ArgumentException("Program must have at least one step");
+            throw new ArgumentException("At least one zone must be provided", nameof(zones));
         }
 
-        lock (this.nextSteps)
+        lock (this.nextZones)
         {
-            if (this.CurrentStep is not null && this.CurrentStepEndsAt is not null)
+            if (this.CurrentZone is not null && this.CurrentZoneEndsAt is not null)
             {
-                this.log.Write(new IrrigationStopped(DateTime.UtcNow, [.. this.previousSteps, this.GetAbortedStep()], ToStopReason(reason)));
+                this.log.Write(new IrrigationStopped(DateTime.UtcNow, [.. this.previousZones, this.GetAbortedZone()], ToStopReason(reason)));
 
-                this.previousSteps.Clear();
-                this.nextSteps.Clear();
+                this.previousZones.Clear();
+                this.nextZones.Clear();
             }
 
-            this.log.Write(new IrrigationStarted(DateTime.UtcNow, steps, reason));
+            this.log.Write(new IrrigationStarted(DateTime.UtcNow, zones, reason));
 
-            this.nextSteps.AddRange(steps.Skip(1));
-            this.CurrentStep = steps[0];
-            this.CurrentStepEndsAt = DateTime.UtcNow + steps[0].Duration;
-            this.CurrentStepChanged?.Invoke(this, EventArgs.Empty);
+            this.nextZones.AddRange(zones.Skip(1));
+            this.CurrentZone = zones[0];
+            this.CurrentZoneEndsAt = DateTime.UtcNow + zones[0].Duration;
+            this.CurrentZoneChanged?.Invoke(this, EventArgs.Empty);
 
-            this.zoneController.Open(steps[0].ZoneId);
-            this.timer.Change(steps[0].Duration, TimeSpan.Zero);
+            this.zoneController.Open(zones[0].ZoneId);
+            this.timer.Change(zones[0].Duration, TimeSpan.Zero);
         }
     }
 
     public void Skip(IrrigationSkipReason reason)
     {
-        lock (this.nextSteps)
+        lock (this.nextZones)
         {
-            if (this.CurrentStep == null)
+            if (this.CurrentZone == null)
             {
                 return;
             }
 
-            if (this.nextSteps.Count == 0)
+            if (this.nextZones.Count == 0)
             {
                 this.Stop(ToStopReason(reason));
                 return;
             }
 
-            ProgramStep abortedStep = this.GetAbortedStep();
-            this.log.Write(new IrrigationSkipped(DateTime.UtcNow, abortedStep, reason));
+            ZoneDuration abortedZone = this.GetAbortedZone();
+            this.log.Write(new IrrigationSkipped(DateTime.UtcNow, abortedZone.ZoneId, abortedZone.Duration, reason));
 
-            ProgramStep nextStep = this.nextSteps[0];
-            this.previousSteps.Add(abortedStep);
-            this.nextSteps.RemoveAt(0);
-            this.CurrentStep = nextStep;
-            this.CurrentStepEndsAt = DateTime.UtcNow + nextStep.Duration;
-            this.CurrentStepChanged?.Invoke(this, EventArgs.Empty);
+            ZoneDuration nextZone = this.nextZones[0];
+            this.previousZones.Add(abortedZone);
+            this.nextZones.RemoveAt(0);
+            this.CurrentZone = nextZone;
+            this.CurrentZoneEndsAt = DateTime.UtcNow + nextZone.Duration;
+            this.CurrentZoneChanged?.Invoke(this, EventArgs.Empty);
 
-            this.zoneController.Open(nextStep.ZoneId);
-            this.timer.Change(nextStep.Duration, TimeSpan.Zero);
+            this.zoneController.Open(nextZone.ZoneId);
+            this.timer.Change(nextZone.Duration, TimeSpan.Zero);
 
         }
     }
 
     public void Stop(IrrigationStopReason reason)
     {
-        lock (this.nextSteps)
+        lock (this.nextZones)
         {
-            if (this.CurrentStep is null || this.CurrentStepEndsAt is null)
+            if (this.CurrentZone is null || this.CurrentZoneEndsAt is null)
             {
                 return;
             }
 
-            this.log.Write(new IrrigationStopped(DateTime.UtcNow, [.. this.previousSteps, this.GetAbortedStep()], reason));
+            this.log.Write(new IrrigationStopped(DateTime.UtcNow, [.. this.previousZones, this.GetAbortedZone()], reason));
 
-            this.previousSteps.Clear();
-            this.nextSteps.Clear();
-            this.CurrentStep = null;
-            this.CurrentStepEndsAt = null;
-            this.CurrentStepChanged?.Invoke(this, EventArgs.Empty);
+            this.previousZones.Clear();
+            this.nextZones.Clear();
+            this.CurrentZone = null;
+            this.CurrentZoneEndsAt = null;
+            this.CurrentZoneChanged?.Invoke(this, EventArgs.Empty);
 
             this.zoneController.Close();
             this.timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
@@ -113,40 +113,40 @@ public class ProgramController
 
     private void TimerCallback(object? state)
     {
-        lock (this.nextSteps)
+        lock (this.nextZones)
         {
-            ProgramStep currentStep = this.CurrentStep!;
-            if (this.nextSteps.Count == 0)
+            ZoneDuration currentZone = this.CurrentZone!;
+            if (this.nextZones.Count == 0)
             {
-                this.log.Write(new IrrigationStopped(DateTime.UtcNow, [.. this.previousSteps, currentStep], IrrigationStopReason.Completed));
+                this.log.Write(new IrrigationStopped(DateTime.UtcNow, [.. this.previousZones, currentZone], IrrigationStopReason.Completed));
 
-                this.previousSteps.Clear();
-                this.nextSteps.Clear();
-                this.CurrentStep = null;
-                this.CurrentStepEndsAt = null;
+                this.previousZones.Clear();
+                this.nextZones.Clear();
+                this.CurrentZone = null;
+                this.CurrentZoneEndsAt = null;
 
                 this.zoneController.Close();
                 this.timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
             }
             else
             {
-                ProgramStep nextStep = this.nextSteps[0];
-                this.previousSteps.Add(currentStep);
-                this.nextSteps.RemoveAt(0);
-                this.CurrentStep = nextStep;
-                this.CurrentStepEndsAt = DateTime.UtcNow + nextStep.Duration;
+                ZoneDuration nextZone = this.nextZones[0];
+                this.previousZones.Add(currentZone);
+                this.nextZones.RemoveAt(0);
+                this.CurrentZone = nextZone;
+                this.CurrentZoneEndsAt = DateTime.UtcNow + nextZone.Duration;
 
-                this.zoneController.Open(nextStep.ZoneId);
-                this.timer.Change(nextStep.Duration, Timeout.InfiniteTimeSpan);
+                this.zoneController.Open(nextZone.ZoneId);
+                this.timer.Change(nextZone.Duration, Timeout.InfiniteTimeSpan);
             }
 
-            this.CurrentStepChanged?.Invoke(this, EventArgs.Empty);
+            this.CurrentZoneChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
-    private ProgramStep GetAbortedStep()
+    private ZoneDuration GetAbortedZone()
     {
-        return new ProgramStep(this.CurrentStep!.ZoneId, this.CurrentStep.Duration - (this.CurrentStepEndsAt!.Value - DateTime.UtcNow));
+        return new ZoneDuration(this.CurrentZone!.ZoneId, this.CurrentZone.Duration - (this.CurrentZoneEndsAt!.Value - DateTime.UtcNow));
     }
 
     private static IrrigationStopReason ToStopReason(IrrigationStartReason reason) => reason switch

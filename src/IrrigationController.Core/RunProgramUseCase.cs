@@ -5,16 +5,16 @@ namespace IrrigationController.Core;
 
 public class RunProgramUseCase(ProgramController programController, IZoneRepository zoneRepository)
 {
-    public void Execute(IReadOnlyList<ProgramStep> steps)
+    public void Execute(IReadOnlyList<ZoneDuration> zones)
     {
-        foreach (ProgramStep step in steps)
+        foreach (ZoneDuration zone in zones)
         {
-            if (zoneRepository.Get(step.ZoneId)?.IsDefective == true)
+            if (zoneRepository.Get(zone.ZoneId)?.IsDefective == true)
             {
-                throw new InvalidOperationException($"Can't run program with defective zone #{step.ZoneId}");
+                throw new InvalidOperationException($"Can't run program with defective zone #{zone.ZoneId}");
             }
         }
 
-        programController.Run(steps, IrrigationStartReason.Manual);
+        programController.Run(zones, IrrigationStartReason.Manual);
     }
 }

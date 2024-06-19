@@ -16,11 +16,11 @@
             continue;
         }
 
-        int stepIndex = i;
+        int zoneId = i;
         bool defective = this.defectiveZoneIds.Contains(i);
 
         <label style="width: 100px;">@this.Config.Zones[i].Name</label>
-        <InputNumber @bind-Value="Durations[stepIndex]" min="1" max="60" disabled="@defective" />
+        <InputNumber @bind-Value="Durations[zoneId]" min="1" max="60" disabled="@defective" />
         <br />
     }
 
@@ -58,7 +58,7 @@
 
     private void Submit()
     {
-        List<ProgramStep> programSteps = new List<ProgramStep>();
+        List<ZoneDuration> zones = new List<ZoneDuration>();
         for (int i = 0; i < this.Config.Zones.Count; i++)
         {
             int? duration = this.Durations[i];
@@ -67,16 +67,16 @@
                 continue;
             }
 
-            programSteps.Add(new ProgramStep(i, TimeSpan.FromMinutes(duration.Value)));
+            zones.Add(new ZoneDuration(i, TimeSpan.FromMinutes(duration.Value)));
             this.Durations[i] = null;
         }
 
-        if (programSteps.Count == 0)
+        if (zones.Count == 0)
         {
             return;
         }
 
-        this.RunProgramUseCase.Execute(programSteps);
+        this.RunProgramUseCase.Execute(zones);
     }
 
     public void Dispose()

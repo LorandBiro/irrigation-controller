@@ -7,19 +7,19 @@ public class ShortCircuitDetectedEventHandler(ProgramController programControlle
 {
     public void Handle()
     {
-        ProgramStep? currentStep = programController.CurrentStep;
-        if (currentStep is null)
+        ZoneDuration? currentZone = programController.CurrentZone;
+        if (currentZone is null)
         {
             return;
         }
 
-        log.Write(new ShortCircuitDetected(DateTime.UtcNow, currentStep.ZoneId));
+        log.Write(new ShortCircuitDetected(DateTime.UtcNow, currentZone.ZoneId));
         programController.Skip(IrrigationSkipReason.ShortCircuit);
 
-        Zone? zone = zoneRepository.Get(currentStep.ZoneId);
+        Zone? zone = zoneRepository.Get(currentZone.ZoneId);
         if (zone is null)
         {
-            zone = new Zone(currentStep.ZoneId, true);
+            zone = new Zone(currentZone.ZoneId, true);
         }
         else
         {

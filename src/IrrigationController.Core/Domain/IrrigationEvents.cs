@@ -12,7 +12,7 @@ public enum IrrigationStartReason
     LowSoilMoisture,
 }
 
-public record IrrigationStarted(DateTime Timestamp, IReadOnlyList<ProgramStep> Steps, IrrigationStartReason Reason) : IIrrigationEvent;
+public record IrrigationStarted(DateTime Timestamp, IReadOnlyList<ZoneDuration> Zones, IrrigationStartReason Reason) : IIrrigationEvent;
 
 public enum IrrigationStopReason
 {
@@ -24,7 +24,7 @@ public enum IrrigationStopReason
     Shutdown,
 }
 
-public record IrrigationStopped(DateTime Timestamp, IReadOnlyList<ProgramStep> Steps, IrrigationStopReason Reason) : IIrrigationEvent;
+public record IrrigationStopped(DateTime Timestamp, IReadOnlyList<ZoneDuration> Zones, IrrigationStopReason Reason) : IIrrigationEvent;
 
 public enum IrrigationSkipReason
 {
@@ -32,7 +32,7 @@ public enum IrrigationSkipReason
     ShortCircuit,
 }
 
-public record IrrigationSkipped(DateTime Timestamp, ProgramStep Step, IrrigationSkipReason Reason) : IIrrigationEvent;
+public record IrrigationSkipped(DateTime Timestamp, int ZoneId, TimeSpan After, IrrigationSkipReason Reason) : IIrrigationEvent;
 
 public record RainDetected(DateTime Timestamp) : IIrrigationEvent;
 
