@@ -24,6 +24,7 @@ public class IrrigationLog : IIrrigationLog
         }
 
         this.events = File.ReadAllLines(this.path).Select(x => JsonSerializer.Deserialize<IIrrigationEvent>(x, Options)!).ToList();
+        this.logger.LogDebug("Loaded {Count} events", this.events.Count);
     }
 
     public event EventHandler? LogUpdated;
@@ -42,7 +43,7 @@ public class IrrigationLog : IIrrigationLog
     public void Write(IIrrigationEvent e)
     {
         string line = JsonSerializer.Serialize(e, Options);
-        this.logger.LogInformation("{Event}", line);
+        this.logger.LogDebug("{Event}", line);
         File.AppendAllLines(this.path, [line]);
         this.events.Add(e);
         this.LogUpdated?.Invoke(this, EventArgs.Empty);
