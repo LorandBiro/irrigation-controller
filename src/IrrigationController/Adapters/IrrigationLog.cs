@@ -17,7 +17,7 @@ public class IrrigationLog : IIrrigationLog
     public IrrigationLog(ILogger<IrrigationLog> logger, Config config)
     {
         this.logger = logger;
-        this.path = Path.Combine(config.AppDataPath, "irrigation-events.json");
+        this.path = Path.Combine(config.AppDataPath, "irrigation-log.json");
         if (!File.Exists(this.path))
         {
             return;
