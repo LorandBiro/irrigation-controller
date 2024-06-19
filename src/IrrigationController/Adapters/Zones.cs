@@ -22,13 +22,13 @@ public sealed class Zones(ILogger<Zones> logger, ZonesConfig config) : IZones, I
     public void Open(int zoneId)
     {
         this.Write(zoneId, true);
-        this.logger.LogDebug("Zone #{Zone} opened", zoneId + 1);
+        this.logger.LogDebug("Zone #{Zone} opened", zoneId);
     }
 
     public void Close(int zoneId)
     {
         this.Write(zoneId, false);
-        this.logger.LogDebug("Zone #{Zone} closed", zoneId + 1);
+        this.logger.LogDebug("Zone #{Zone} closed", zoneId);
     }
 
     public void Dispose()

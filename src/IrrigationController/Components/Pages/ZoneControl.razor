@@ -24,7 +24,7 @@
         string style = defective ? "btn-danger" : (open ? "btn-primary" : "btn-secondary");
         string label = defective ? "Resolve" : (open ? "Close" : "Open");
 
-        <button class="btn @style" @onclick="() => OnClick(zoneId)">@label #@(i + 1) - @Config.Zones[i].Name</button>
+        <button class="btn @style" @onclick="() => OnClick(zoneId)">@label @Config.Zones[i].Name</button>
         <text>&nbsp;</text>
     }
 </p>

@@ -8,11 +8,11 @@ public class FakeZones(ILogger<FakeZones> logger) : IZones
 
     public void Close(int zoneId)
     {
-        this.logger.LogDebug("Zone #{Zone} closed", zoneId + 1);
+        this.logger.LogDebug("Zone #{Zone} closed", zoneId);
     }
 
     public void Open(int zoneId)
     {
-        this.logger.LogDebug("Zone #{Zone} opened", zoneId + 1);
+        this.logger.LogDebug("Zone #{Zone} opened", zoneId);
     }
 }
