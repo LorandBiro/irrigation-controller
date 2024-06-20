@@ -152,7 +152,7 @@ public class ProgramController
     private static IrrigationStopReason ToStopReason(IrrigationStartReason reason) => reason switch
     {
         IrrigationStartReason.Manual => IrrigationStopReason.Manual,
-        IrrigationStartReason.Scheduled or IrrigationStartReason.LowSoilMoisture => IrrigationStopReason.Schedule,
+        IrrigationStartReason.Algorithm or IrrigationStartReason.FallbackAlgorithm => IrrigationStopReason.Algorithm,
         _ => throw new ArgumentException("Invalid start reason")
     };
 

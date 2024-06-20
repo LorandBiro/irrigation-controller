@@ -8,8 +8,8 @@ public interface IIrrigationEvent
 public enum IrrigationStartReason
 {
     Manual,
-    Scheduled,
-    LowSoilMoisture,
+    Algorithm,
+    FallbackAlgorithm,
 }
 
 public record IrrigationStarted(DateTime Timestamp, IReadOnlyList<ZoneDuration> Zones, IrrigationStartReason Reason) : IIrrigationEvent;
@@ -19,7 +19,7 @@ public enum IrrigationStopReason
     Manual,
     Rain,
     Completed,
-    Schedule,
+    Algorithm,
     ShortCircuit,
     Shutdown,
 }

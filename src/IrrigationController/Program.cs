@@ -77,7 +77,7 @@ public class Program
         services.AddSingleton<GetRecentActivityUseCase>();
         services.AddSingleton<GetZoneStatusUseCase>();
         services.AddSingleton<OpenZoneUseCase>();
-        services.AddSingleton(new OpenZoneUseCaseConfig(config.ManualLimit));
+        services.AddSingleton(new OpenZoneUseCaseConfig(config.ManualZoneDuration));
         services.AddSingleton<RainDetectedEventHandler>();
         services.AddSingleton<RainClearedEventHandler>();
         services.AddSingleton<RunProgramUseCase>();
@@ -85,6 +85,7 @@ public class Program
         services.AddSingleton<SkipUseCase>();
         services.AddSingleton<StopUseCase>();
         services.AddSingleton<SunriseEventHandler>();
+        services.AddSingleton(new SunriseEventHandlerConfig(config.Zones.Select(x => (x.Enabled, x.PrecipitationPerRun, x.PrecipitationRate, x.CropCoefficient)).ToList()));
     }
 
     private static void InitializeServices(IServiceProvider services, Config config)

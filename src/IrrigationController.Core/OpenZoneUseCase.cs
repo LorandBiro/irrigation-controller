@@ -12,6 +12,6 @@ public class OpenZoneUseCase(ProgramController programController, OpenZoneUseCas
             throw new InvalidOperationException($"Can't open defective zone #{zoneId}");
         }
 
-        programController.Run([new ZoneDuration(zoneId, config.Duration)], IrrigationStartReason.Manual);
+        programController.Run([new ZoneDuration(zoneId, config.ManualZoneDuration)], IrrigationStartReason.Manual);
     }
 }

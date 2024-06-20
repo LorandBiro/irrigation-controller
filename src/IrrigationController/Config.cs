@@ -10,8 +10,8 @@ public class Config
     public required TimeSpan RainSensorSamplingInterval { get; init; }
     public required int ShortCircuitSensorPin { get; init; }
     public required TimeSpan ZoneDelay { get; init; }
-    public required TimeSpan ManualLimit { get; init; }
+    public required TimeSpan ManualZoneDuration { get; init; }
     public required IReadOnlyList<ZoneInfo> Zones { get; init; }
 }
 
-public record ZoneInfo(string Name, int Pin, bool Enabled);
+public record ZoneInfo(string Name, int Pin, bool Enabled, double PrecipitationPerRun, double PrecipitationRate, double CropCoefficient);

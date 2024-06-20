@@ -22,10 +22,10 @@ else
     string name = this.Config.Zones[currentZone.ZoneId].Name;
 
     <ul>
-        <li>@name - @FormatTime(timeLeft)</li>
+        <li>@name - @FormatHelper.Format(timeLeft)</li>
         @foreach (ZoneDuration zone in this.GetProgramStatusUseCase.NextZones)
         {
-            <li>@this.Config.Zones[zone.ZoneId].Name - @FormatTime(zone.Duration)</li>
+            <li>@this.Config.Zones[zone.ZoneId].Name - @FormatHelper.Format(zone.Duration)</li>
         }
     </ul>
 
@@ -65,11 +65,6 @@ else
 
         TimeSpan timeLeft = this.GetProgramStatusUseCase.CurrentZoneEndsAt.Value - DateTime.UtcNow;
         this.timer.Change(timeLeft.Milliseconds, 1000);
-    }
-
-    private string FormatTime(TimeSpan time)
-    {
-        return time.ToString(time.TotalHours >= 1 ? @"h\:mm\:ss" : @"mm\:ss");
     }
 
     public void Dispose()

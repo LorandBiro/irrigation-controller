@@ -1,3 +1,3 @@
 ﻿namespace IrrigationController.Core;
 
-public record OpenZoneUseCaseConfig(TimeSpan Duration);
+public record OpenZoneUseCaseConfig(TimeSpan ManualZoneDuration);
