@@ -1,0 +1,19 @@
+[Unit]
+Description=Irrigation Controller
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=irrigation-controller
+Group=irrigation-controller
+Restart=always
+RestartSec=1s
+ExecStart=dotnet /usr/local/irrigation-controller/IrrigationController.dll
+WorkingDirectory=/usr/local/irrigation-controller
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

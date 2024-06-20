@@ -1,0 +1,15 @@
+[Unit]
+Description=Node Exporter
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=node_exporter
+Group=node_exporter
+Restart=always
+RestartSec=1s
+ExecStart=/usr/local/bin/node_exporter
+
+[Install]
+WantedBy=multi-user.target
