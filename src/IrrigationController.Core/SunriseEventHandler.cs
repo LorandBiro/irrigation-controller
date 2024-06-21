@@ -16,7 +16,7 @@ public class SunriseEventHandler(IRainSensor rainSensor, SunriseEventHandlerConf
         List<ZoneDuration> zonesToIrrigate = [];
         for (int i = 0; i < config.Zones.Count; i++)
         {
-            (bool enabled, double precipitationPerRun, double precipitationRate) = config.Zones[i];
+            (bool enabled, double maxPrecipitation, double precipitationRate) = config.Zones[i];
             if (!enabled)
             {
                 continue;
@@ -25,7 +25,7 @@ public class SunriseEventHandler(IRainSensor rainSensor, SunriseEventHandlerConf
             double moisture = estimator.Estimate(i, DateTime.UtcNow);
             if (moisture == 0.0)
             { 
-                zonesToIrrigate.Add(new ZoneDuration(i, TimeSpan.FromHours(precipitationPerRun / precipitationRate)));
+                zonesToIrrigate.Add(new ZoneDuration(i, TimeSpan.FromHours(maxPrecipitation / precipitationRate)));
             }
         }
 

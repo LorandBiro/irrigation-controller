@@ -27,13 +27,13 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
 
         double moisture = 0.0;
         double cropCoefficient = config.Zones[zoneId].CropCoefficient;
-        double precipitationPerRun = config.Zones[zoneId].PrecipitationPerRun;
+        double maxPrecipitation = config.Zones[zoneId].MaxPrecipitation;
         for (int i = 0; i < irrigationByHour.Length; i++)
         {
             moisture += irrigationByHour[i] - etByHour[i] * cropCoefficient;
-            if (moisture > precipitationPerRun)
+            if (moisture > maxPrecipitation)
             {
-                moisture = precipitationPerRun;
+                moisture = maxPrecipitation;
             }
             else if (moisture < 0)
             {
@@ -80,7 +80,7 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
         ZoneOpened? zoneOpened = this.GetUnclosedZoneOpenedEvent(zoneId, t);
         if (zoneOpened is not null)
         {
-            irrigationByHour[irrigationByHour.Length - 1] += (t - zoneOpened.Timestamp).TotalHours * precipitationRate;
+            irrigationByHour[^1] += (t - zoneOpened.Timestamp).TotalHours * precipitationRate;
         }
 
         return irrigationByHour;

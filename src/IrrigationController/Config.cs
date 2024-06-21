@@ -14,4 +14,4 @@ public class Config
     public required IReadOnlyList<ZoneInfo> Zones { get; init; }
 }
 
-public record ZoneInfo(string Name, int Pin, bool Enabled, double PrecipitationPerRun, double PrecipitationRate, double CropCoefficient);
+public record ZoneInfo(string Name, int Pin, bool Enabled, double MaxPrecipitation, double PrecipitationRate, double CropCoefficient);
