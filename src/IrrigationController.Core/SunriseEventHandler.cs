@@ -4,86 +4,31 @@ using IrrigationController.Core.Infrastructure;
 
 namespace IrrigationController.Core;
 
-public class SunriseEventHandler(IRainSensor rainSensor, SunriseEventHandlerConfig config, IIrrigationLog log, ProgramController programController)
+public class SunriseEventHandler(IRainSensor rainSensor, SunriseEventHandlerConfig config, ProgramController programController, SoilMoistureEstimator estimator)
 {
-    // Numbers are in mm/day, based on the following sources:
-    // https://pazsitdoktor.hu/pazsitontozes
-    // https://hu.wikipedia.org/wiki/Magyarorsz%C3%A1g_%C3%A9ghajlata
-    private static readonly double[] EToByMonth = [0, 0, 0, 2.5, 3.5, 3.5, 5, 5, 3.5, 2.5, 0, 0];
-    private static readonly TimeSpan HistoryRange = TimeSpan.FromDays(7);
-
     public void Handle()
     {
         if (rainSensor.IsRaining)
         {
             return;
         }
-
-        Dictionary<(DateOnly Date, int ZoneId), double> irrigationHistory = this.GetIrrigationHistory();
-        List<ZoneDuration> zonesToIrrigate = this.GetZonesToIrrigate(irrigationHistory);
-        programController.Run(zonesToIrrigate, IrrigationStartReason.FallbackAlgorithm);
-    }
-
-    private List<ZoneDuration> GetZonesToIrrigate(Dictionary<(DateOnly Date, int ZoneId), double> irrigationHistory)
-    {
+        
         List<ZoneDuration> zonesToIrrigate = [];
-        DateOnly today = DateOnly.FromDateTime(DateTime.Now);
-        for (int zoneId = 0; zoneId < config.Zones.Count; zoneId++)
+        for (int i = 0; i < config.Zones.Count; i++)
         {
-            (bool enabled, double precipitationPerRun, double precipitationRate, double cropCoefficient) = config.Zones[zoneId];
+            (bool enabled, double precipitationPerRun, double precipitationRate) = config.Zones[i];
             if (!enabled)
             {
                 continue;
             }
 
-            double et = 0.0;
-            for (int i = 1; i <= 7; i++)
-            {
-                DateOnly date = today.AddDays(-i);
-                double eto = EToByMonth[date.Month - 1];
-                et += eto * cropCoefficient;
-
-                irrigationHistory.TryGetValue((date, zoneId), out double irrigation);
-                if (et >= precipitationPerRun)
-                {
-                    zonesToIrrigate.Add(new ZoneDuration(zoneId, TimeSpan.FromHours(precipitationPerRun / precipitationRate)));
-                    break;
-                }
-
-                et -= irrigation;
-                if (et < 0)
-                {
-                    break;
-                }
+            double moisture = estimator.Estimate(i, DateTime.UtcNow);
+            if (moisture == 0.0)
+            { 
+                zonesToIrrigate.Add(new ZoneDuration(i, TimeSpan.FromHours(precipitationPerRun / precipitationRate)));
             }
         }
 
-        return zonesToIrrigate;
-    }
-
-    private Dictionary<(DateOnly Date, int ZoneId), double> GetIrrigationHistory()
-    {
-        Dictionary<(DateOnly Date, int ZoneId), double> irrigationHistory = [];
-
-        IReadOnlyList<IIrrigationEvent> events = log.GetAll();
-        DateTime historyLimit = DateTime.Now - HistoryRange;
-        for (int i = events.Count - 1; i >= 0; i--)
-        {
-            if (events[i] is not ZoneClosed e)
-            {
-                continue;
-            }
-
-            if (events[i].Timestamp < historyLimit)
-            {
-                break;
-            }
-
-            DateOnly date = DateOnly.FromDateTime(e.Timestamp.ToLocalTime());
-            irrigationHistory.TryGetValue((date, e.ZoneId), out double irrigation);
-            irrigationHistory[(date, e.ZoneId)] = irrigation + (e.After.TotalHours * config.Zones[e.ZoneId].PrecipitationRate);
-        }
-
-        return irrigationHistory;
+        programController.Run(zonesToIrrigate, IrrigationStartReason.FallbackAlgorithm);
     }
 }
