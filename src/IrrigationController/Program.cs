@@ -13,6 +13,7 @@ public class Program
     {
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
         builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+        builder.Services.AddControllers();
         builder.Services.AddLogging(options =>
         {
             options.AddSimpleConsole(c =>
@@ -35,6 +36,7 @@ public class Program
         app.UseStaticFiles();
         app.UseAntiforgery();
 
+        app.MapControllers();
         app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode();
 
