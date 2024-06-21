@@ -24,7 +24,7 @@ public class GetZoneStatusUseCase(IZoneRepository zoneRepository, ProgramControl
     {
         int? openZoneId = programController.CurrentZone?.ZoneId;
         List<int> defectiveZoneIds = zoneRepository.GetAll().Where(v => v.IsDefective).Select(v => v.Id).ToList();
-        bool controllable = programController.CurrentZone == null || programController.Reason == IrrigationStartReason.Manual;
+        bool controllable = programController.CurrentZone == null || programController.Reason == ZoneOpenReason.Manual;
         return (openZoneId, defectiveZoneIds, controllable);
     }
 }

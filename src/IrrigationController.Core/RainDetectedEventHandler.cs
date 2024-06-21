@@ -8,6 +8,6 @@ public class RainDetectedEventHandler(IIrrigationLog log, ProgramController prog
     public void Handle()
     {
         log.Write(new RainDetected(DateTime.UtcNow));
-        programController.Stop(IrrigationStopReason.Rain);
+        programController.Stop(ZoneCloseReason.Rain);
     }
 }

@@ -7,6 +7,6 @@ public class StopUseCase(ProgramController programController)
 {
     public void Execute()
     {
-        programController.Stop(IrrigationStopReason.Manual);
+        programController.Stop(ZoneCloseReason.Manual);
     }
 }

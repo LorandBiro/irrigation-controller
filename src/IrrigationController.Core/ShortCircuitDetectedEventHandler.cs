@@ -14,7 +14,7 @@ public class ShortCircuitDetectedEventHandler(ProgramController programControlle
         }
 
         log.Write(new ShortCircuitDetected(DateTime.UtcNow, currentZone.ZoneId));
-        programController.Skip(IrrigationStopReason.ShortCircuit);
+        programController.Skip(ZoneCloseReason.ShortCircuit);
 
         Zone? zone = zoneRepository.Get(currentZone.ZoneId);
         if (zone is null)

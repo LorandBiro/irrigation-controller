@@ -5,7 +5,7 @@ public interface IIrrigationEvent
     DateTime Timestamp { get; }
 }
 
-public enum IrrigationStartReason
+public enum ZoneOpenReason
 {
     Manual,
     ManualProgram,
@@ -13,9 +13,9 @@ public enum IrrigationStartReason
     FallbackAlgorithm,
 }
 
-public record ZoneOpened(DateTime Timestamp, int ZoneId, TimeSpan For, IrrigationStartReason Reason) : IIrrigationEvent;
+public record ZoneOpened(DateTime Timestamp, int ZoneId, TimeSpan For, ZoneOpenReason Reason) : IIrrigationEvent;
 
-public enum IrrigationStopReason
+public enum ZoneCloseReason
 {
     Manual,
     Rain,
@@ -25,7 +25,7 @@ public enum IrrigationStopReason
     Shutdown,
 }
 
-public record ZoneClosed(DateTime Timestamp, int ZoneId, TimeSpan After, IrrigationStopReason Reason) : IIrrigationEvent;
+public record ZoneClosed(DateTime Timestamp, int ZoneId, TimeSpan After, ZoneCloseReason Reason) : IIrrigationEvent;
 
 public record RainDetected(DateTime Timestamp) : IIrrigationEvent;
 

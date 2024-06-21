@@ -23,13 +23,13 @@ public class ProgramController
 
     public DateTime? CurrentZoneEndsAt { get; private set; }
 
-    public IrrigationStartReason Reason { get; private set; }
+    public ZoneOpenReason Reason { get; private set; }
 
     public IReadOnlyList<ZoneDuration> NextZones => this.nextZones;
 
     public event EventHandler? CurrentZoneChanged;
 
-    public void Run(IReadOnlyList<ZoneDuration> zones, IrrigationStartReason reason)
+    public void Run(IReadOnlyList<ZoneDuration> zones, ZoneOpenReason reason)
     {
         if (zones.Count == 0)
         {
@@ -60,7 +60,7 @@ public class ProgramController
         }
     }
 
-    public void Skip(IrrigationStopReason reason)
+    public void Skip(ZoneCloseReason reason)
     {
         lock (this.nextZones)
         {
@@ -92,7 +92,7 @@ public class ProgramController
         }
     }
 
-    public void Stop(IrrigationStopReason reason)
+    public void Stop(ZoneCloseReason reason)
     {
         lock (this.nextZones)
         {
@@ -119,7 +119,7 @@ public class ProgramController
         lock (this.nextZones)
         {
             ZoneDuration current = this.CurrentZone!;
-            this.log.Write(new ZoneClosed(DateTime.UtcNow, current.ZoneId, current.Duration, IrrigationStopReason.Completed));
+            this.log.Write(new ZoneClosed(DateTime.UtcNow, current.ZoneId, current.Duration, ZoneCloseReason.Completed));
             if (this.nextZones.Count == 0)
             {
                 this.nextZones.Clear();
@@ -151,10 +151,10 @@ public class ProgramController
         return new ZoneDuration(this.CurrentZone!.ZoneId, this.CurrentZone.Duration - (this.CurrentZoneEndsAt!.Value - DateTime.UtcNow));
     }
 
-    private static IrrigationStopReason ToStopReason(IrrigationStartReason reason) => reason switch
+    private static ZoneCloseReason ToStopReason(ZoneOpenReason reason) => reason switch
     {
-        IrrigationStartReason.Manual => IrrigationStopReason.Manual,
-        IrrigationStartReason.Algorithm or IrrigationStartReason.FallbackAlgorithm => IrrigationStopReason.Algorithm,
+        ZoneOpenReason.Manual => ZoneCloseReason.Manual,
+        ZoneOpenReason.Algorithm or ZoneOpenReason.FallbackAlgorithm => ZoneCloseReason.Algorithm,
         _ => throw new ArgumentException("Invalid start reason")
     };
 }

@@ -30,22 +30,22 @@
         _ => e.ToString()!
     };
     
-    private string ToString(IrrigationStartReason reason) => reason switch
+    private string ToString(ZoneOpenReason reason) => reason switch
     {
-        IrrigationStartReason.Manual => "opened manually",
-        IrrigationStartReason.ManualProgram => "opened by manual program",
-        IrrigationStartReason.Algorithm => "opened by schedule",
-        IrrigationStartReason.FallbackAlgorithm => "opened by fallback schedule",
+        ZoneOpenReason.Manual => "opened manually",
+        ZoneOpenReason.ManualProgram => "opened by manual program",
+        ZoneOpenReason.Algorithm => "opened by schedule",
+        ZoneOpenReason.FallbackAlgorithm => "opened by fallback schedule",
         _ => reason.ToString()
     };
-    private string ToString(IrrigationStopReason reason) => reason switch
+    private string ToString(ZoneCloseReason reason) => reason switch
     {
-        IrrigationStopReason.Manual => "closed manually",
-        IrrigationStopReason.Rain => "closed due to rain",
-        IrrigationStopReason.Completed => "completed",
-        IrrigationStopReason.Algorithm => "closed by conflicting schedule",
-        IrrigationStopReason.ShortCircuit => "closed due to short circuit",
-        IrrigationStopReason.Shutdown => "closed by shutdown",
+        ZoneCloseReason.Manual => "closed manually",
+        ZoneCloseReason.Rain => "closed due to rain",
+        ZoneCloseReason.Completed => "completed",
+        ZoneCloseReason.Algorithm => "closed by conflicting schedule",
+        ZoneCloseReason.ShortCircuit => "closed due to short circuit",
+        ZoneCloseReason.Shutdown => "closed by shutdown",
         _ => reason.ToString()
     };
 }

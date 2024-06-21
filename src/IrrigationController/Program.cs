@@ -104,7 +104,7 @@ public class Program
         services.GetRequiredService<SunriseScheduler>().Initialize();
         services.GetRequiredService<IHostApplicationLifetime>().ApplicationStopping.Register(() =>
         {
-            services.GetRequiredService<ProgramController>().Stop(IrrigationStopReason.Shutdown);
+            services.GetRequiredService<ProgramController>().Stop(ZoneCloseReason.Shutdown);
         });
     }
 }

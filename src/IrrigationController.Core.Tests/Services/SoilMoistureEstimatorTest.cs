@@ -19,7 +19,7 @@ public class SoilMoistureEstimatorTest
     [Fact]
     public void DryZone()
     {
-        InMemoryIrrigationLog log = new(new ZoneClosed(Date(7, 1, 7, 0), 0, Minutes(60), IrrigationStopReason.Completed));
+        InMemoryIrrigationLog log = new(new ZoneClosed(Date(7, 1, 7, 0), 0, Minutes(60), ZoneCloseReason.Completed));
         FakeWeatherService weatherService = new(0.2);
         SoilMoistureEstimator estimator = new(log, new([(10, 10, 1)]), weatherService);
 
@@ -32,7 +32,7 @@ public class SoilMoistureEstimatorTest
     [Fact]
     public void FullDay()
     {
-        InMemoryIrrigationLog log = new(new ZoneClosed(Date(7, 1, 7, 0), 0, Minutes(60), IrrigationStopReason.Completed));
+        InMemoryIrrigationLog log = new(new ZoneClosed(Date(7, 1, 7, 0), 0, Minutes(60), ZoneCloseReason.Completed));
         FakeWeatherService weatherService = new(0.2);
         SoilMoistureEstimator estimator = new(log, new([(10, 10, 1)]), weatherService);
 
@@ -45,7 +45,7 @@ public class SoilMoistureEstimatorTest
     [Fact]
     public void HalfDay()
     {
-        InMemoryIrrigationLog log = new(new ZoneClosed(Date(7, 1, 7, 0), 0, Minutes(60), IrrigationStopReason.Completed));
+        InMemoryIrrigationLog log = new(new ZoneClosed(Date(7, 1, 7, 0), 0, Minutes(60), ZoneCloseReason.Completed));
         FakeWeatherService weatherService = new(0.2);
         SoilMoistureEstimator estimator = new(log, new([(10, 10, 1)]), weatherService);
 
@@ -58,7 +58,7 @@ public class SoilMoistureEstimatorTest
     [Fact]
     public void MultipleDays()
     {
-        InMemoryIrrigationLog log = new(new ZoneClosed(Date(7, 1, 7, 0), 0, Minutes(60), IrrigationStopReason.Completed), new ZoneClosed(Date(7, 2, 6, 15), 0, Minutes(15), IrrigationStopReason.Completed));
+        InMemoryIrrigationLog log = new(new ZoneClosed(Date(7, 1, 7, 0), 0, Minutes(60), ZoneCloseReason.Completed), new ZoneClosed(Date(7, 2, 6, 15), 0, Minutes(15), ZoneCloseReason.Completed));
         FakeWeatherService weatherService = new(0.2);
         SoilMoistureEstimator estimator = new(log, new([(10, 10, 1)]), weatherService);
 
@@ -73,7 +73,7 @@ public class SoilMoistureEstimatorTest
     {
         DateTime now = Date(7, 1, 6, 0);
 
-        InMemoryIrrigationLog log = new(new ZoneClosed(now - SoilMoistureEstimator.Range + Minutes(30), 0, Minutes(60), IrrigationStopReason.Completed));
+        InMemoryIrrigationLog log = new(new ZoneClosed(now - SoilMoistureEstimator.Range + Minutes(30), 0, Minutes(60), ZoneCloseReason.Completed));
         FakeWeatherService weatherService = new(0.0);
         SoilMoistureEstimator estimator = new(log, new([(10, 10, 1)]), weatherService);
 
@@ -87,7 +87,7 @@ public class SoilMoistureEstimatorTest
     {
         DateTime now = Date(7, 1, 6, 0);
 
-        InMemoryIrrigationLog log = new(new ZoneClosed(now, 0, Minutes(60), IrrigationStopReason.Completed));
+        InMemoryIrrigationLog log = new(new ZoneClosed(now, 0, Minutes(60), ZoneCloseReason.Completed));
         FakeWeatherService weatherService = new(0.0);
         SoilMoistureEstimator estimator = new(log, new([(10, 10, 1)]), weatherService);
 
@@ -101,7 +101,7 @@ public class SoilMoistureEstimatorTest
     {
         DateTime now = Date(7, 1, 6, 0);
 
-        InMemoryIrrigationLog log = new(new ZoneOpened(now - Minutes(30), 0, Minutes(60), IrrigationStartReason.Manual));
+        InMemoryIrrigationLog log = new(new ZoneOpened(now - Minutes(30), 0, Minutes(60), ZoneOpenReason.Manual));
         FakeWeatherService weatherService = new(0.0);
         SoilMoistureEstimator estimator = new(log, new([(10, 10, 1)]), weatherService);
 
