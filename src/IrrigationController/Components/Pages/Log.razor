@@ -21,38 +21,31 @@
 
     private string ToString(IIrrigationEvent e) => e switch
     {
-        IrrigationStarted x => $"Irrigation started {ToString(x.Reason)}: {ToString(x.Zones, "for")}",
-        IrrigationSkipped x => $"Irrigation of <i>{this.Config.Zones[x.ZoneId].Name}</i> {ToString(x.Reason)} after {x.After:mm\\:ss}",
-        IrrigationStopped x => $"Irrigation {ToString(x.Reason)}: {ToString(x.Zones, "after")}",
+        ZoneOpened x => $"<i>{this.Config.Zones[x.ZoneId].Name}</i> {ToString(x.Reason)} for {FormatHelper.Format(x.For)}",
+        ZoneClosed x => $"<i>{this.Config.Zones[x.ZoneId].Name}</i> {ToString(x.Reason)} after {FormatHelper.Format(x.After)}",
         RainDetected => $"Rain detected",
         RainCleared => $"Rain cleared",
-        ShortCircuitDetected x => $"Short circuit detected: <i>{this.Config.Zones[x.ZoneId].Name}</i>",
-        ShortCircuitResolved x => $"Short circuit resolved: <i>{this.Config.Zones[x.ZoneId].Name}</i>",
+        ShortCircuitDetected x => $"Short circuit detected in <i>{this.Config.Zones[x.ZoneId].Name}</i>",
+        ShortCircuitResolved x => $"Short circuit resolved in <i>{this.Config.Zones[x.ZoneId].Name}</i>",
         _ => e.ToString()!
     };
     
     private string ToString(IrrigationStartReason reason) => reason switch
     {
-        IrrigationStartReason.Manual => "manually",
-        IrrigationStartReason.Algorithm => "due to low soil moisture",
-        IrrigationStartReason.FallbackAlgorithm => "by the fallback algorithm",
+        IrrigationStartReason.Manual => "opened manually",
+        IrrigationStartReason.ManualProgram => "opened by manual program",
+        IrrigationStartReason.Algorithm => "opened by schedule",
+        IrrigationStartReason.FallbackAlgorithm => "opened by fallback schedule",
         _ => reason.ToString()
     };
     private string ToString(IrrigationStopReason reason) => reason switch
     {
-        IrrigationStopReason.Manual => "stopped manually",
-        IrrigationStopReason.Rain => "stopped due to rain",
+        IrrigationStopReason.Manual => "closed manually",
+        IrrigationStopReason.Rain => "closed due to rain",
         IrrigationStopReason.Completed => "completed",
-        IrrigationStopReason.Algorithm => "stopped by the algorithm",
-        IrrigationStopReason.ShortCircuit => "stopped by short circuit",
-        IrrigationStopReason.Shutdown => "stopped by shutdown",
+        IrrigationStopReason.Algorithm => "closed by conflicting schedule",
+        IrrigationStopReason.ShortCircuit => "closed due to short circuit",
+        IrrigationStopReason.Shutdown => "closed by shutdown",
         _ => reason.ToString()
     };
-    private string ToString(IrrigationSkipReason reason) => reason switch
-    {
-        IrrigationSkipReason.Manual => "skipped manually",
-        IrrigationSkipReason.ShortCircuit => "skipped by short circuit",
-        _ => reason.ToString()
-    };
-    private string ToString(IEnumerable<ZoneDuration> zones, string glue) => string.Join(", ", zones.Select(x => $"<i>{this.Config.Zones[x.ZoneId].Name}</i> {glue} {FormatHelper.Format(x.Duration)}"));
 }

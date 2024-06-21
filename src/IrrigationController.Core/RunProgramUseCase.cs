@@ -15,6 +15,6 @@ public class RunProgramUseCase(ProgramController programController, IZoneReposit
             }
         }
 
-        programController.Run(zones, IrrigationStartReason.Manual);
+        programController.Run(zones, IrrigationStartReason.ManualProgram);
     }
 }

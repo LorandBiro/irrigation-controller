@@ -35,7 +35,7 @@ public class ZoneRepository : IZoneRepository
 
     public IReadOnlyList<Zone> GetAll()
     {
-        return [.. this.zones.Values];
+        return this.zones.Values.ToList();
     }
 
     public void Save(Zone zone)

@@ -63,13 +63,13 @@ public class SunriseEventHandler(IRainSensor rainSensor, SunriseEventHandlerConf
 
     private Dictionary<(DateOnly Date, int ZoneId), double> GetIrrigationHistory()
     {
-        Dictionary<(DateOnly Date, int ZoneId), double> irrigationHistory = new();
+        Dictionary<(DateOnly Date, int ZoneId), double> irrigationHistory = [];
 
         IReadOnlyList<IIrrigationEvent> events = log.GetAll();
         DateTime historyLimit = DateTime.Now - HistoryRange;
         for (int i = events.Count - 1; i >= 0; i--)
         {
-            if (events[i] is not IrrigationStopped e)
+            if (events[i] is not ZoneClosed e)
             {
                 continue;
             }
@@ -80,11 +80,8 @@ public class SunriseEventHandler(IRainSensor rainSensor, SunriseEventHandlerConf
             }
 
             DateOnly date = DateOnly.FromDateTime(e.Timestamp.ToLocalTime());
-            foreach (ZoneDuration zone in e.Zones)
-            {
-                irrigationHistory.TryGetValue((date, zone.ZoneId), out double irrigation);
-                irrigationHistory[(date, zone.ZoneId)] = irrigation + (zone.Duration.TotalHours * config.Zones[zone.ZoneId].PrecipitationRate);
-            }
+            irrigationHistory.TryGetValue((date, e.ZoneId), out double irrigation);
+            irrigationHistory[(date, e.ZoneId)] = irrigation + (e.After.TotalHours * config.Zones[e.ZoneId].PrecipitationRate);
         }
 
         return irrigationHistory;

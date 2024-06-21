@@ -7,6 +7,6 @@ public class SkipUseCase(ProgramController programController)
 {
     public void Execute()
     {
-        programController.Skip(IrrigationSkipReason.Manual);
+        programController.Skip(IrrigationStopReason.Manual);
     }
 }

@@ -8,11 +8,12 @@ public interface IIrrigationEvent
 public enum IrrigationStartReason
 {
     Manual,
+    ManualProgram,
     Algorithm,
     FallbackAlgorithm,
 }
 
-public record IrrigationStarted(DateTime Timestamp, IReadOnlyList<ZoneDuration> Zones, IrrigationStartReason Reason) : IIrrigationEvent;
+public record ZoneOpened(DateTime Timestamp, int ZoneId, TimeSpan For, IrrigationStartReason Reason) : IIrrigationEvent;
 
 public enum IrrigationStopReason
 {
@@ -24,15 +25,7 @@ public enum IrrigationStopReason
     Shutdown,
 }
 
-public record IrrigationStopped(DateTime Timestamp, IReadOnlyList<ZoneDuration> Zones, IrrigationStopReason Reason) : IIrrigationEvent;
-
-public enum IrrigationSkipReason
-{
-    Manual,
-    ShortCircuit,
-}
-
-public record IrrigationSkipped(DateTime Timestamp, int ZoneId, TimeSpan After, IrrigationSkipReason Reason) : IIrrigationEvent;
+public record ZoneClosed(DateTime Timestamp, int ZoneId, TimeSpan After, IrrigationStopReason Reason) : IIrrigationEvent;
 
 public record RainDetected(DateTime Timestamp) : IIrrigationEvent;
 

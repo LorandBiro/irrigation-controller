@@ -63,9 +63,8 @@ public class IrrigationLog : IIrrigationLog
                     UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
                     DerivedTypes =
                     {
-                        new JsonDerivedType(typeof(IrrigationStarted), "started"),
-                        new JsonDerivedType(typeof(IrrigationStopped), "stopped"),
-                        new JsonDerivedType(typeof(IrrigationSkipped), "skipped"),
+                        new JsonDerivedType(typeof(ZoneOpened), "zoneOpened"),
+                        new JsonDerivedType(typeof(ZoneClosed), "zoneClosed"),
                         new JsonDerivedType(typeof(RainDetected), "rainDetected"),
                         new JsonDerivedType(typeof(RainCleared), "rainCleared"),
                         new JsonDerivedType(typeof(ShortCircuitDetected), "shortCircuitDetected"),
