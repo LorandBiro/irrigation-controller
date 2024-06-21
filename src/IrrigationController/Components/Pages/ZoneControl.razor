@@ -24,7 +24,7 @@
         string style = defective ? "btn-danger" : (open ? "btn-primary" : "btn-secondary");
         string label = defective ? "Resolve" : (open ? "Close" : "Open");
 
-        <button class="btn @style" @onclick="() => OnClick(zoneId)">@label @Config.Zones[i].Name</button>
+        <button class="btn @style" @onclick="() => OnClick(zoneId)" disabled="@(!this.controllable)">@label @Config.Zones[i].Name</button>
         <text>&nbsp;</text>
     }
 </p>
@@ -32,18 +32,19 @@
 @code {
     private int? openZoneId;
     private List<int> defectiveZoneIds = [];
+    private bool controllable;
 
     protected override void OnInitialized()
     {
         this.GetZoneStatusUseCase.StatusChanged += this.OnStatusChanged;
-        (this.openZoneId, this.defectiveZoneIds) = this.GetZoneStatusUseCase.Execute();
+        (this.openZoneId, this.defectiveZoneIds, this.controllable) = this.GetZoneStatusUseCase.Execute();
     }
 
     private void OnStatusChanged(object? sender, EventArgs e)
     {
         InvokeAsync(() =>
         {
-            (this.openZoneId, this.defectiveZoneIds) = this.GetZoneStatusUseCase.Execute();
+            (this.openZoneId, this.defectiveZoneIds, this.controllable) = this.GetZoneStatusUseCase.Execute();
             StateHasChanged();
         });
     }

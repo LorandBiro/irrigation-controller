@@ -39,14 +39,14 @@
     {
         this.Durations = this.Config.Zones.Select(_ => (int?)null).ToList();
         this.GetZoneStatusUseCase.StatusChanged += this.OnStatusChanged;
-        (_, this.defectiveZoneIds) = this.GetZoneStatusUseCase.Execute();
+        (_, this.defectiveZoneIds, _) = this.GetZoneStatusUseCase.Execute();
     }
 
     private void OnStatusChanged(object? sender, EventArgs e)
     {
         InvokeAsync(() =>
         {
-            (_, this.defectiveZoneIds) = this.GetZoneStatusUseCase.Execute();
+            (_, this.defectiveZoneIds, _) = this.GetZoneStatusUseCase.Execute();
             foreach (int i in this.defectiveZoneIds)
             {
                 this.Durations[i] = null;

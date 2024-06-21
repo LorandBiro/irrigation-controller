@@ -3,27 +3,28 @@ using IrrigationController.Core.Domain;
 
 namespace IrrigationController.Core;
 
-public class GetZoneStatusUseCase(ZoneController zoneController, IZoneRepository zoneRepository)
+public class GetZoneStatusUseCase(IZoneRepository zoneRepository, ProgramController programController)
 {
     public event EventHandler StatusChanged
     {
         add
         {
-            zoneController.OpenZoneIdChanged += value;
+            programController.CurrentZoneChanged += value;
             zoneRepository.Changed += value;
         }
 
         remove
         {
-            zoneController.OpenZoneIdChanged -= value;
+            programController.CurrentZoneChanged -= value;
             zoneRepository.Changed -= value;
         }
     }
 
-    public (int? OpenZoneId, List<int> DefectiveZones) Execute()
+    public (int? OpenZoneId, List<int> DefectiveZones, bool Controllable) Execute()
     {
-        int? openZoneId = zoneController.OpenZoneId;
+        int? openZoneId = programController.CurrentZone?.ZoneId;
         List<int> defectiveZoneIds = zoneRepository.GetAll().Where(v => v.IsDefective).Select(v => v.Id).ToList();
-        return (openZoneId, defectiveZoneIds);
+        bool controllable = programController.CurrentZone == null || programController.Reason == IrrigationStartReason.Manual;
+        return (openZoneId, defectiveZoneIds, controllable);
     }
 }
