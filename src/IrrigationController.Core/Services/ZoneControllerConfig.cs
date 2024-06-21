@@ -1,3 +1,3 @@
-﻿namespace IrrigationController.Core.Controllers;
+﻿namespace IrrigationController.Core.Services;
 
 public record ZoneControllerConfig(TimeSpan Delay);

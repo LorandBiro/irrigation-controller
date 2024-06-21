@@ -1,4 +1,4 @@
-﻿namespace IrrigationController.Core.Controllers;
+﻿namespace IrrigationController.Core.Services;
 
 public class FakeWeatherService(double etoPerHour) : IWeatherService
 {

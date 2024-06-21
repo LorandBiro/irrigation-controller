@@ -1,4 +1,4 @@
-﻿using IrrigationController.Core.Controllers;
+﻿using IrrigationController.Core.Services;
 using IrrigationController.Core.Domain;
 using IrrigationController.Core.Infrastructure;
 

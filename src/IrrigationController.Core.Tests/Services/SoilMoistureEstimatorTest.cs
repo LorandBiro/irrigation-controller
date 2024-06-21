@@ -1,6 +1,6 @@
 using IrrigationController.Core.Domain;
 
-namespace IrrigationController.Core.Controllers;
+namespace IrrigationController.Core.Services;
 
 public class SoilMoistureEstimatorTest
 {

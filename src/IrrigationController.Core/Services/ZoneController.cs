@@ -1,6 +1,6 @@
 ﻿using IrrigationController.Core.Infrastructure;
 
-namespace IrrigationController.Core.Controllers;
+namespace IrrigationController.Core.Services;
 
 public sealed class ZoneController : IDisposable
 {
