@@ -9,8 +9,8 @@ public enum ZoneOpenReason
 {
     Manual,
     ManualProgram,
-    Algorithm,
-    FallbackAlgorithm,
+    Schedule,
+    FallbackSchedule,
 }
 
 public record ZoneOpened(DateTime Timestamp, int ZoneId, TimeSpan For, ZoneOpenReason Reason) : IIrrigationEvent;
@@ -20,7 +20,7 @@ public enum ZoneCloseReason
     Manual,
     Rain,
     Completed,
-    Algorithm,
+    Schedule,
     ShortCircuit,
     Shutdown,
 }

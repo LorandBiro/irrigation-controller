@@ -29,6 +29,6 @@ public class SunriseEventHandler(IRainSensor rainSensor, SunriseEventHandlerConf
             }
         }
 
-        programController.Run(zonesToIrrigate, ZoneOpenReason.FallbackAlgorithm);
+        programController.Run(zonesToIrrigate, ZoneOpenReason.FallbackSchedule);
     }
 }

@@ -34,8 +34,8 @@
     {
         ZoneOpenReason.Manual => "opened manually",
         ZoneOpenReason.ManualProgram => "opened by manual program",
-        ZoneOpenReason.Algorithm => "opened by schedule",
-        ZoneOpenReason.FallbackAlgorithm => "opened by fallback schedule",
+        ZoneOpenReason.Schedule => "opened by schedule",
+        ZoneOpenReason.FallbackSchedule => "opened by fallback schedule",
         _ => reason.ToString()
     };
     private string ToString(ZoneCloseReason reason) => reason switch
@@ -43,7 +43,7 @@
         ZoneCloseReason.Manual => "closed manually",
         ZoneCloseReason.Rain => "closed due to rain",
         ZoneCloseReason.Completed => "completed",
-        ZoneCloseReason.Algorithm => "closed by conflicting schedule",
+        ZoneCloseReason.Schedule => "closed by conflicting schedule",
         ZoneCloseReason.ShortCircuit => "closed due to short circuit",
         ZoneCloseReason.Shutdown => "closed by shutdown",
         _ => reason.ToString()
