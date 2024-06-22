@@ -1,9 +1,10 @@
 ﻿using IrrigationController.Core.Infrastructure;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace IrrigationController.Adapters;
 
-public class OpenMeteoApi(OpenMeteoApiConfig config) : IWeatherForecastApi
+public class OpenMeteoApi(OpenMeteoApiConfig config, ILogger<OpenMeteoApi> logger) : IWeatherForecastApi
 {
     private readonly HttpClient client = new();
 
@@ -18,6 +19,9 @@ public class OpenMeteoApi(OpenMeteoApiConfig config) : IWeatherForecastApi
         {
             throw new ArgumentException("The start time must be before the end time.", nameof(start));
         }
+
+        logger.LogDebug("Getting forecast from {From} to {To}...", start, end);
+        Stopwatch stopwatch = Stopwatch.StartNew();
 
         string url = $"https://api.open-meteo.com/v1/forecast?latitude={config.Latitude}&longitude={config.Longitude}&hourly=temperature_2m,precipitation_probability,precipitation,et0_fao_evapotranspiration&timezone=UTC&start_hour={start:yyyy-MM-ddTHH:mm}&end_hour={end:yyyy-MM-ddTHH:mm}";
         using HttpResponseMessage response = await this.client.GetAsync(url);
@@ -36,6 +40,7 @@ public class OpenMeteoApi(OpenMeteoApiConfig config) : IWeatherForecastApi
             forecast[i] = new WeatherData(temperature[i].GetDouble(), precipitation[i].GetDouble(), precipitationProbability[i].GetDouble() / 100.0, eto[i].GetDouble());
         }
 
+        logger.LogDebug("Received {Count} data points in {Elapsed}.", forecast.Length, stopwatch.Elapsed);
         return forecast;
     }
 }
