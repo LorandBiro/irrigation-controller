@@ -1,4 +1,5 @@
 ﻿using IrrigationController.Core.Domain;
+using IrrigationController.Core.Infrastructure;
 
 namespace IrrigationController.Core.Services;
 
@@ -6,7 +7,7 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
 {
     public static readonly TimeSpan Range = TimeSpan.FromDays(7);
 
-    public double Estimate(int zoneId, DateTime t)
+    public async Task<double> EstimateAsync(int zoneId, DateTime t)
     {
         if (t.Kind != DateTimeKind.Utc)
         {
@@ -20,7 +21,7 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
 
         DateTime current = t - Range;
         (double maxPrecipitation, double irrigationRate, double cropCoefficient) = config.Zones[zoneId];
-        SoilMoistureCalculator calculator = new(current.TrimToHour(), weatherService.GetEToByHour(current, t), irrigationRate, maxPrecipitation, cropCoefficient);
+        SoilMoistureCalculator calculator = new(current.TrimToHour(), await weatherService.GetRangeAsync(current, t), irrigationRate, maxPrecipitation, cropCoefficient);
         foreach (ZoneClosed e in this.GetZoneClosedEvents(zoneId, current, t).OrderBy(x => x.Timestamp))
         {
             DateTime open = e.Timestamp - e.After;
@@ -100,7 +101,7 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
         return null;
     }
 
-    private class SoilMoistureCalculator(DateTime startHour, double[] eto, double irrigationRate, double maxPrecipitation, double cropCoefficient)
+    private class SoilMoistureCalculator(DateTime startHour, WeatherData[] weather, double irrigationRate, double maxPrecipitation, double cropCoefficient)
     {
         public double SoilMoisture { get; private set; }
 
@@ -110,39 +111,34 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
         {
             double fromHour = (from - startHour).TotalHours;
             double toHour = (to - startHour).TotalHours;
-            this.SoilMoisture = Math.Max(0.0, Math.Min(maxPrecipitation, this.SoilMoisture + this.Sum(fromHour, toHour, irrigating)));
-        }
-
-        private double Sum(double from, double to, bool irrigating)
-        {
-            int fromIndex = (int)Math.Floor(from);
-            int toIndex = (int)Math.Floor(to);
+            int fromIndex = (int)Math.Floor(fromHour);
+            int toIndex = (int)Math.Floor(toHour);
             if (fromIndex == toIndex)
             {
-                return this.Rate(fromIndex, irrigating) * (to - from);
+                this.AddHour(fromIndex, irrigating, toHour - fromHour);
             }
             else
             {
-                double sum = this.Rate(fromIndex, irrigating) * (fromIndex + 1 - from);
+                this.AddHour(fromIndex, irrigating, fromIndex + 1.0 - fromHour);
                 for (int i = fromIndex + 1; i < toIndex; i++)
                 {
-                    sum += this.Rate(i, irrigating);
+                    this.AddHour(i, irrigating, 1.0);
                 }
 
-                sum += this.Rate(toIndex, irrigating) * (to - toIndex);
-                return sum;
+                this.AddHour(toIndex, irrigating, toHour - toIndex);
             }
         }
 
-        private double Rate(int i, bool irrigating)
+        private void AddHour(int index, bool irrigating, double duration)
         {
-            double rate = -eto[i] * cropCoefficient;
+            WeatherData w = weather[index];
+            double rate = (w.Precipitation * w.PrecipitationProbability) - (w.ETo * cropCoefficient);
             if (irrigating)
             {
                 rate += irrigationRate;
             }
 
-            return rate;
+            this.SoilMoisture = Math.Max(0.0, Math.Min(maxPrecipitation, this.SoilMoisture + (rate * duration)));
         }
     }
 }

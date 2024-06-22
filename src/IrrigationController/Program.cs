@@ -49,6 +49,9 @@ public class Program
 
         services.AddSingleton<IIrrigationLog, IrrigationLog>();
         services.AddSingleton<IZoneRepository, ZoneRepository>();
+
+        services.AddSingleton<IWeatherForecastApi, OpenMeteoApi>();
+        services.AddSingleton(new OpenMeteoApiConfig(config.Latitude, config.Longitude));
         if (config.MockGpio)
         {
             services.AddSingleton<IZones, FakeZones>();
@@ -66,7 +69,7 @@ public class Program
             services.AddSingleton<ShortCircuitSensor>();
         }
 
-        services.AddSingleton<IWeatherService, FallbackWeatherService>();
+        services.AddSingleton<IWeatherService, WeatherService>();
         services.AddSingleton<ProgramController>();
         services.AddSingleton<SoilMoistureEstimator>();
         services.AddSingleton(new SoilMoistureEstimatorConfig(config.Zones.Select(x => (x.MaxPrecipitation, x.IrrigationRate, x.CropCoefficient)).ToList()));

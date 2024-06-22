@@ -1,18 +1,25 @@
-﻿namespace IrrigationController.Core.Services;
+﻿using IrrigationController.Core.Infrastructure;
+
+namespace IrrigationController.Core.Services;
 
 public class FakeWeatherService(double etoPerHour) : IWeatherService
 {
-    public double[] GetEToByHour(DateTime start, DateTime end)
+    public Task<WeatherData> GetCurrentAsync()
+    {
+        return Task.FromResult(new WeatherData(0, 0, etoPerHour));
+    }
+
+    public Task<WeatherData[]> GetRangeAsync(DateTime start, DateTime end)
     {
         start = start.TrimToHour();
         end = end.TrimToHour();
 
-        double[] etoByHour = new double[(int)(end - start).TotalHours + 1];
-        for (int i = 0; i < etoByHour.Length; i++)
+        WeatherData[] weather = new WeatherData[(int)(end - start).TotalHours + 1];
+        for (int i = 0; i < weather.Length; i++)
         {
-            etoByHour[i] = etoPerHour;
+            weather[i] = new WeatherData(0, 0, etoPerHour);
         }
 
-        return etoByHour;
+        return Task.FromResult(weather);
     }
 }

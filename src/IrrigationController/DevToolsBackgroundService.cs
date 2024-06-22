@@ -34,7 +34,7 @@ public class DevToolsBackgroundService(ILogger<DevToolsBackgroundService> logger
                 else if (key.Key == ConsoleKey.S)
                 {
                     this.logger.LogDebug("Simulating sunrise...");
-                    this.sunriseEventHandler.Handle();
+                    await this.sunriseEventHandler.HandleAsync();
                 }
             }
         }

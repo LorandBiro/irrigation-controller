@@ -48,7 +48,7 @@ public sealed class SunriseScheduler : IDisposable
 
     private void TimerCallback(object? state)
     {
-        this.sunriseEventHandler.Handle();
+        Task.Run(this.sunriseEventHandler.HandleAsync);
         this.ScheduleNextSunrise();
     }
 }

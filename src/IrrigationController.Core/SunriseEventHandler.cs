@@ -4,9 +4,9 @@ using IrrigationController.Core.Infrastructure;
 
 namespace IrrigationController.Core;
 
-public class SunriseEventHandler(IRainSensor rainSensor, SunriseEventHandlerConfig config, ProgramController programController, SoilMoistureEstimator estimator)
+public class SunriseEventHandler(IRainSensor rainSensor, SunriseEventHandlerConfig config, ProgramController programController, SoilMoistureEstimator soilMoistureEstimator)
 {
-    public void Handle()
+    public async Task HandleAsync()
     {
         if (rainSensor.IsRaining)
         {
@@ -22,8 +22,8 @@ public class SunriseEventHandler(IRainSensor rainSensor, SunriseEventHandlerConf
                 continue;
             }
 
-            double moisture = estimator.Estimate(i, DateTime.UtcNow);
-            if (moisture == 0.0)
+            double soilMoisture = await soilMoistureEstimator.EstimateAsync(i, DateTime.UtcNow);
+            if (soilMoisture == 0.0)
             { 
                 zonesToIrrigate.Add(new ZoneDuration(i, TimeSpan.FromHours(maxPrecipitation / irrigationRate)));
             }
