@@ -18,103 +18,107 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
             throw new ArgumentOutOfRangeException(nameof(zoneId), zoneId, "The zone id is out of range.");
         }
 
-        DateTime endHour = new(t.Year, t.Month, t.Day, t.Hour, 0, 0, DateTimeKind.Utc);
-        DateTime startHour = endHour - Range;
-
-        double[] irrigationByHour = this.GetIrrigationByHour(zoneId, startHour, t);
-        double[] etByHour = weatherService.GetEToByHour(startHour, t);
-        etByHour[^1] *= (t - endHour).TotalHours;
+        double Clamp(double moisture) => Math.Max(0.0, Math.Min(config.Zones[zoneId].MaxPrecipitation, moisture));
 
         double moisture = 0.0;
-        double cropCoefficient = config.Zones[zoneId].CropCoefficient;
-        double maxPrecipitation = config.Zones[zoneId].MaxPrecipitation;
-        for (int i = 0; i < irrigationByHour.Length; i++)
-        {
-            moisture += irrigationByHour[i] - etByHour[i] * cropCoefficient;
-            if (moisture > maxPrecipitation)
-            {
-                moisture = maxPrecipitation;
-            }
-            else if (moisture < 0)
-            {
-                moisture = 0;
-            }
-        }
-
-        return moisture;
-    }
-
-    private double[] GetIrrigationByHour(int zoneId, DateTime startHour, DateTime t)
-    {
-        int Index(DateTime hour) => (int)Math.Floor((hour - startHour).TotalHours);
-
+        DateTime current = t - Range;
+        DateTime startHour = current.TrimToHour();
         double precipitationRate = config.Zones[zoneId].PrecipitationRate;
-        double[] irrigationByHour = new double[(int)Math.Floor((t - startHour).TotalHours + 1)];
-        foreach (ZoneClosed e in this.GetZoneClosedEvents(zoneId, startHour, t))
+        double[] et = this.GetETByHour(config.Zones[zoneId].CropCoefficient, startHour, t);
+        foreach (ZoneClosed e in this.GetZoneClosedEvents(zoneId, startHour, t).OrderBy(x => x.Timestamp))
         {
-            DateTime opened = e.Timestamp - e.After;
-            DateTime openedHour = Trim(opened);
-            DateTime closedHour = Trim(e.Timestamp);
-            if (openedHour == closedHour)
+            DateTime open = e.Timestamp - e.After;
+            if (open < current)
             {
-                irrigationByHour[Index(openedHour)] = e.After.TotalHours * precipitationRate;
+                moisture = Clamp(moisture + Sum(et, precipitationRate, 0, (e.Timestamp - startHour).TotalHours));
             }
             else
             {
-                int openedHourIndex = Index(openedHour);
-                if (openedHourIndex >= 0)
-                {
-                    // The index could be negative if the opening of the zone occurred before the start date.
-                    irrigationByHour[openedHourIndex] = (1.0 - (opened - openedHour).TotalHours) * precipitationRate;
-                }
-
-                int closedHourIndex = Index(closedHour);
-                irrigationByHour[closedHourIndex] = (e.Timestamp - closedHour).TotalHours * precipitationRate;
-                for (int i = Math.Max(openedHourIndex + 1, 0); i < closedHourIndex; i++)
-                {
-                    irrigationByHour[i] = precipitationRate;
-                }
+                moisture = Clamp(moisture + Sum(et, 0, (current - startHour).TotalHours, (open - startHour).TotalHours));
+                moisture = Clamp(moisture + Sum(et, precipitationRate, (open - startHour).TotalHours, (e.Timestamp - startHour).TotalHours));
             }
+
+            current = e.Timestamp;
         }
 
-        ZoneOpened? zoneOpened = this.GetUnclosedZoneOpenedEvent(zoneId, t);
-        if (zoneOpened is not null)
+        ZoneOpened? unclosed = this.GetUnclosedZoneOpenedEvent(zoneId, t);
+        if (unclosed is null)
         {
-            irrigationByHour[^1] += (t - zoneOpened.Timestamp).TotalHours * precipitationRate;
+            moisture = Clamp(moisture + Sum(et, 0, (current - startHour).TotalHours, (t - startHour).TotalHours));
+        }
+        else
+        {
+            moisture = Clamp(moisture + Sum(et, 0, (current - startHour).TotalHours, (unclosed.Timestamp - startHour).TotalHours));
+            moisture = Clamp(moisture + Sum(et, precipitationRate, (unclosed.Timestamp - startHour).TotalHours, (t - startHour).TotalHours));
         }
 
-        return irrigationByHour;
+        return moisture / config.Zones[zoneId].MaxPrecipitation;
     }
 
-    private IEnumerable<ZoneClosed> GetZoneClosedEvents(int zoneId, DateTime startHour, DateTime t)
+    private static double Sum(double[] et, double precipitationRate, double from, double to)
     {
+        int fromIndex = (int)Math.Floor(from);
+        int toIndex = (int)Math.Floor(to);
+        if (fromIndex == toIndex)
+        {
+            return (precipitationRate - et[fromIndex]) * (to - from);
+        }
+        else
+        {
+            double sum = (precipitationRate - et[fromIndex]) * (fromIndex + 1 - from);
+            for (int i = fromIndex + 1; i < toIndex; i++)
+            {
+                sum += precipitationRate - et[i];
+            }
+
+            sum += (precipitationRate - et[toIndex]) * (to - toIndex);
+            return sum;
+        }
+    }
+
+    private double[] GetETByHour(double cropCoefficient, DateTime from, DateTime to)
+    {
+        double[] et = weatherService.GetEToByHour(from, to);
+        for (int i = 0; i < et.Length; i++)
+        {
+            et[i] *= cropCoefficient;
+        }
+
+        return et;
+    }
+
+    private List<ZoneClosed> GetZoneClosedEvents(int zoneId, DateTime from, DateTime to)
+    {
+        List<ZoneClosed> events = [];
         IReadOnlyList<IIrrigationEvent> all = log.GetAll();
         for (int i = all.Count - 1; i >= 0; i--)
         {
-            if (all[i].Timestamp > t)
+            if (all[i].Timestamp > to)
             {
                 continue;
             }
 
-            if (all[i].Timestamp < startHour)
+            if (all[i].Timestamp < from)
             {
                 break;
             }
 
             if (all[i] is ZoneClosed zoneClosed && zoneClosed.ZoneId == zoneId)
             {
-                yield return zoneClosed;
+                events.Add(zoneClosed);
             }
         }
+
+        return events;
     }
 
-    private ZoneOpened? GetUnclosedZoneOpenedEvent(int zoneId, DateTime t)
+    private ZoneOpened? GetUnclosedZoneOpenedEvent(int zoneId, DateTime to)
     {
         IReadOnlyList<IIrrigationEvent> all = log.GetAll();
-        DateTime from = t.AddHours(-1.0);
+        DateTime from = to.AddHours(-1.0);
         for (int i = all.Count - 1; i >= 0; i--)
         {
-            if (all[i].Timestamp > t)
+            if (all[i].Timestamp > to)
             {
                 continue;
             }
@@ -137,6 +141,4 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
 
         return null;
     }
-
-    private static DateTime Trim(DateTime t) => new(t.Year, t.Month, t.Day, t.Hour, 0, 0, DateTimeKind.Utc);
 }

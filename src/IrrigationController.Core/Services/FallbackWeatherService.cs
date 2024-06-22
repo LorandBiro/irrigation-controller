@@ -14,8 +14,8 @@ public class FallbackWeatherService : IWeatherService
             throw new ArgumentException("The times must be in UTC.", nameof(start));
         }
 
-        start = new DateTime(start.Year, start.Month, start.Day, start.Hour, 0, 0, DateTimeKind.Utc);
-        end = new DateTime(end.Year, end.Month, end.Day, end.Hour, 0, 0, DateTimeKind.Utc);
+        start = start.TrimToHour();
+        end = end.TrimToHour();
 
         double[] etByHour = new double[(int)(end - start).TotalHours + 1];
         for (int i = 0; i < etByHour.Length; i++)
