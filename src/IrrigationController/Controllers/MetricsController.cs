@@ -16,6 +16,7 @@ public class MetricsController(Config config, SoilMoistureEstimator soilMoisture
         StringBuilder sb = new();
 
         WeatherData weather = await weatherService.GetCurrentAsync();
+        sb.AppendLine($"temperature {weather.Temperature}");
         sb.AppendLine($"precipitation {weather.Precipitation}");
         sb.AppendLine($"precipitation_probability {weather.PrecipitationProbability}");
         sb.AppendLine($"eto {weather.ETo}");
