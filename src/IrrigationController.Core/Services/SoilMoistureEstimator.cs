@@ -18,73 +18,37 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
             throw new ArgumentOutOfRangeException(nameof(zoneId), zoneId, "The zone id is out of range.");
         }
 
-        double Clamp(double moisture) => Math.Max(0.0, Math.Min(config.Zones[zoneId].MaxPrecipitation, moisture));
-
-        double moisture = 0.0;
         DateTime current = t - Range;
-        DateTime startHour = current.TrimToHour();
-        double irrigationRate = config.Zones[zoneId].IrrigationRate;
-        double[] et = this.GetETByHour(config.Zones[zoneId].CropCoefficient, startHour, t);
-        foreach (ZoneClosed e in this.GetZoneClosedEvents(zoneId, startHour, t).OrderBy(x => x.Timestamp))
+        (double maxPrecipitation, double irrigationRate, double cropCoefficient) = config.Zones[zoneId];
+        SoilMoistureCalculator calculator = new(current.TrimToHour(), weatherService.GetEToByHour(current, t), irrigationRate, maxPrecipitation, cropCoefficient);
+        foreach (ZoneClosed e in this.GetZoneClosedEvents(zoneId, current, t).OrderBy(x => x.Timestamp))
         {
             DateTime open = e.Timestamp - e.After;
             if (open < current)
             {
-                moisture = Clamp(moisture + Sum(et, irrigationRate, 0, (e.Timestamp - startHour).TotalHours));
+                calculator.Add(current, e.Timestamp, true);
             }
             else
             {
-                moisture = Clamp(moisture + Sum(et, 0, (current - startHour).TotalHours, (open - startHour).TotalHours));
-                moisture = Clamp(moisture + Sum(et, irrigationRate, (open - startHour).TotalHours, (e.Timestamp - startHour).TotalHours));
+                calculator.Add(current, open, false);
+                calculator.Add(open, e.Timestamp, true);
             }
 
             current = e.Timestamp;
         }
 
-        ZoneOpened? unclosed = this.GetUnclosedZoneOpenedEvent(zoneId, t);
+        ZoneOpened? unclosed = this.GetUnclosedZoneOpenedEvent(zoneId, current, t);
         if (unclosed is null)
         {
-            moisture = Clamp(moisture + Sum(et, 0, (current - startHour).TotalHours, (t - startHour).TotalHours));
+            calculator.Add(current, t, false);
         }
         else
         {
-            moisture = Clamp(moisture + Sum(et, 0, (current - startHour).TotalHours, (unclosed.Timestamp - startHour).TotalHours));
-            moisture = Clamp(moisture + Sum(et, irrigationRate, (unclosed.Timestamp - startHour).TotalHours, (t - startHour).TotalHours));
+            calculator.Add(current, unclosed.Timestamp, false);
+            calculator.Add(unclosed.Timestamp, t, true);
         }
 
-        return moisture / config.Zones[zoneId].MaxPrecipitation;
-    }
-
-    private static double Sum(double[] et, double irrigationRate, double from, double to)
-    {
-        int fromIndex = (int)Math.Floor(from);
-        int toIndex = (int)Math.Floor(to);
-        if (fromIndex == toIndex)
-        {
-            return (irrigationRate - et[fromIndex]) * (to - from);
-        }
-        else
-        {
-            double sum = (irrigationRate - et[fromIndex]) * (fromIndex + 1 - from);
-            for (int i = fromIndex + 1; i < toIndex; i++)
-            {
-                sum += irrigationRate - et[i];
-            }
-
-            sum += (irrigationRate - et[toIndex]) * (to - toIndex);
-            return sum;
-        }
-    }
-
-    private double[] GetETByHour(double cropCoefficient, DateTime from, DateTime to)
-    {
-        double[] et = weatherService.GetEToByHour(from, to);
-        for (int i = 0; i < et.Length; i++)
-        {
-            et[i] *= cropCoefficient;
-        }
-
-        return et;
+        return calculator.SoilMoisturePercentage;
     }
 
     private List<ZoneClosed> GetZoneClosedEvents(int zoneId, DateTime from, DateTime to)
@@ -112,10 +76,9 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
         return events;
     }
 
-    private ZoneOpened? GetUnclosedZoneOpenedEvent(int zoneId, DateTime to)
+    private ZoneOpened? GetUnclosedZoneOpenedEvent(int zoneId, DateTime from, DateTime to)
     {
         IReadOnlyList<IIrrigationEvent> all = log.GetAll();
-        DateTime from = to.AddHours(-1.0);
         for (int i = all.Count - 1; i >= 0; i--)
         {
             if (all[i].Timestamp > to)
@@ -128,11 +91,6 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
                 break;
             }
 
-            if (all[i] is ZoneClosed zoneClosed && zoneClosed.ZoneId == zoneId)
-            {
-                break;
-            }
-
             if (all[i] is ZoneOpened zoneOpened && zoneOpened.ZoneId == zoneId)
             {
                 return zoneOpened;
@@ -140,5 +98,51 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
         }
 
         return null;
+    }
+
+    private class SoilMoistureCalculator(DateTime startHour, double[] eto, double irrigationRate, double maxPrecipitation, double cropCoefficient)
+    {
+        public double SoilMoisture { get; private set; }
+
+        public double SoilMoisturePercentage => this.SoilMoisture / maxPrecipitation;
+
+        public void Add(DateTime from, DateTime to, bool irrigating)
+        {
+            double fromHour = (from - startHour).TotalHours;
+            double toHour = (to - startHour).TotalHours;
+            this.SoilMoisture = Math.Max(0.0, Math.Min(maxPrecipitation, this.SoilMoisture + this.Sum(fromHour, toHour, irrigating)));
+        }
+
+        private double Sum(double from, double to, bool irrigating)
+        {
+            int fromIndex = (int)Math.Floor(from);
+            int toIndex = (int)Math.Floor(to);
+            if (fromIndex == toIndex)
+            {
+                return this.Rate(fromIndex, irrigating) * (to - from);
+            }
+            else
+            {
+                double sum = this.Rate(fromIndex, irrigating) * (fromIndex + 1 - from);
+                for (int i = fromIndex + 1; i < toIndex; i++)
+                {
+                    sum += this.Rate(i, irrigating);
+                }
+
+                sum += this.Rate(toIndex, irrigating) * (to - toIndex);
+                return sum;
+            }
+        }
+
+        private double Rate(int i, bool irrigating)
+        {
+            double rate = -eto[i] * cropCoefficient;
+            if (irrigating)
+            {
+                rate += irrigationRate;
+            }
+
+            return rate;
+        }
     }
 }
