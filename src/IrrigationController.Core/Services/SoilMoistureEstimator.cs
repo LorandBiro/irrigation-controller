@@ -23,19 +23,19 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
         double moisture = 0.0;
         DateTime current = t - Range;
         DateTime startHour = current.TrimToHour();
-        double precipitationRate = config.Zones[zoneId].PrecipitationRate;
+        double irrigationRate = config.Zones[zoneId].IrrigationRate;
         double[] et = this.GetETByHour(config.Zones[zoneId].CropCoefficient, startHour, t);
         foreach (ZoneClosed e in this.GetZoneClosedEvents(zoneId, startHour, t).OrderBy(x => x.Timestamp))
         {
             DateTime open = e.Timestamp - e.After;
             if (open < current)
             {
-                moisture = Clamp(moisture + Sum(et, precipitationRate, 0, (e.Timestamp - startHour).TotalHours));
+                moisture = Clamp(moisture + Sum(et, irrigationRate, 0, (e.Timestamp - startHour).TotalHours));
             }
             else
             {
                 moisture = Clamp(moisture + Sum(et, 0, (current - startHour).TotalHours, (open - startHour).TotalHours));
-                moisture = Clamp(moisture + Sum(et, precipitationRate, (open - startHour).TotalHours, (e.Timestamp - startHour).TotalHours));
+                moisture = Clamp(moisture + Sum(et, irrigationRate, (open - startHour).TotalHours, (e.Timestamp - startHour).TotalHours));
             }
 
             current = e.Timestamp;
@@ -49,29 +49,29 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
         else
         {
             moisture = Clamp(moisture + Sum(et, 0, (current - startHour).TotalHours, (unclosed.Timestamp - startHour).TotalHours));
-            moisture = Clamp(moisture + Sum(et, precipitationRate, (unclosed.Timestamp - startHour).TotalHours, (t - startHour).TotalHours));
+            moisture = Clamp(moisture + Sum(et, irrigationRate, (unclosed.Timestamp - startHour).TotalHours, (t - startHour).TotalHours));
         }
 
         return moisture / config.Zones[zoneId].MaxPrecipitation;
     }
 
-    private static double Sum(double[] et, double precipitationRate, double from, double to)
+    private static double Sum(double[] et, double irrigationRate, double from, double to)
     {
         int fromIndex = (int)Math.Floor(from);
         int toIndex = (int)Math.Floor(to);
         if (fromIndex == toIndex)
         {
-            return (precipitationRate - et[fromIndex]) * (to - from);
+            return (irrigationRate - et[fromIndex]) * (to - from);
         }
         else
         {
-            double sum = (precipitationRate - et[fromIndex]) * (fromIndex + 1 - from);
+            double sum = (irrigationRate - et[fromIndex]) * (fromIndex + 1 - from);
             for (int i = fromIndex + 1; i < toIndex; i++)
             {
-                sum += precipitationRate - et[i];
+                sum += irrigationRate - et[i];
             }
 
-            sum += (precipitationRate - et[toIndex]) * (to - toIndex);
+            sum += (irrigationRate - et[toIndex]) * (to - toIndex);
             return sum;
         }
     }

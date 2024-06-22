@@ -69,7 +69,7 @@ public class Program
         services.AddSingleton<IWeatherService, FallbackWeatherService>();
         services.AddSingleton<ProgramController>();
         services.AddSingleton<SoilMoistureEstimator>();
-        services.AddSingleton(new SoilMoistureEstimatorConfig(config.Zones.Select(x => (x.MaxPrecipitation, x.PrecipitationRate, x.CropCoefficient)).ToList()));
+        services.AddSingleton(new SoilMoistureEstimatorConfig(config.Zones.Select(x => (x.MaxPrecipitation, x.IrrigationRate, x.CropCoefficient)).ToList()));
         services.AddSingleton<SunriseCalculator>();
         services.AddSingleton(new SunriseCalculatorConfig(config.Latitude, config.Longitude));
         services.AddSingleton<SunriseScheduler>();
@@ -90,7 +90,7 @@ public class Program
         services.AddSingleton<SkipUseCase>();
         services.AddSingleton<StopUseCase>();
         services.AddSingleton<SunriseEventHandler>();
-        services.AddSingleton(new SunriseEventHandlerConfig(config.Zones.Select(x => (x.Enabled, x.MaxPrecipitation, x.PrecipitationRate)).ToList()));
+        services.AddSingleton(new SunriseEventHandlerConfig(config.Zones.Select(x => (x.Enabled, x.MaxPrecipitation, x.IrrigationRate)).ToList()));
     }
 
     private static void InitializeServices(IServiceProvider services, Config config)
