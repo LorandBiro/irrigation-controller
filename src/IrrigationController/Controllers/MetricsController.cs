@@ -16,10 +16,10 @@ public class MetricsController(Config config, SoilMoistureEstimator soilMoisture
         StringBuilder sb = new();
 
         WeatherData weather = await weatherService.GetCurrentAsync();
-        sb.AppendLine($"temperature {weather.Temperature}");
-        sb.AppendLine($"precipitation {weather.Precipitation}");
-        sb.AppendLine($"precipitation_probability {weather.PrecipitationProbability}");
-        sb.AppendLine($"eto {weather.ETo}");
+        sb.AppendLine($"weather_temperature {weather.Temperature}");
+        sb.AppendLine($"weather_precipitation {weather.Precipitation}");
+        sb.AppendLine($"weather_precipitation_probability {weather.PrecipitationProbability}");
+        sb.AppendLine($"weather_eto {weather.ETo}");
         for (int i = 0; i < config.Zones.Count; i++)
         {
             ZoneInfo zoneInfo = config.Zones[i];
