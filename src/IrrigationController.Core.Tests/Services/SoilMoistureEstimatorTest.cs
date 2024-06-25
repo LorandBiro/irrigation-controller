@@ -39,7 +39,7 @@ public class SoilMoistureEstimatorTest
         double actual = await estimator.EstimateAsync(0, Date(7, 2, 6, 0));
 
         // We irrigated 10 mm on the previous day and ETo is 4.8 mm/day in July.
-        Assert.Equal(0.52, actual, 0.01);
+        Assert.Equal(5.2, actual, 0.01);
     }
 
     [Fact]
@@ -52,7 +52,7 @@ public class SoilMoistureEstimatorTest
         double actual = await estimator.EstimateAsync(0, Date(7, 1, 18, 0));
 
         // We irrigated 10 mm in the morning and ETo is 4.8 mm/day in July.
-        Assert.Equal(0.76, actual, 0.01);
+        Assert.Equal(7.6, actual, 0.01);
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class SoilMoistureEstimatorTest
         double actual = await estimator.EstimateAsync(0, Date(7, 3, 6, 0));
 
         // We irrigated 10 mm on the first day, 2.5 mm on the second day and ETo is 4.8 mm/day in July.
-        Assert.Equal(0.29, actual, 0.01);
+        Assert.Equal(2.9, actual, 0.01);
     }
 
     [Fact]
@@ -79,7 +79,7 @@ public class SoilMoistureEstimatorTest
 
         double actual = await estimator.EstimateAsync(0, now);
 
-        Assert.Equal(0.5, actual, 0.01);
+        Assert.Equal(5.0, actual, 0.01);
     }
 
     [Fact]
@@ -93,7 +93,7 @@ public class SoilMoistureEstimatorTest
 
         double actual = await estimator.EstimateAsync(0, now);
 
-        Assert.Equal(1.0, actual, 0.01);
+        Assert.Equal(10.0, actual, 0.01);
     }
 
     [Fact]
@@ -107,7 +107,7 @@ public class SoilMoistureEstimatorTest
 
         double actual = await estimator.EstimateAsync(0, now);
 
-        Assert.Equal(0.5, actual, 0.01);
+        Assert.Equal(5.0, actual, 0.01);
     }
 
     private static TimeSpan Minutes(int minutes) => TimeSpan.FromMinutes(minutes);

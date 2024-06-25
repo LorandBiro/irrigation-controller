@@ -49,7 +49,7 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
             calculator.Add(unclosed.Timestamp, t, true);
         }
 
-        return calculator.SoilMoisturePercentage;
+        return calculator.SoilMoisture;
     }
 
     private List<ZoneClosed> GetZoneClosedEvents(int zoneId, DateTime from, DateTime to)
@@ -104,8 +104,6 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
     private class SoilMoistureCalculator(DateTime startHour, WeatherData[] weather, double irrigationRate, double maxPrecipitation, double cropCoefficient)
     {
         public double SoilMoisture { get; private set; }
-
-        public double SoilMoisturePercentage => this.SoilMoisture / maxPrecipitation;
 
         public void Add(DateTime from, DateTime to, bool irrigating)
         {

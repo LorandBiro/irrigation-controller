@@ -25,7 +25,7 @@ public class MetricsController(Config config, SoilMoistureEstimator soilMoisture
             ZoneInfo zoneInfo = config.Zones[i];
             Zone? zone = zoneRepository.Get(i);
             double soilMoisture = await soilMoistureEstimator.EstimateAsync(i, DateTime.UtcNow);
-            sb.AppendLine($"zone_soil_moisture{{zone=\"{zoneInfo.Name}\"}} {soilMoisture}");
+            sb.AppendLine($"zone_soil_moisture{{zone=\"{zoneInfo.Name}\"}} {soilMoisture / config.Zones[i].MaxPrecipitation}");
             sb.AppendLine($"zone_open{{zone=\"{zoneInfo.Name}\"}} {(programController.CurrentZone?.ZoneId == i ? "1" : "0")}");
             sb.AppendLine($"zone_short_circuit{{zone=\"{zoneInfo.Name}\"}} {(zone?.IsDefective == true ? "1" : "0")}");
         }
