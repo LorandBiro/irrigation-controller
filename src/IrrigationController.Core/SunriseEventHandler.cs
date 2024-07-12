@@ -44,6 +44,41 @@ public class SunriseEventHandler(SunriseEventHandlerConfig config, IRainSensor r
             }
         }
 
+        if (zonesToIrrigate.Count == 0)
+        {
+            return;
+        }
+
+        zonesToIrrigate = this.Split(zonesToIrrigate);
         programController.Run(zonesToIrrigate, ZoneOpenReason.FallbackSchedule);
+    }
+
+    private List<ZoneDuration> Split(List<ZoneDuration> zones)
+    {
+        if (zones.Count <= 1)
+        {
+            // We can't split a single zone into multiple parts.
+            return zones;
+        }
+
+        TimeSpan maxDuration = zones.Max(x => x.Duration);
+        if (maxDuration <= config.SplitDuration)
+        {
+            // No need to split if the longest duration is less than the configured threshold.
+            return zones;
+        }
+
+        List<ZoneDuration> splitZones = [];
+        int rounds = (int)Math.Ceiling(maxDuration.TotalSeconds / config.SplitDuration.TotalSeconds);
+        for (int i = 0; i < rounds; i++)
+        {
+            for (int j = 0; j < zones.Count; j++)
+            {
+                ZoneDuration zone = zones[j];
+                splitZones.Add(new ZoneDuration(zone.ZoneId, TimeSpan.FromSeconds(zone.Duration.TotalSeconds / rounds)));
+            }
+        }
+
+        return splitZones;
     }
 }

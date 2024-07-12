@@ -93,7 +93,7 @@ public class Program
         services.AddSingleton<SkipUseCase>();
         services.AddSingleton<StopUseCase>();
         services.AddSingleton<SunriseEventHandler>();
-        services.AddSingleton(new SunriseEventHandlerConfig(config.Zones.Select(x => (x.Enabled, x.MaxPrecipitation, x.IrrigationRate)).ToList()));
+        services.AddSingleton(new SunriseEventHandlerConfig(config.Zones.Select(x => (x.Enabled, x.MaxPrecipitation, x.IrrigationRate)).ToList(), config.SplitDuration));
     }
 
     private static void InitializeServices(IServiceProvider services, Config config)

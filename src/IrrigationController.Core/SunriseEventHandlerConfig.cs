@@ -1,3 +1,3 @@
 ﻿namespace IrrigationController.Core;
 
-public record SunriseEventHandlerConfig(IReadOnlyList<(bool Enabled, double MaxPrecipitation, double IrrigationRate)> Zones);
+public record SunriseEventHandlerConfig(IReadOnlyList<(bool Enabled, double MaxPrecipitation, double IrrigationRate)> Zones, TimeSpan SplitDuration);

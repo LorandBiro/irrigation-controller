@@ -11,6 +11,7 @@ public class Config
     public required int ShortCircuitSensorPin { get; init; }
     public required TimeSpan ZoneDelay { get; init; }
     public required TimeSpan ManualZoneDuration { get; init; }
+    public required TimeSpan SplitDuration { get; init; }
     public required IReadOnlyList<ZoneInfo> Zones { get; init; }
 }
 
