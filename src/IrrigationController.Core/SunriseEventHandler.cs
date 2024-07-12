@@ -27,11 +27,8 @@ public class SunriseEventHandler(SunriseEventHandlerConfig config, IRainSensor r
             if (delta <= 0.0)
             {
                 // Negative delta indicates more evapotranspiration than precipitation over the next 24 hours.
-                // We should irrigate if soil moisture is below a threshold to prevent excessive drying.
-                // The threshold is 50% of the forecasted decrease in soil moisture.
-                // Example: If a 3mm decrease is expected, irrigation is triggered if soil moisture is below 1.5mm.
-                double limit = delta * -0.5;
-                if (soilMoisture < limit)
+                // We should irrigate if soil moisture is forecasted to dry out completely.
+                if (soilMoisture + delta <= 0.0)
                 {
                     zonesToIrrigate.Add(new ZoneDuration(i, TimeSpan.FromHours((maxPrecipitation - soilMoisture) / irrigationRate)));
                 }
