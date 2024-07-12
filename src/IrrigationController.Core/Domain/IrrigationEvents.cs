@@ -10,7 +10,6 @@ public enum ZoneOpenReason
     Manual,
     ManualProgram,
     Schedule,
-    FallbackSchedule,
 }
 
 public record ZoneOpened(DateTime Timestamp, int ZoneId, TimeSpan For, ZoneOpenReason Reason) : IIrrigationEvent;

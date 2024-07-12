@@ -154,7 +154,7 @@ public class ProgramController
     private static ZoneCloseReason ToStopReason(ZoneOpenReason reason) => reason switch
     {
         ZoneOpenReason.Manual => ZoneCloseReason.Manual,
-        ZoneOpenReason.Schedule or ZoneOpenReason.FallbackSchedule => ZoneCloseReason.Schedule,
+        ZoneOpenReason.Schedule => ZoneCloseReason.Schedule,
         _ => throw new ArgumentException("Invalid start reason")
     };
 }

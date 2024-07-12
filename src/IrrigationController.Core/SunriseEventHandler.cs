@@ -50,7 +50,7 @@ public class SunriseEventHandler(SunriseEventHandlerConfig config, IRainSensor r
         }
 
         zonesToIrrigate = this.Split(zonesToIrrigate);
-        programController.Run(zonesToIrrigate, ZoneOpenReason.FallbackSchedule);
+        programController.Run(zonesToIrrigate, ZoneOpenReason.Schedule);
     }
 
     private List<ZoneDuration> Split(List<ZoneDuration> zones)

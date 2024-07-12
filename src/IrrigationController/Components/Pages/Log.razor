@@ -35,7 +35,6 @@
         ZoneOpenReason.Manual => "opened manually",
         ZoneOpenReason.ManualProgram => "opened by manual program",
         ZoneOpenReason.Schedule => "opened by schedule",
-        ZoneOpenReason.FallbackSchedule => "opened by fallback schedule",
         _ => reason.ToString()
     };
     private string ToString(ZoneCloseReason reason) => reason switch
