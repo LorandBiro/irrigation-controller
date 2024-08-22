@@ -130,7 +130,7 @@ public class SoilMoistureEstimator(IIrrigationLog log, SoilMoistureEstimatorConf
 
     private class SoilMoistureCalculator(DateTime startHour, WeatherData[] weather, double cropCoefficient, double? min, double? max)
     {
-        public double SoilMoisture { get; private set; }
+        public double SoilMoisture { get; private set; } = max ?? 0.0;
 
         public void Add(DateTime from, DateTime to, double rate)
         {

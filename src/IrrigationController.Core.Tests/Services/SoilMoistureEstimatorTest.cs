@@ -5,7 +5,7 @@ namespace IrrigationController.Core.Services;
 public class SoilMoistureEstimatorTest
 {
     [Fact]
-    public async Task NoEvents()
+    public async Task NoEvents_DryCompletely()
     {
         InMemoryIrrigationLog log = new();
         FakeWeatherService weatherService = new(0.2);
@@ -14,6 +14,18 @@ public class SoilMoistureEstimatorTest
         double actual = await estimator.EstimateAsync(0, Date(7, 1, 6, 0));
 
         Assert.Equal(0.0, actual);
+    }
+
+    [Fact]
+    public async Task NoEvents_DryHalf()
+    {
+        InMemoryIrrigationLog log = new();
+        FakeWeatherService weatherService = new(5.0 / SoilMoistureEstimator.Range.TotalHours);
+        SoilMoistureEstimator estimator = new(log, new([(10, 10, 1)]), weatherService);
+
+        double actual = await estimator.EstimateAsync(0, Date(7, 1, 6, 0));
+
+        Assert.Equal(5.0, actual, 0.01);
     }
 
     [Fact]
@@ -79,7 +91,7 @@ public class SoilMoistureEstimatorTest
 
         double actual = await estimator.EstimateAsync(0, now);
 
-        Assert.Equal(5.0, actual, 0.01);
+        Assert.Equal(10.0, actual, 0.01);
     }
 
     [Fact]
@@ -107,7 +119,7 @@ public class SoilMoistureEstimatorTest
 
         double actual = await estimator.EstimateAsync(0, now);
 
-        Assert.Equal(5.0, actual, 0.01);
+        Assert.Equal(10.0, actual, 0.01);
     }
 
     private static TimeSpan Minutes(int minutes) => TimeSpan.FromMinutes(minutes);
