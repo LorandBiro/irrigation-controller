@@ -50,6 +50,7 @@ public class Program
         services.AddSingleton<IIrrigationLog, IrrigationLog>();
         services.AddSingleton<IZoneRepository, ZoneRepository>();
 
+        services.AddSingleton(typeof(ILog<>), typeof(Log<>));
         services.AddSingleton<IWeatherForecastApi, OpenMeteoApi>();
         services.AddSingleton(new OpenMeteoApiConfig(config.Latitude, config.Longitude));
         if (config.MockGpio)
