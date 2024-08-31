@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Install Node Exporter
-VERSION=1.7.0 # https://github.com/prometheus/node_exporter/releases
+# Install Node Exporter (https://github.com/prometheus/node_exporter/releases)
+VERSION=1.7.0
 wget https://github.com/prometheus/node_exporter/releases/download/v$VERSION/node_exporter-$VERSION.linux-arm64.tar.gz
 tar -xvf node_exporter-$VERSION.linux-arm64.tar.gz
 sudo cp node_exporter-$VERSION.linux-arm64/node_exporter /usr/local/bin
@@ -25,6 +25,7 @@ sudo useradd -r irrigation-controller
 sudo adduser irrigation-controller gpio
 sudo mkdir /var/lib/irrigation-controller
 sudo chown irrigation-controller:irrigation-controller /var/lib/irrigation-controller
+sudo systemctl enable systemd-time-wait-sync
 
 # Irrigation Controller Service
 sudo cp ./setup/irrigation-controller.service /usr/local/lib/systemd/system/irrigation-controller.service

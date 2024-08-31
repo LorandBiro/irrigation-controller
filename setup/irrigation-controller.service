@@ -2,6 +2,7 @@
 Description=Irrigation Controller
 After=network.target
 StartLimitIntervalSec=0
+After=time-sync.target
 
 [Service]
 Type=simple
