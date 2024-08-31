@@ -4,6 +4,7 @@ using IrrigationController.Core;
 using IrrigationController.Core.Services;
 using IrrigationController.Core.Domain;
 using IrrigationController.Core.Infrastructure;
+using System.Runtime.InteropServices;
 
 namespace IrrigationController;
 
@@ -16,10 +17,7 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddLogging(options =>
         {
-            options.AddSimpleConsole(c =>
-            {
-                c.SingleLine = true;
-            });
+            options.AddSystemdConsole();
         });
 
         Config config = builder.Configuration.GetSection("IrrigationController").Get<Config>() ?? throw new Exception("IrrigationController config is missing");
