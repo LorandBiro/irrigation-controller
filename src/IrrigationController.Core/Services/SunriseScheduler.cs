@@ -1,16 +1,20 @@
-﻿namespace IrrigationController.Core.Services;
+﻿using IrrigationController.Core.Infrastructure;
+
+namespace IrrigationController.Core.Services;
 
 public sealed class SunriseScheduler : IDisposable
 {
     private readonly SunriseCalculator sunriseCalculator;
     private readonly SunriseEventHandler sunriseEventHandler;
+    private readonly ILog<SunriseScheduler> log;
 
     private readonly Timer timer;
 
-    public SunriseScheduler(SunriseCalculator sunriseCalculator, SunriseEventHandler sunriseEventHandler)
+    public SunriseScheduler(SunriseCalculator sunriseCalculator, SunriseEventHandler sunriseEventHandler, ILog<SunriseScheduler> log)
     {
         this.sunriseCalculator = sunriseCalculator;
         this.sunriseEventHandler = sunriseEventHandler;
+        this.log = log;
 
         this.timer = new Timer(this.TimerCallback);
     }
@@ -21,7 +25,14 @@ public sealed class SunriseScheduler : IDisposable
 
     public void Initialize()
     {
-        this.ScheduleNextSunrise();
+        DateTime date = DateTime.UtcNow.Date;
+        DateTime sunrise = this.sunriseCalculator.GetStartTime(date);
+        if (sunrise < DateTime.UtcNow)
+        {
+            sunrise = this.sunriseCalculator.GetStartTime(date.AddDays(1));
+        }
+
+        this.Schedule(sunrise);
     }
 
     public void Dispose()
@@ -29,26 +40,20 @@ public sealed class SunriseScheduler : IDisposable
         this.timer.Dispose();
     }
 
-    private void ScheduleNextSunrise()
+    private void Schedule(DateTime sunrise)
     {
-        DateTime now = DateTime.UtcNow;
-        DateOnly date = DateOnly.FromDateTime(now);
-        DateTime sunrise = this.sunriseCalculator.GetStartTime(date);
-        if (sunrise < now)
-        {
-            sunrise = this.sunriseCalculator.GetStartTime(date.AddDays(1));
-        }
-
-        TimeSpan delay = sunrise - now;
-        this.timer.Change(delay, TimeSpan.Zero);
-
-        this.NextSunrise = sunrise.ToLocalTime();
+        this.log.Info($"Waiting for next sunrise: {sunrise.ToLocalTime()}");
+        this.timer.Change(sunrise - DateTime.UtcNow, TimeSpan.Zero);
+        this.NextSunrise = sunrise;
         this.NextSunriseChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void TimerCallback(object? state)
     {
         Task.Run(this.sunriseEventHandler.HandleAsync);
-        this.ScheduleNextSunrise();
+
+        DateTime date = DateTime.UtcNow.Date.AddDays(1);
+        DateTime sunrise = this.sunriseCalculator.GetStartTime(date);
+        this.Schedule(sunrise);
     }
 }

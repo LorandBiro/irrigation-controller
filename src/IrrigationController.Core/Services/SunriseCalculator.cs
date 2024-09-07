@@ -8,10 +8,9 @@ public class SunriseCalculator(SunriseCalculatorConfig config)
 
     private readonly SunriseCalculatorConfig config = config;
 
-    public DateTime GetStartTime(DateOnly date)
+    public DateTime GetStartTime(DateTime date)
     {
-        DateTime t = new(date, TimeOnly.MinValue);
-        int n = (int)Math.Ceiling((t - Epoch).TotalDays);
+        int n = (int)Math.Ceiling((date - Epoch).TotalDays);
         return this.GetSunrise(n);
     }
 

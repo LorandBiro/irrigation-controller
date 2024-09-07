@@ -9,7 +9,7 @@
 <h1>Status</h1>
 
 <p>Rain sensor: @(GetProgramStatusUseCase.IsRaining ? "Raining" : "Clear")</p>
-<p>Next sunrise: @GetProgramStatusUseCase.NextSunrise.ToString("yyyy-MM-dd HH:mm")</p>
+<p>Next sunrise: @GetProgramStatusUseCase.NextSunrise.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</p>
 @if (this.GetProgramStatusUseCase.CurrentZone == null || this.GetProgramStatusUseCase.CurrentZoneEndsAt == null)
 {
     <p>No program is running</p>
