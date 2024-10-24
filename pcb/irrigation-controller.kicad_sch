@@ -4084,7 +4084,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.1 µF"
+		(property "Value" "330 nF"
 			(at 170.18 73.6599 0)
 			(effects
 				(font
@@ -4120,7 +4120,7 @@
 				(hide yes)
 			)
 		)
-		(property "CID" "100.011.22"
+		(property "CID" "100.343.20"
 			(at 166.37 72.39 0)
 			(effects
 				(font

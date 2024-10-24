@@ -1222,7 +1222,7 @@
 				)
 			)
 		)
-		(property "Value" "EVL-SMD0805-RED"
+		(property "Value" "EVL-BHC-AN1P2"
 			(at 131.7625 81.28 0)
 			(effects
 				(font
@@ -1257,7 +1257,7 @@
 				(hide yes)
 			)
 		)
-		(property "CID" "100.432.15"
+		(property "CID" "100.363.83"
 			(at 133.35 86.36 0)
 			(effects
 				(font
