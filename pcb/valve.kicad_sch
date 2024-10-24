@@ -1267,10 +1267,10 @@
 			)
 		)
 		(pin "2"
-			(uuid "9ef3dc47-e18c-4e65-a192-8f09e2c3523d")
+			(uuid "ceff7537-63b5-4210-9d02-d6caacdde472")
 		)
 		(pin "1"
-			(uuid "a2a6cfb9-eba7-45c2-86c3-2425058e191b")
+			(uuid "54c1bd2e-4cf2-4985-89fd-5ed40a2c6f5c")
 		)
 		(instances
 			(project "irrigation-controller"
@@ -1288,6 +1288,10 @@
 				)
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f0d80cdd-41ca-4947-afbf-3715980c4b1b"
 					(reference "D7")
+					(unit 1)
+				)
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f6855309-c20b-4afd-9ee1-6feb23f07aec"
+					(reference "D9")
 					(unit 1)
 				)
 			)
@@ -1358,13 +1362,13 @@
 			)
 		)
 		(pin "3"
-			(uuid "d3cd5564-d796-4c1c-a223-fffbc278d91a")
+			(uuid "88996060-d9e4-461f-8dfd-0fb017192615")
 		)
 		(pin "2"
-			(uuid "af52d229-007d-4475-8f96-95042be2c393")
+			(uuid "d501cb08-68ab-4f4d-a836-7dc9363a4bb8")
 		)
 		(pin "1"
-			(uuid "f3273634-e0bb-45c1-8d83-91ee39e0acbc")
+			(uuid "d46df464-4994-4ab2-b8ef-6afaab049208")
 		)
 		(instances
 			(project "irrigation-controller"
@@ -1382,6 +1386,10 @@
 				)
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f0d80cdd-41ca-4947-afbf-3715980c4b1b"
 					(reference "Q7")
+					(unit 1)
+				)
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f6855309-c20b-4afd-9ee1-6feb23f07aec"
+					(reference "Q9")
 					(unit 1)
 				)
 			)
@@ -1442,7 +1450,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "24fb1138-3faa-426d-b663-28a9fdc7fadb")
+			(uuid "77502fb9-e046-43ef-9528-e474c8514196")
 		)
 		(instances
 			(project "irrigation-controller"
@@ -1460,6 +1468,10 @@
 				)
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f0d80cdd-41ca-4947-afbf-3715980c4b1b"
 					(reference "#PWR08")
+					(unit 1)
+				)
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f6855309-c20b-4afd-9ee1-6feb23f07aec"
+					(reference "#PWR014")
 					(unit 1)
 				)
 			)
@@ -1520,7 +1532,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "bc3c83dd-9190-439f-947c-be6764e8538c")
+			(uuid "82faa03d-bd68-4de1-8829-2470f66b1b58")
 		)
 		(instances
 			(project "irrigation-controller"
@@ -1540,12 +1552,17 @@
 					(reference "#PWR023")
 					(unit 1)
 				)
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f6855309-c20b-4afd-9ee1-6feb23f07aec"
+					(reference "#PWR015")
+					(unit 1)
+				)
 			)
 		)
 	)
 	(symbol
 		(lib_id "Device:Q_PNP_BEC")
 		(at 160.02 86.36 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1554,7 +1571,7 @@
 		(fields_autoplaced yes)
 		(uuid "8e94e9de-44f5-42c0-9a56-9125d42e285b")
 		(property "Reference" "Q2"
-			(at 165.1 85.0899 0)
+			(at 165.1 87.6301 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1563,7 +1580,7 @@
 			)
 		)
 		(property "Value" "SS8550-H"
-			(at 165.1 87.6299 0)
+			(at 165.1 85.0901 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1572,7 +1589,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:TSOT-23"
-			(at 165.1 83.82 0)
+			(at 165.1 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1608,13 +1625,13 @@
 			)
 		)
 		(pin "2"
-			(uuid "7acf0472-0614-4afd-a89d-4d5469b718e8")
+			(uuid "9313cfa7-35d5-4e82-a187-c94d7c45443d")
 		)
 		(pin "3"
-			(uuid "78ce3f1f-3fdf-4c3f-a8c4-4cb74a944561")
+			(uuid "e0df4158-7726-43f0-b5e6-28c60ed8895d")
 		)
 		(pin "1"
-			(uuid "d9c7eb14-5d88-491f-bc79-648013927a45")
+			(uuid "ed758f34-5530-4cbc-bcf4-d39ea08a4b4c")
 		)
 		(instances
 			(project "irrigation-controller"
@@ -1632,6 +1649,10 @@
 				)
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f0d80cdd-41ca-4947-afbf-3715980c4b1b"
 					(reference "Q8")
+					(unit 1)
+				)
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f6855309-c20b-4afd-9ee1-6feb23f07aec"
+					(reference "Q10")
 					(unit 1)
 				)
 			)
@@ -1700,10 +1721,10 @@
 			)
 		)
 		(pin "2"
-			(uuid "83a5ed12-9efb-48a7-8a07-6ea7f19a88ac")
+			(uuid "940da38c-5ba6-4151-960b-4f2a9ea63744")
 		)
 		(pin "1"
-			(uuid "3a74e0a5-65fc-48bf-a98f-96dae85f4eac")
+			(uuid "a6cc7fb2-4330-49a9-8539-bd2b3c681bc9")
 		)
 		(instances
 			(project "irrigation-controller"
@@ -1721,6 +1742,10 @@
 				)
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f0d80cdd-41ca-4947-afbf-3715980c4b1b"
 					(reference "R8")
+					(unit 1)
+				)
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f6855309-c20b-4afd-9ee1-6feb23f07aec"
+					(reference "R10")
 					(unit 1)
 				)
 			)
@@ -1789,10 +1814,10 @@
 			)
 		)
 		(pin "2"
-			(uuid "6ed4415e-711c-4a2b-b6f7-064e67e26aed")
+			(uuid "a02a744a-8ea4-475c-b3fd-dd07c20221ae")
 		)
 		(pin "1"
-			(uuid "ff87be7c-4e87-4cdf-ae96-f668a835ac06")
+			(uuid "08d48d48-a4d6-4763-9619-21d7d6a1f574")
 		)
 		(instances
 			(project "irrigation-controller"
@@ -1810,6 +1835,10 @@
 				)
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f0d80cdd-41ca-4947-afbf-3715980c4b1b"
 					(reference "R7")
+					(unit 1)
+				)
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f6855309-c20b-4afd-9ee1-6feb23f07aec"
+					(reference "R9")
 					(unit 1)
 				)
 			)
@@ -1898,10 +1927,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "9b0d7ace-d5fc-4594-b500-0db24cafc510")
+			(uuid "69155277-1e74-4609-85ec-51c839df98e7")
 		)
 		(pin "2"
-			(uuid "a30bb4f7-6ce0-4a1c-9a38-2a70b0d68ed2")
+			(uuid "9049672d-a9f3-4452-8be6-9c4bd927b2c7")
 		)
 		(instances
 			(project "irrigation-controller"
@@ -1919,6 +1948,10 @@
 				)
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f0d80cdd-41ca-4947-afbf-3715980c4b1b"
 					(reference "D8")
+					(unit 1)
+				)
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5/f6855309-c20b-4afd-9ee1-6feb23f07aec"
+					(reference "D10")
 					(unit 1)
 				)
 			)

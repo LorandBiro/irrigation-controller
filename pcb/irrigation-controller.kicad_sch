@@ -5,6 +5,569 @@
 	(uuid "15d58363-062f-45fb-af18-cd9dd75f9ed5")
 	(paper "A4")
 	(lib_symbols
+		(symbol "Connector:Screw_Terminal_01x02"
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "J"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Screw_Terminal_01x02"
+				(at 0 -5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "screw terminal"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "TerminalBlock*:*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Screw_Terminal_01x02_1_1"
+				(rectangle
+					(start -1.27 1.27)
+					(end 1.27 -3.81)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(circle
+					(center 0 -2.54)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.5334 -2.2098) (xy 0.3302 -3.048)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.5334 0.3302) (xy 0.3302 -0.508)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 -2.032) (xy 0.508 -2.8702)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 0.508) (xy 0.508 -0.3302)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 0)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "Pin_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -2.54 0)
+					(length 3.81)
+					(name "Pin_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "Connector:Screw_Terminal_01x03"
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "J"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Screw_Terminal_01x03"
+				(at 0 -5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "screw terminal"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "TerminalBlock*:*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Screw_Terminal_01x03_1_1"
+				(rectangle
+					(start -1.27 3.81)
+					(end 1.27 -3.81)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(circle
+					(center 0 -2.54)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.5334 -2.2098) (xy 0.3302 -3.048)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.5334 0.3302) (xy 0.3302 -0.508)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.5334 2.8702) (xy 0.3302 2.032)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 -2.032) (xy 0.508 -2.8702)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 0.508) (xy 0.508 -0.3302)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 3.048) (xy 0.508 2.2098)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 0)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 2.54)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -5.08 2.54 0)
+					(length 3.81)
+					(name "Pin_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "Pin_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -2.54 0)
+					(length 3.81)
+					(name "Pin_3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "Device:C"
+			(pin_numbers hide)
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "C"
+				(at 0.635 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "C"
+				(at 0.635 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0.9652 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Unpolarized capacitor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "cap capacitor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "C_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "C_0_1"
+				(polyline
+					(pts
+						(xy -2.032 -0.762) (xy 2.032 -0.762)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.032 0.762) (xy 2.032 0.762)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "C_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 2.794)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 2.794)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "Device:Polyfuse"
 			(pin_numbers hide)
 			(pin_names
@@ -263,263 +826,6 @@
 						)
 					)
 					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
-		(symbol "Irrigation_Controller:Irrigation_Controller_Connector"
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "J"
-				(at 0 8.89 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" ""
-				(at -5.08 7.62 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "HESTORE:KFG-2EDGR-5.08-9P"
-				(at 0 -8.89 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at -5.08 7.62 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" ""
-				(at -5.08 7.62 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_locked" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "Irrigation_Controller_Connector_1_1"
-				(rectangle
-					(start -2.54 3.81)
-					(end 2.54 -3.81)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-				(pin power_out line
-					(at -5.08 1.27 0)
-					(length 2.54)
-					(name "24V"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_out line
-					(at -5.08 -1.27 0)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(symbol "Irrigation_Controller_Connector_2_1"
-				(rectangle
-					(start -2.54 3.81)
-					(end 2.54 -3.81)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-				(pin passive line
-					(at -5.08 1.27 0)
-					(length 2.54)
-					(name "A"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 -1.27 0)
-					(length 2.54)
-					(name "B"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(symbol "Irrigation_Controller_Connector_3_1"
-				(rectangle
-					(start -2.54 7.62)
-					(end 2.54 -7.62)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-				(pin passive line
-					(at -5.08 5.08 0)
-					(length 2.54)
-					(name "COM"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 2.54 0)
-					(length 2.54)
-					(name "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 0 0)
-					(length 2.54)
-					(name "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 -2.54 0)
-					(length 2.54)
-					(name "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 -5.08 0)
-					(length 2.54)
-					(name "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1447,126 +1753,6 @@
 				)
 			)
 		)
-		(symbol "power:+12V"
-			(power)
-			(pin_numbers hide)
-			(pin_names
-				(offset 0) hide)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "#PWR"
-				(at 0 -3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" "+12V"
-				(at 0 3.556 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"+12V\""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "+12V_0_1"
-				(polyline
-					(pts
-						(xy -0.762 1.27) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "+12V_1_1"
-				(pin power_in line
-					(at 0 0 90)
-					(length 0)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "power:+24V"
 			(power)
 			(pin_numbers hide)
@@ -1911,6 +2097,12 @@
 		(uuid "05b97d00-eebb-444b-b9f5-83f872d6f160")
 	)
 	(junction
+		(at 166.37 67.31)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "410759dd-59f4-45d4-be0c-9ae872d46d9c")
+	)
+	(junction
 		(at 220.98 91.44)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1927,6 +2119,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "733ef32d-9958-4a9e-8816-3199b221ec72")
+	)
+	(junction
+		(at 166.37 77.47)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "863dd55c-e628-4cf5-aa72-073f75cbd719")
 	)
 	(no_connect
 		(at 73.66 88.9)
@@ -1955,10 +2153,6 @@
 	(no_connect
 		(at 53.34 91.44)
 		(uuid "26a56878-3c14-4c4e-8ad7-37461b4ca640")
-	)
-	(no_connect
-		(at 53.34 104.14)
-		(uuid "29c235e2-1572-4052-a037-d9c5fa3b2b62")
 	)
 	(no_connect
 		(at 53.34 121.92)
@@ -2025,14 +2219,6 @@
 		(uuid "aca96e67-f007-406a-b296-b165a0573330")
 	)
 	(no_connect
-		(at 53.34 81.28)
-		(uuid "ba9d0a03-788e-4eaf-8327-312cccebf6fa")
-	)
-	(no_connect
-		(at 152.4 50.8)
-		(uuid "c1fab7d8-90f9-4f6e-bcbf-7c4b061d0bf9")
-	)
-	(no_connect
 		(at 53.34 116.84)
 		(uuid "c505938c-ae33-4123-b7d3-faacc6b67017")
 	)
@@ -2062,6 +2248,16 @@
 	)
 	(wire
 		(pts
+			(xy 166.37 78.74) (xy 166.37 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0d1fe6f0-de88-4c8b-80df-db55f20b247b")
+	)
+	(wire
+		(pts
 			(xy 133.35 53.34) (xy 134.62 53.34)
 		)
 		(stroke
@@ -2082,17 +2278,27 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 57.15) (xy 149.86 55.88)
+			(xy 166.37 68.58) (xy 166.37 67.31)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "14ec76b5-a65f-4556-bc15-e49bc5380de4")
+		(uuid "184bd6e2-7f3f-47be-9a76-6d274cbf817a")
 	)
 	(wire
 		(pts
-			(xy 137.16 110.49) (xy 137.16 120.65)
+			(xy 49.53 81.28) (xy 53.34 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "18f1116f-0557-45ee-80be-a96d6bb69870")
+	)
+	(wire
+		(pts
+			(xy 135.89 106.68) (xy 135.89 127)
 		)
 		(stroke
 			(width 0)
@@ -2102,13 +2308,23 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 110.49) (xy 137.16 110.49)
+			(xy 130.81 106.68) (xy 135.89 106.68)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "1bbf58cb-ecad-427c-a67d-1edb78cfe5f6")
+	)
+	(wire
+		(pts
+			(xy 166.37 77.47) (xy 180.34 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1cbbf774-fceb-4fd8-9d95-50fe2ffff164")
 	)
 	(wire
 		(pts
@@ -2132,7 +2348,37 @@
 	)
 	(wire
 		(pts
-			(xy 142.24 115.57) (xy 154.94 115.57)
+			(xy 166.37 76.2) (xy 166.37 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "25179ec4-8b9f-467c-89e7-c6a89f64fc23")
+	)
+	(wire
+		(pts
+			(xy 130.81 132.08) (xy 153.67 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2b824f14-3ad5-46ba-b4e7-9d42496b44be")
+	)
+	(wire
+		(pts
+			(xy 166.37 67.31) (xy 180.34 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2c6e5a06-7066-456f-8f23-393744d2b40f")
+	)
+	(wire
+		(pts
+			(xy 140.97 121.92) (xy 153.67 121.92)
 		)
 		(stroke
 			(width 0)
@@ -2162,7 +2408,7 @@
 	)
 	(wire
 		(pts
-			(xy 154.94 85.09) (xy 153.67 85.09)
+			(xy 116.84 27.94) (xy 115.57 27.94)
 		)
 		(stroke
 			(width 0)
@@ -2182,7 +2428,7 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 120.65) (xy 154.94 120.65)
+			(xy 135.89 127) (xy 153.67 127)
 		)
 		(stroke
 			(width 0)
@@ -2232,7 +2478,7 @@
 	)
 	(wire
 		(pts
-			(xy 142.24 85.09) (xy 132.08 85.09)
+			(xy 140.97 81.28) (xy 130.81 81.28)
 		)
 		(stroke
 			(width 0)
@@ -2242,13 +2488,23 @@
 	)
 	(wire
 		(pts
-			(xy 153.67 102.87) (xy 153.67 101.6)
+			(xy 161.29 67.31) (xy 166.37 67.31)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "666dc9a5-2e32-4703-8c0e-cee6f61287cf")
+		(uuid "63ae179f-09c5-46a6-ac07-d347769cb063")
+	)
+	(wire
+		(pts
+			(xy 180.34 67.31) (xy 180.34 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "650b0590-6c72-4ea7-96ff-005971494d4b")
 	)
 	(wire
 		(pts
@@ -2262,7 +2518,27 @@
 	)
 	(wire
 		(pts
-			(xy 154.94 113.03) (xy 153.67 113.03)
+			(xy 180.34 73.66) (xy 180.34 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "722b2c82-7fc2-4750-b30b-9f4af130a37d")
+	)
+	(wire
+		(pts
+			(xy 146.05 67.31) (xy 153.67 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "72e87e47-91e9-4ec5-9724-5610f47b92bb")
+	)
+	(wire
+		(pts
+			(xy 153.67 119.38) (xy 152.4 119.38)
 		)
 		(stroke
 			(width 0)
@@ -2272,7 +2548,7 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 123.19) (xy 154.94 123.19)
+			(xy 130.81 119.38) (xy 133.35 119.38)
 		)
 		(stroke
 			(width 0)
@@ -2282,17 +2558,17 @@
 	)
 	(wire
 		(pts
-			(xy 153.67 101.6) (xy 154.94 101.6)
+			(xy 133.35 129.54) (xy 153.67 129.54)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "7ceb832e-3013-424c-bc86-b55fefcbce24")
+		(uuid "7b638897-ee9f-4be7-9c46-0bf58603595c")
 	)
 	(wire
 		(pts
-			(xy 139.7 118.11) (xy 154.94 118.11)
+			(xy 138.43 124.46) (xy 153.67 124.46)
 		)
 		(stroke
 			(width 0)
@@ -2312,7 +2588,7 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 110.49) (xy 111.76 110.49)
+			(xy 104.14 106.68) (xy 110.49 106.68)
 		)
 		(stroke
 			(width 0)
@@ -2322,7 +2598,7 @@
 	)
 	(wire
 		(pts
-			(xy 153.67 88.9) (xy 153.67 87.63)
+			(xy 115.57 31.75) (xy 115.57 30.48)
 		)
 		(stroke
 			(width 0)
@@ -2332,13 +2608,33 @@
 	)
 	(wire
 		(pts
-			(xy 153.67 87.63) (xy 154.94 87.63)
+			(xy 166.37 66.04) (xy 166.37 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "82418d8d-23da-4d1c-9ffd-fc1b651f73ab")
+	)
+	(wire
+		(pts
+			(xy 115.57 30.48) (xy 116.84 30.48)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "8314502e-8f8e-4075-b121-293688dd33cb")
+	)
+	(wire
+		(pts
+			(xy 166.37 57.15) (xy 166.37 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "874e0767-caff-4d9b-90d8-5c14ae22690d")
 	)
 	(wire
 		(pts
@@ -2352,7 +2648,7 @@
 	)
 	(wire
 		(pts
-			(xy 142.24 115.57) (xy 142.24 85.09)
+			(xy 140.97 121.92) (xy 140.97 81.28)
 		)
 		(stroke
 			(width 0)
@@ -2372,16 +2668,6 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 55.88) (xy 152.4 55.88)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "946a6a7b-cedf-4273-80ad-0d5ab4932c04")
-	)
-	(wire
-		(pts
 			(xy 224.79 111.76) (xy 224.79 110.49)
 		)
 		(stroke
@@ -2392,27 +2678,7 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 49.53) (xy 149.86 53.34)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a2a85c68-c243-43cb-af5e-2c44600fcb74")
-	)
-	(wire
-		(pts
-			(xy 149.86 53.34) (xy 152.4 53.34)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a4a643bf-14e3-48ac-ad0d-90cba3b91ad4")
-	)
-	(wire
-		(pts
-			(xy 105.41 85.09) (xy 111.76 85.09)
+			(xy 104.14 81.28) (xy 110.49 81.28)
 		)
 		(stroke
 			(width 0)
@@ -2422,7 +2688,7 @@
 	)
 	(wire
 		(pts
-			(xy 139.7 97.79) (xy 139.7 118.11)
+			(xy 138.43 93.98) (xy 138.43 124.46)
 		)
 		(stroke
 			(width 0)
@@ -2452,23 +2718,23 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 99.06) (xy 154.94 99.06)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bb368892-a020-4804-bf47-7ee540756e8a")
-	)
-	(wire
-		(pts
-			(xy 105.41 97.79) (xy 111.76 97.79)
+			(xy 104.14 93.98) (xy 110.49 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "bf9b38d2-7a75-4a5f-ade2-653d4495d942")
+	)
+	(wire
+		(pts
+			(xy 45.72 104.14) (xy 53.34 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c18a88d3-c18a-40a0-9aa9-a38e4046d495")
 	)
 	(wire
 		(pts
@@ -2479,6 +2745,16 @@
 			(type default)
 		)
 		(uuid "c95e38fc-012e-4ebc-af64-b17f6db6634b")
+	)
+	(wire
+		(pts
+			(xy 104.14 132.08) (xy 110.49 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cc2f86fe-1443-45ae-a71b-ce6dd3c4a42e")
 	)
 	(wire
 		(pts
@@ -2512,16 +2788,6 @@
 	)
 	(wire
 		(pts
-			(xy 167.64 53.34) (xy 168.91 53.34)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d6b78b2e-5dea-496f-84de-1d2a3d4e4556")
-	)
-	(wire
-		(pts
 			(xy 220.98 115.57) (xy 220.98 111.76)
 		)
 		(stroke
@@ -2529,6 +2795,16 @@
 			(type default)
 		)
 		(uuid "d6eda8cf-fdbf-464c-af76-b73c1d547a07")
+	)
+	(wire
+		(pts
+			(xy 133.35 119.38) (xy 133.35 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e18293a7-a0c8-48ac-9af3-fec254cc6658")
 	)
 	(wire
 		(pts
@@ -2542,7 +2818,7 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 123.19) (xy 111.76 123.19)
+			(xy 104.14 119.38) (xy 110.49 119.38)
 		)
 		(stroke
 			(width 0)
@@ -2562,7 +2838,7 @@
 	)
 	(wire
 		(pts
-			(xy 153.67 85.09) (xy 153.67 83.82)
+			(xy 115.57 27.94) (xy 115.57 26.67)
 		)
 		(stroke
 			(width 0)
@@ -2612,23 +2888,13 @@
 	)
 	(wire
 		(pts
-			(xy 139.7 97.79) (xy 132.08 97.79)
+			(xy 138.43 93.98) (xy 130.81 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "ff6c59d2-b309-4526-915b-364c3429ddba")
-	)
-	(wire
-		(pts
-			(xy 168.91 53.34) (xy 168.91 52.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ffaba3a4-7574-48f8-aa94-b2380bac674b")
 	)
 	(label "C2"
 		(at 45.72 99.06 0)
@@ -2642,7 +2908,7 @@
 		(uuid "13054745-524c-4b46-8e15-e5ff74cc5395")
 	)
 	(label "C3"
-		(at 105.41 110.49 0)
+		(at 104.14 106.68 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2653,7 +2919,7 @@
 		(uuid "202c0661-2c76-4890-90ce-3ae6ad8a2d4a")
 	)
 	(label "C4"
-		(at 105.41 123.19 0)
+		(at 104.14 119.38 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2718,6 +2984,28 @@
 		)
 		(uuid "792216e1-3064-4724-8505-0ad4adfec16a")
 	)
+	(label "C5"
+		(at 104.14 132.08 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "79585bf3-c97d-4fd3-aaf7-a3f92c7e3959")
+	)
+	(label "C5"
+		(at 45.72 104.14 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "82793f14-7c0b-45de-b77c-88cfb41e67e6")
+	)
 	(label "C1"
 		(at 45.72 96.52 0)
 		(fields_autoplaced yes)
@@ -2730,7 +3018,7 @@
 		(uuid "d282e63e-ea64-42ab-92e5-822e85c41f90")
 	)
 	(label "C1"
-		(at 105.41 85.09 0)
+		(at 104.14 81.28 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2741,7 +3029,7 @@
 		(uuid "d338e621-7e84-4626-a994-d756d8f72dcd")
 	)
 	(label "RAIN"
-		(at 149.86 99.06 0)
+		(at 146.05 67.31 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2752,7 +3040,7 @@
 		(uuid "f30652c8-fe66-40d7-97b0-1189828290d2")
 	)
 	(label "C2"
-		(at 105.41 97.79 0)
+		(at 104.14 93.98 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2764,7 +3052,7 @@
 	)
 	(global_label "COM"
 		(shape input)
-		(at 153.67 113.03 180)
+		(at 152.4 119.38 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2774,7 +3062,7 @@
 		)
 		(uuid "1a037dc0-2a70-48a1-b625-2a9f4f386e4e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 146.6329 113.03 0)
+			(at 145.3629 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2807,35 +3095,34 @@
 		)
 	)
 	(symbol
-		(lib_id "Irrigation_Controller:Irrigation_Controller_Connector")
-		(at 160.02 86.36 0)
+		(lib_id "power:+5V")
+		(at 49.53 81.28 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "004ed718-7866-484d-b360-2408fba850ac")
-		(property "Reference" "J2"
-			(at 163.83 85.0899 0)
+		(uuid "08dd9aa5-da95-46f4-a273-2be625081d50")
+		(property "Reference" "#PWR016"
+			(at 49.53 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(hide yes)
 			)
 		)
-		(property "Value" "KFG-2EDGR-5.08-9P"
-			(at 163.83 87.6299 0)
+		(property "Value" "+3V3"
+			(at 49.53 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Footprint" "Irrigation_Controller:KFG-2EDGR-5.08-9P"
-			(at 160.02 97.79 0)
+		(property "Footprint" ""
+			(at 49.53 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2844,7 +3131,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 154.94 82.55 0)
+			(at 49.53 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2852,55 +3139,22 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 154.94 82.55 0)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 49.53 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
 			)
-		)
-		(property "CID" "100.425.47"
-			(at 160.02 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "4"
-			(uuid "6765ce87-0c4a-4b04-8824-d892dc07dd1f")
-		)
-		(pin "7"
-			(uuid "b98421b3-f7f0-44f7-9c20-144d0383876b")
-		)
-		(pin "8"
-			(uuid "890c945d-1fd8-4667-84e2-96649487bcce")
-		)
-		(pin "5"
-			(uuid "4cd8f93c-27c8-4bb1-8790-0b4f893cc28a")
 		)
 		(pin "1"
-			(uuid "385df4e1-9339-4083-87c2-210366f2a807")
-		)
-		(pin "3"
-			(uuid "3501fb65-f1ff-4517-ad2f-e52e681b6d89")
-		)
-		(pin "9"
-			(uuid "df89c1d5-1943-45cb-af24-d00eab7335c5")
-		)
-		(pin "2"
-			(uuid "4348ba93-0d0c-40fd-8285-19853c16de57")
-		)
-		(pin "6"
-			(uuid "53245b4d-8f49-4908-a458-af9ed5b16ba4")
+			(uuid "e7170bde-9605-4227-bf8d-ae1b43c08b64")
 		)
 		(instances
 			(project "irrigation-controller"
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
-					(reference "J2")
+					(reference "#PWR016")
 					(unit 1)
 				)
 			)
@@ -2990,8 +3244,90 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:Screw_Terminal_01x03")
+		(at 158.75 121.92 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "132171d6-6006-40bd-8eaf-de7e0a5784c7")
+		(property "Reference" "J4"
+			(at 161.29 120.6499 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x03"
+			(at 161.29 123.1899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Irrigation_Controller:MX5-3P-BK"
+			(at 158.75 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 158.75 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 158.75 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "CID" "100.424.96"
+			(at 158.75 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "3"
+			(uuid "e4ac7a40-1c16-42cd-acae-839161f6a252")
+		)
+		(pin "1"
+			(uuid "31fc7025-c1a2-4eb5-bb16-dce2d9c6ce89")
+		)
+		(pin "2"
+			(uuid "596702d1-b67f-49cd-9e3e-f7c086b15334")
+		)
+		(instances
+			(project "irrigation-controller"
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
+					(reference "J4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+24V")
-		(at 153.67 83.82 0)
+		(at 115.57 26.67 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3000,7 +3336,7 @@
 		(fields_autoplaced yes)
 		(uuid "27ede5d4-b803-4de2-859a-fdf80d9d598d")
 		(property "Reference" "#PWR09"
-			(at 153.67 87.63 0)
+			(at 115.57 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3008,8 +3344,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+24V"
-			(at 153.67 78.74 0)
+		(property "Value" "+12V"
+			(at 115.57 21.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3017,7 +3353,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 153.67 83.82 0)
+			(at 115.57 26.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3026,7 +3362,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 153.67 83.82 0)
+			(at 115.57 26.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3035,7 +3371,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+24V\""
-			(at 153.67 83.82 0)
+			(at 115.57 26.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3051,106 +3387,6 @@
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
 					(reference "#PWR09")
 					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Irrigation_Controller:Irrigation_Controller_Connector")
-		(at 160.02 118.11 0)
-		(unit 3)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "3d481422-4463-43d6-bce5-a00778f040ce")
-		(property "Reference" "J2"
-			(at 163.83 116.8399 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "KFG-2EDGR-5.08-9P"
-			(at 163.83 119.3799 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Irrigation_Controller:KFG-2EDGR-5.08-9P"
-			(at 160.02 129.54 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 154.94 114.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 154.94 114.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "CID" "100.425.47"
-			(at 160.02 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "4"
-			(uuid "6765ce87-0c4a-4b04-8824-d892dc07dd21")
-		)
-		(pin "7"
-			(uuid "f37aaf6f-7a55-4df6-9473-ade52e24545d")
-		)
-		(pin "8"
-			(uuid "b152b926-c55f-466a-9484-1e80cbeb50d6")
-		)
-		(pin "5"
-			(uuid "7c6e19c8-dcd9-4fab-839b-ae166a0695cc")
-		)
-		(pin "1"
-			(uuid "385df4e1-9339-4083-87c2-210366f2a809")
-		)
-		(pin "3"
-			(uuid "3501fb65-f1ff-4517-ad2f-e52e681b6d8b")
-		)
-		(pin "9"
-			(uuid "95ca0bb9-fa82-43eb-8226-eb518addc192")
-		)
-		(pin "2"
-			(uuid "4348ba93-0d0c-40fd-8285-19853c16de59")
-		)
-		(pin "6"
-			(uuid "dae19851-884b-4a50-ad9e-614de95cf2db")
-		)
-		(instances
-			(project "irrigation-controller"
-				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
-					(reference "J2")
-					(unit 3)
 				)
 			)
 		)
@@ -3222,17 +3458,99 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 149.86 57.15 0)
+		(lib_id "Connector:Screw_Terminal_01x03")
+		(at 158.75 129.54 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "5aeb857a-2ab8-4da1-a446-34e59a4a2ab1")
-		(property "Reference" "#PWR018"
-			(at 149.86 63.5 0)
+		(uuid "4b5966eb-9bf6-4f01-a3d2-4b6889c31485")
+		(property "Reference" "J5"
+			(at 161.29 128.2699 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x03"
+			(at 161.29 130.8099 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Irrigation_Controller:MX5-3P-BK"
+			(at 158.75 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 158.75 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 158.75 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "CID" "100.424.96"
+			(at 158.75 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "3"
+			(uuid "afd8a8b9-3434-4001-aeb4-0d83256bdcc4")
+		)
+		(pin "1"
+			(uuid "4532691a-9300-4af5-9b54-4698ef03859b")
+		)
+		(pin "2"
+			(uuid "f3f657da-cb19-4a91-832c-ca062d0d12b6")
+		)
+		(instances
+			(project "irrigation-controller"
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
+					(reference "J5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 166.37 78.74 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "58996269-a936-47c8-957c-ed717ce633d6")
+		(property "Reference" "#PWR011"
+			(at 166.37 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3241,7 +3559,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 149.86 62.23 0)
+			(at 166.37 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3249,7 +3567,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 149.86 57.15 0)
+			(at 166.37 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3258,7 +3576,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 149.86 57.15 0)
+			(at 166.37 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3267,7 +3585,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 149.86 57.15 0)
+			(at 166.37 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3276,12 +3594,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "bc623d2b-ee26-4a55-bc10-9295b8a9af0b")
+			(uuid "73633bff-2e04-4a17-b7dc-90b016dd4896")
 		)
 		(instances
 			(project "irrigation-controller"
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
-					(reference "#PWR018")
+					(reference "#PWR011")
 					(unit 1)
 				)
 			)
@@ -3289,7 +3607,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 153.67 88.9 0)
+		(at 115.57 31.75 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3298,7 +3616,7 @@
 		(fields_autoplaced yes)
 		(uuid "5cc35035-2db5-420c-9837-16426da8bd57")
 		(property "Reference" "#PWR010"
-			(at 153.67 95.25 0)
+			(at 115.57 38.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3307,7 +3625,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 153.67 93.98 0)
+			(at 115.57 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3315,7 +3633,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 153.67 88.9 0)
+			(at 115.57 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3324,7 +3642,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 153.67 88.9 0)
+			(at 115.57 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3333,7 +3651,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 153.67 88.9 0)
+			(at 115.57 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3348,72 +3666,6 @@
 			(project "irrigation-controller"
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
 					(reference "#PWR010")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 153.67 102.87 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "5e833504-d3cf-4572-9885-1ba80d8e1d24")
-		(property "Reference" "#PWR011"
-			(at 153.67 109.22 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 153.67 107.95 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 153.67 102.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 153.67 102.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 153.67 102.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "5837f71b-535a-43fd-9f40-9e6ca6d25bda")
-		)
-		(instances
-			(project "irrigation-controller"
-				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
-					(reference "#PWR011")
 					(unit 1)
 				)
 			)
@@ -3500,17 +3752,35 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+24V")
-		(at 149.86 49.53 0)
+		(lib_id "Connector:Screw_Terminal_01x02")
+		(at 185.42 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "71a26bd8-9c64-4cdc-b3eb-d7054ca9695e")
-		(property "Reference" "#PWR014"
-			(at 149.86 53.34 0)
+		(uuid "78e2e574-cb4d-47e7-a5fe-528b5e8170aa")
+		(property "Reference" "J3"
+			(at 187.96 71.1199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x02"
+			(at 187.96 73.6599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Irrigation_Controller:MX5-2P-BK"
+			(at 185.42 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3518,16 +3788,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+24V"
-			(at 149.86 44.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 149.86 49.53 0)
+		(property "Datasheet" "~"
+			(at 185.42 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3535,8 +3797,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
-			(at 149.86 49.53 0)
+		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 185.42 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3544,8 +3806,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"+24V\""
-			(at 149.86 49.53 0)
+		(property "CID" "100.424.95"
+			(at 185.42 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3554,12 +3816,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "cfb7a0ec-7caa-43b7-8c4b-aeb256238d58")
+			(uuid "2afe67ec-f60e-41dd-894c-fc3aba5bdf22")
+		)
+		(pin "2"
+			(uuid "3503c7d0-b62a-4ae4-b03b-e7791a56c50a")
 		)
 		(instances
 			(project "irrigation-controller"
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
-					(reference "#PWR014")
+					(reference "J3")
 					(unit 1)
 				)
 			)
@@ -3575,7 +3840,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "87a2a092-6aa6-44d8-9bb2-9541ff998cfd")
-		(property "Reference" "R10"
+		(property "Reference" "R12"
 			(at 227.33 105.4099 0)
 			(effects
 				(font
@@ -3638,7 +3903,242 @@
 		(instances
 			(project "irrigation-controller"
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
-					(reference "R10")
+					(reference "R12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 166.37 62.23 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8c5ec302-a0a9-4a8a-b360-f5fc565f5bc3")
+		(property "Reference" "R14"
+			(at 168.91 60.9599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "3.9K"
+			(at 168.91 63.4999 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 164.592 62.23 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 166.37 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 166.37 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "CID" "100.014.54"
+			(at 166.37 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "97898fba-563a-4955-ae22-2360e091e238")
+		)
+		(pin "2"
+			(uuid "5c071b8c-ff5a-4e71-af87-a764f30dca28")
+		)
+		(instances
+			(project "irrigation-controller"
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
+					(reference "R14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 157.48 67.31 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "912738f3-8411-41a4-bad8-3e1e0b15e365")
+		(property "Reference" "R13"
+			(at 157.48 60.96 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1.1K"
+			(at 157.48 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 157.48 69.088 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 157.48 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 157.48 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "CID" "100.011.53"
+			(at 157.48 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "41d58c53-02d7-4d2b-be43-101e77dc0a10")
+		)
+		(pin "2"
+			(uuid "587a6b46-0ee6-4c69-8360-95fb0b81aeec")
+		)
+		(instances
+			(project "irrigation-controller"
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
+					(reference "R13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 166.37 72.39 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9aff7e29-7bc4-4d8c-abc4-ef1a3b4ede2d")
+		(property "Reference" "C1"
+			(at 170.18 71.1199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0.1 µF"
+			(at 170.18 73.6599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 167.3352 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 166.37 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 166.37 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "CID" "100.011.22"
+			(at 166.37 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "65eb2a88-6ba7-4f05-a389-ff04b83281b5")
+		)
+		(pin "2"
+			(uuid "a1517035-7415-4f56-8181-6fccd61d4b8c")
+		)
+		(instances
+			(project "irrigation-controller"
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
+					(reference "C1")
 					(unit 1)
 				)
 			)
@@ -3711,133 +4211,34 @@
 		)
 	)
 	(symbol
-		(lib_id "Irrigation_Controller:Irrigation_Controller_Connector")
-		(at 160.02 100.33 0)
-		(unit 2)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "ab9b7841-df35-4b00-87da-6e626acec79e")
-		(property "Reference" "J2"
-			(at 163.83 99.0599 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "KFG-2EDGR-5.08-9P"
-			(at 163.83 101.5999 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Irrigation_Controller:KFG-2EDGR-5.08-9P"
-			(at 160.02 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 154.94 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 154.94 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "CID" "100.425.47"
-			(at 160.02 100.33 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "4"
-			(uuid "6765ce87-0c4a-4b04-8824-d892dc07dd20")
-		)
-		(pin "7"
-			(uuid "b98421b3-f7f0-44f7-9c20-144d0383876c")
-		)
-		(pin "8"
-			(uuid "890c945d-1fd8-4667-84e2-96649487bccf")
-		)
-		(pin "5"
-			(uuid "4cd8f93c-27c8-4bb1-8790-0b4f893cc28b")
-		)
-		(pin "1"
-			(uuid "385df4e1-9339-4083-87c2-210366f2a808")
-		)
-		(pin "3"
-			(uuid "3501fb65-f1ff-4517-ad2f-e52e681b6d8a")
-		)
-		(pin "9"
-			(uuid "df89c1d5-1943-45cb-af24-d00eab7335c6")
-		)
-		(pin "2"
-			(uuid "4348ba93-0d0c-40fd-8285-19853c16de58")
-		)
-		(pin "6"
-			(uuid "53245b4d-8f49-4908-a458-af9ed5b16ba5")
-		)
-		(instances
-			(project "irrigation-controller"
-				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
-					(reference "J2")
-					(unit 2)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Irrigation_Controller:STDN-3A24-ADJ")
-		(at 160.02 53.34 0)
+		(lib_id "power:+5V")
+		(at 166.37 57.15 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "b63e17fa-1f5e-45b0-a965-bbdb9be21330")
-		(property "Reference" "X2"
-			(at 160.02 43.18 0)
+		(uuid "ba633b61-0e07-4c0e-bc6d-b6ca3740f3a9")
+		(property "Reference" "#PWR017"
+			(at 166.37 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 166.37 52.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "12V"
-			(at 160.02 45.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Irrigation_Controller:STDN-3A24-ADJ"
-			(at 160.02 58.42 0)
+		(property "Footprint" ""
+			(at 166.37 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3846,7 +4247,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 163.83 52.07 0)
+			(at 166.37 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3854,40 +4255,22 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 163.83 52.07 0)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 166.37 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
 			)
-		)
-		(property "CID" "100.387.25"
-			(at 159.766 60.452 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "41f95463-cc06-4e66-932a-33906664be34")
-		)
-		(pin "3"
-			(uuid "c47f3d56-6024-4c9e-a8e6-32dbb9aa44c3")
-		)
-		(pin "4"
-			(uuid "6b13fbbc-e043-44d9-95ff-be0f35d0258a")
 		)
 		(pin "1"
-			(uuid "ab85d213-5d8f-4076-897a-75e111231252")
+			(uuid "bc9215e4-802e-46fa-883c-5334ffaf11c6")
 		)
 		(instances
 			(project "irrigation-controller"
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
-					(reference "X2")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -4218,26 +4601,17 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+12V")
-		(at 168.91 52.07 0)
+		(lib_id "Connector:Screw_Terminal_01x02")
+		(at 121.92 27.94 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "edac1e2f-cc72-4934-a469-9641c6a35523")
-		(property "Reference" "#PWR020"
-			(at 168.91 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+12V"
-			(at 171.45 50.7999 0)
+		(uuid "edc157aa-0511-4c6a-bcd0-8449fbb8604b")
+		(property "Reference" "J2"
+			(at 124.46 27.9399 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4245,8 +4619,17 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
-			(at 168.91 52.07 0)
+		(property "Value" "Screw_Terminal_01x02"
+			(at 124.46 30.4799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Irrigation_Controller:MX5-2P-BK"
+			(at 121.92 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4254,8 +4637,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
-			(at 168.91 52.07 0)
+		(property "Datasheet" "~"
+			(at 121.92 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4263,22 +4646,34 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 168.91 52.07 0)
+		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 121.92 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
 			)
+		)
+		(property "CID" "100.424.95"
+			(at 121.92 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "260d2019-3a0e-48f4-bd17-378f1e807108")
 		)
 		(pin "1"
-			(uuid "923208e7-816f-40b4-9d96-f52a5e4b9126")
+			(uuid "7b97d9b9-7e91-44f2-995f-7fc429acc093")
 		)
 		(instances
 			(project "irrigation-controller"
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
-					(reference "#PWR020")
+					(reference "J2")
 					(unit 1)
 				)
 			)
@@ -4303,7 +4698,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+24V"
+		(property "Value" "+12V"
 			(at 115.57 44.45 0)
 			(effects
 				(font
@@ -4426,7 +4821,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f8d80352-f550-4b91-a95e-b9a3be513acf")
-		(property "Reference" "R9"
+		(property "Reference" "R11"
 			(at 227.33 95.2499 0)
 			(effects
 				(font
@@ -4489,14 +4884,14 @@
 		(instances
 			(project "irrigation-controller"
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
-					(reference "R9")
+					(reference "R11")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(sheet
-		(at 111.76 107.95)
+		(at 110.49 104.14)
 		(size 20.32 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4508,7 +4903,7 @@
 		)
 		(uuid "0bf3c7bd-300e-4cd6-88c0-93783cb3dc8a")
 		(property "Sheetname" "Valve #3"
-			(at 111.76 107.2384 0)
+			(at 110.49 103.4284 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4517,7 +4912,7 @@
 			)
 		)
 		(property "Sheetfile" "valve.kicad_sch"
-			(at 111.76 113.6146 0)
+			(at 110.49 109.8046 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4526,7 +4921,7 @@
 			)
 		)
 		(pin "IN" input
-			(at 111.76 110.49 180)
+			(at 110.49 106.68 180)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4536,7 +4931,7 @@
 			(uuid "04d159a7-7e8a-4ac4-bcf2-deef1734a8a2")
 		)
 		(pin "OUT" output
-			(at 132.08 110.49 0)
+			(at 130.81 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4554,7 +4949,7 @@
 		)
 	)
 	(sheet
-		(at 111.76 95.25)
+		(at 110.49 91.44)
 		(size 20.32 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4566,7 +4961,7 @@
 		)
 		(uuid "32cba3f6-4c96-4004-a47a-861571d26e10")
 		(property "Sheetname" "Valve #2"
-			(at 111.76 94.5384 0)
+			(at 110.49 90.7284 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4575,7 +4970,7 @@
 			)
 		)
 		(property "Sheetfile" "valve.kicad_sch"
-			(at 111.76 100.9146 0)
+			(at 110.49 97.1046 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4584,7 +4979,7 @@
 			)
 		)
 		(pin "IN" input
-			(at 111.76 97.79 180)
+			(at 110.49 93.98 180)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4594,7 +4989,7 @@
 			(uuid "7e8ec335-a7bd-424e-a161-a9e137d1d2f9")
 		)
 		(pin "OUT" output
-			(at 132.08 97.79 0)
+			(at 130.81 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4612,7 +5007,7 @@
 		)
 	)
 	(sheet
-		(at 111.76 82.55)
+		(at 110.49 78.74)
 		(size 20.32 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4624,7 +5019,7 @@
 		)
 		(uuid "cd1cb9fb-4e63-4407-8194-72f68b004572")
 		(property "Sheetname" "Valve #1"
-			(at 111.76 81.8384 0)
+			(at 110.49 78.0284 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4633,7 +5028,7 @@
 			)
 		)
 		(property "Sheetfile" "valve.kicad_sch"
-			(at 111.76 88.2146 0)
+			(at 110.49 84.4046 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4642,7 +5037,7 @@
 			)
 		)
 		(pin "IN" input
-			(at 111.76 85.09 180)
+			(at 110.49 81.28 180)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4652,7 +5047,7 @@
 			(uuid "5948b16e-bc1e-4ff8-9946-0c01083fc629")
 		)
 		(pin "OUT" output
-			(at 132.08 85.09 0)
+			(at 130.81 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4670,7 +5065,7 @@
 		)
 	)
 	(sheet
-		(at 111.76 120.65)
+		(at 110.49 116.84)
 		(size 20.32 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4682,7 +5077,7 @@
 		)
 		(uuid "f0d80cdd-41ca-4947-afbf-3715980c4b1b")
 		(property "Sheetname" "Valve #4"
-			(at 111.76 119.9384 0)
+			(at 110.49 116.1284 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4691,7 +5086,7 @@
 			)
 		)
 		(property "Sheetfile" "valve.kicad_sch"
-			(at 111.76 126.3146 0)
+			(at 110.49 122.5046 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4700,7 +5095,7 @@
 			)
 		)
 		(pin "IN" input
-			(at 111.76 123.19 180)
+			(at 110.49 119.38 180)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4710,7 +5105,7 @@
 			(uuid "1382f66f-9332-4829-9250-7c5ee0cba5b0")
 		)
 		(pin "OUT" output
-			(at 132.08 123.19 0)
+			(at 130.81 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4723,6 +5118,64 @@
 			(project "irrigation-controller"
 				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
 					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 110.49 129.54)
+		(size 20.32 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "f6855309-c20b-4afd-9ee1-6feb23f07aec")
+		(property "Sheetname" "Valve #5"
+			(at 110.49 128.8284 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "valve.kicad_sch"
+			(at 110.49 135.2046 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "IN" input
+			(at 110.49 132.08 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "085e66cc-1f90-427b-ad46-17fb3f5c8f99")
+		)
+		(pin "OUT" output
+			(at 130.81 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "c95f12b4-f807-477a-9754-aade850a9bab")
+		)
+		(instances
+			(project "irrigation-controller"
+				(path "/15d58363-062f-45fb-af18-cd9dd75f9ed5"
+					(page "6")
 				)
 			)
 		)
