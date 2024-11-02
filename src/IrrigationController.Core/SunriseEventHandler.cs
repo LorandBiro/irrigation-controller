@@ -4,7 +4,7 @@ using IrrigationController.Core.Infrastructure;
 
 namespace IrrigationController.Core;
 
-public class SunriseEventHandler(SunriseEventHandlerConfig config, IRainSensor rainSensor, ProgramController programController, SoilMoistureEstimator soilMoistureEstimator, ILog<SunriseEventHandler> log)
+public class SunriseEventHandler(SunriseEventHandlerConfig config, IRainSensor rainSensor, ProgramController programController, SoilMoistureEstimator soilMoistureEstimator, IWeatherService weatherService, ILog<SunriseEventHandler> log)
 {
     public async Task HandleAsync()
     {
@@ -12,6 +12,13 @@ public class SunriseEventHandler(SunriseEventHandlerConfig config, IRainSensor r
         if (rainSensor.IsRaining)
         {
             log.Info("It's raining, irrigation is skipped");
+            return;
+        }
+
+        WeatherData currentWeather = await weatherService.GetCurrentAsync();
+        if (currentWeather.Temperature < 5.0)
+        {
+            log.Info($"Temperature is too low ({currentWeather.Temperature:0.0}°C), irrigation is skipped");
             return;
         }
 
